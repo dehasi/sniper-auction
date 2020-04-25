@@ -40,7 +40,7 @@ dependencies {
     testRuntime "org.junit.jupiter:junit-jupiter-engine:$junit_version"
 }
 
-mainClassName = "com.example.demo.app.MyApp"
+mainClassName = "sniper.app.MyApp"
 
 jar {
     manifest {
