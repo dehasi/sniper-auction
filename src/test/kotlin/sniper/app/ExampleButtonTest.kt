@@ -16,8 +16,7 @@ import org.testfx.matcher.control.LabeledMatchers
 @ExtendWith(ApplicationExtension::class)
 class ExampleButtonTest {
 
-    @Start
-    fun onStart(stage: Stage) {
+    @Start fun onStart(stage: Stage) {
         val button = Button("click me")
         button.id = "button1"
         button.setOnAction { button.text = "clicked" }
@@ -26,8 +25,7 @@ class ExampleButtonTest {
         stage.show();
     }
 
-    @Test
-    fun should_contain_first_label(robot: FxRobot) {
+    @Test fun should_contain_first_label(robot: FxRobot) {
         verifyThat("#button1", LabeledMatchers.hasText("click me"))
         robot.clickOn("#button1")
         verifyThat("#button1", LabeledMatchers.hasText("clicked"))
