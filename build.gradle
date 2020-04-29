@@ -12,14 +12,15 @@ buildscript {
         classpath "org.junit.platform:junit-platform-gradle-plugin:1.2.0"
     }
 }
-
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.72'
+    id 'application'
+    id "org.openjfx.javafxplugin" version "0.0.8"
+}
 apply plugin: "kotlin"
 apply plugin: "application"
 apply plugin: "org.junit.platform.gradle.plugin"
-
-compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
-}
 
 repositories {
     mavenLocal()
@@ -55,4 +56,30 @@ jar {
         exclude "META-INF/*.DSA"
         exclude "META-INF/*.RSA"
     }
+}
+
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "13"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "13"
+}
+
+javafx {
+    version = "11.0.2"
+    modules = ['javafx.controls', 'javafx.graphics', 'javafx.base']
+}
+run {
+    applicationDefaultJvmArgs = ['--add-exports=javafx.graphics/com.sun.javafx.iio=ALL-UNNAMED',
+                                 '--add-exports=javafx.graphics/com.sun.javafx.iio.common=ALL-UNNAMED',
+                                 '--add-exports=javafx.graphics/com.sun.javafx.scene=ALL-UNNAMED',
+                                 '--add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED',
+    ]
+
+    jvmArgs = ['--add-exports=javafx.graphics/com.sun.javafx.iio=ALL-UNNAMED',
+               '--add-exports=javafx.graphics/com.sun.javafx.iio.common=ALL-UNNAMED',
+               '--add-exports=javafx.graphics/com.sun.javafx.scene=ALL-UNNAMED',
+               '--add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED',
+    ]
 }
