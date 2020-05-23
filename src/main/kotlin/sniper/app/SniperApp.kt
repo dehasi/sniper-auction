@@ -17,6 +17,10 @@ class SniperApp : App() {
         config["sniper-id"] = parameters.named["sniper-id"]
         config["sniper-password"] = parameters.named["sniper-password"]
 
+        val data = Data(parameters.named["hostname"]!!,
+                parameters.named["sniper-id"]!!,
+                parameters.named["sniper-password"]!!)
+        setInScope(data)
         super.start(stage)
     }
 }
