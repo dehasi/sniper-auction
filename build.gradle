@@ -46,8 +46,8 @@ mainClassName = "sniper.app.SniperApp"
 jar {
     manifest {
         attributes(
-                "Class-Path": configurations.compile.collect { it.getName() }.join(" "),
-                "Main-Class": mainClassName
+            "Class-Path": configurations.compile.collect { it.getName() }.join(" "),
+            "Main-Class": mainClassName
         )
     }
     from(configurations.compile.collect { entry -> zipTree(entry) }) {
@@ -57,7 +57,6 @@ jar {
         exclude "META-INF/*.RSA"
     }
 }
-
 
 compileKotlin {
     kotlinOptions.jvmTarget = "13"
@@ -71,6 +70,7 @@ javafx {
     modules = ['javafx.controls', 'javafx.graphics', 'javafx.base']
 }
 run {
+    args = ["--hostname=host", "--sniper-id=sniper", "--sniper-password=password"]
     applicationDefaultJvmArgs = ['--add-exports=javafx.graphics/com.sun.javafx.iio=ALL-UNNAMED',
                                  '--add-exports=javafx.graphics/com.sun.javafx.iio.common=ALL-UNNAMED',
                                  '--add-exports=javafx.graphics/com.sun.javafx.scene=ALL-UNNAMED',
