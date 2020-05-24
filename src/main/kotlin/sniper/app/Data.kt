@@ -3,6 +3,6 @@ package sniper.app
 import tornadofx.*
 
 data class Data(val hostname: String,
-                val id: String,
+                val username: String,
                 val password: String,
-                val auctionId: String) : Controller()
+                val itemId: String) : Controller()

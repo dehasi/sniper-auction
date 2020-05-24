@@ -22,9 +22,9 @@ The replacements are listed below
 | [Openfire](https://www.igniterealtime.org/projects/openfire/)    |     | XMPP Server   |
 | Local Openfire setup   | Docker compose    |   |
 
-The book assumes that XMPP server is already installed. 
+The book assumes that XMPP server is already installed
+and all  users are created on the server.
 For the beginning I'll use a Docker container from [beatrichartz](https://github.com/beatrichartz/growing-object-oriented-software-guided-by-tests-kotlin/blob/master/docker-compose.yml).
-Also, all users should be created in the server.
 
 ## See also
 During implementation, I was looking at GOOS implemenations from

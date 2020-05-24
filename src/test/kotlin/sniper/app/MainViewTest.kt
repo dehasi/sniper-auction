@@ -14,9 +14,9 @@ import tornadofx.*
 
 @ExtendWith(ApplicationExtension::class)
 class MainViewTest {
-    private val HOST_NAME: String = "name-of-host"
+    private val HOST_NAME: String = "localhost"
     private val SNIPER_ID: String = "sniper"
-    private val SNIPER_PASSWORD: String = "password"
+    private val SNIPER_PASSWORD: String = "sniper"
 
     private val auction: FakeAuctionServer = FakeAuctionServer("item-54321")
 
@@ -40,11 +40,11 @@ class MainViewTest {
         stage.scene = Scene(view.root)
         stage.show()
 
-        verifyThat("#main-label", hasText(HOST_NAME))
+        verifyThat("#main-label", hasText("Joining"))
     }
 
     private fun showsSniperHasLostAuction() {
-        verifyThat("#main-label", hasText(HOST_NAME))
+        verifyThat("#main-label", hasText("Lost"))
     }
 
     @AfterEach fun stopAuction() {
