@@ -31,9 +31,9 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.igniterealtime.smack', name: 'smack', version: '3.2.1'
-    compile group: 'org.igniterealtime.smack', name: 'smack-tcp', version: '4.3.4'
-    compile group: 'org.igniterealtime.smack', name: 'smack-core', version: '4.3.4'
+    ext.smack_version = '3.2.1'
+    compile "org.igniterealtime.smack:smack:$smack_version"
+    compile "org.igniterealtime.smack:smackx:$smack_version"
 
 
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
