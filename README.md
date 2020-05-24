@@ -19,6 +19,10 @@ The replacements are listed below
 | [Smack](https://www.igniterealtime.org/projects/smack/)    |     | XMPP Client   |
 | [Openfire](https://www.igniterealtime.org/projects/openfire/)    |     | XMPP Server   |
 
+The book assumes that XMPP server is already installed. 
+For the beginning I'll use a Docker container from [beatrichartz](https://github.com/beatrichartz/growing-object-oriented-software-guided-by-tests-kotlin/blob/master/docker-compose.yml).
+
 ## See also
-Another approach of Auction Sniper from 
-[beatrichartz](https://github.com/beatrichartz/growing-object-oriented-software-guided-by-tests-kotlin)
+During implementation, I was looking at GOOS implemenations from
+- [beatrichartz](https://github.com/beatrichartz/growing-object-oriented-software-guided-by-tests-kotlin)
+- [rhaendel]([]()https://github.com/rhaendel/goos)
