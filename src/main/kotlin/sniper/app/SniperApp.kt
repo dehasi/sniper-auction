@@ -16,7 +16,8 @@ class SniperApp : App() {
         // config["hostname"] = parameters.named["hostname"]
         // (FX.application as App).config.string("hostname")
 
-        val data = Data(parameters.named["hostname"]!!, parameters.named["sniper-id"]!!, parameters.named["sniper-password"]!!)
+        val data = Data(parameters.named["hostname"]!!, parameters.named["sniper-id"]!!,
+                parameters.named["sniper-password"]!!, parameters.named["auction-id"]!!)
         setInScope(data)
 
         super.start(stage)
