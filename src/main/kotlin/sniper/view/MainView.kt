@@ -1,6 +1,6 @@
 package sniper.view
 
-import javafx.application.Platform
+import javafx.application.Platform.runLater
 import javafx.beans.property.SimpleStringProperty
 import org.jivesoftware.smack.Chat
 import org.jivesoftware.smack.MessageListener
@@ -32,8 +32,8 @@ class MainView : View("Auction Sniper") {
     private fun joinAuction(connection: XMPPConnection, itemId: String) {
         val chat = connection.chatManager.createChat(
                 auctionId(itemId, connection),
-                MessageListener { _: Chat?, message: Message? ->
-                    Platform.runLater {
+                MessageListener { _: Chat?, _: Message? ->
+                    runLater {
                         status.value = "Lost"
                     }
                 })
@@ -53,9 +53,9 @@ class MainView : View("Auction Sniper") {
     }
 
     companion object {
-        const val AUCTION_RESOURCE: String = "Auction"
-        const val ITEM_ID_AS_LOGIN = "auction-%s"
-        const val AUCTION_ID_FORMAT: String = "$ITEM_ID_AS_LOGIN@%s/$AUCTION_RESOURCE"
+        private const val AUCTION_RESOURCE: String = "Auction"
+        private const val ITEM_ID_AS_LOGIN = "auction-%s"
+        private const val AUCTION_ID_FORMAT: String = "$ITEM_ID_AS_LOGIN@%s/$AUCTION_RESOURCE"
     }
 }
 

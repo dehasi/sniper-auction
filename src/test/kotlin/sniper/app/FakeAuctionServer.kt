@@ -42,7 +42,7 @@ class FakeAuctionServer(val itemId: String) {
     }
 
     fun announceClosed() {
-        currentChat.sendMessage(("442"))
+        currentChat.sendMessage(Message())
     }
 
     fun stop() {

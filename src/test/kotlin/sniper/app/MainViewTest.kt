@@ -13,6 +13,7 @@ import org.testfx.util.WaitForAsyncUtils.sleep
 import sniper.view.MainView
 import tornadofx.*
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeUnit.MILLISECONDS
 
 @ExtendWith(ApplicationExtension::class)
 class MainViewTest {
@@ -46,7 +47,7 @@ class MainViewTest {
     }
 
     private fun showsSniperHasLostAuction() {
-        sleep(50, TimeUnit.MILLISECONDS)
+        sleep(50, MILLISECONDS)
         verifyThat("#main-label", hasText("Lost"))
     }
 
