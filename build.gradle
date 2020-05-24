@@ -2,6 +2,8 @@ buildscript {
     ext.kotlin_version = "1.3.72"
     ext.tornadofx_version = "1.7.17"
     ext.junit_version = "5.1.0"
+    ext.smack_version = '3.2.1'
+    ext.testfx_version = "4.0.16-alpha"
 
     repositories {
         mavenLocal()
@@ -31,16 +33,14 @@ repositories {
 }
 
 dependencies {
-    ext.smack_version = '3.2.1'
     compile "org.igniterealtime.smack:smack:$smack_version"
     compile "org.igniterealtime.smack:smackx:$smack_version"
-
 
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     compile "no.tornado:tornadofx:$tornadofx_version"
 
-    testCompile group: 'org.testfx', name: 'testfx-junit5', version: '4.0.16-alpha'
+    testCompile "org.testfx:testfx-junit5:$testfx_version"
 
     testCompile "org.junit.jupiter:junit-jupiter-api:$junit_version"
     testRuntime "org.junit.jupiter:junit-jupiter-engine:$junit_version"
