@@ -9,8 +9,10 @@ import org.testfx.api.FxAssert.verifyThat
 import org.testfx.framework.junit5.ApplicationExtension
 import org.testfx.framework.junit5.Start
 import org.testfx.matcher.control.LabeledMatchers.hasText
+import org.testfx.util.WaitForAsyncUtils.sleep
 import sniper.view.MainView
 import tornadofx.*
+import java.util.concurrent.TimeUnit
 
 @ExtendWith(ApplicationExtension::class)
 class MainViewTest {
@@ -44,6 +46,7 @@ class MainViewTest {
     }
 
     private fun showsSniperHasLostAuction() {
+        sleep(50, TimeUnit.MILLISECONDS)
         verifyThat("#main-label", hasText("Lost"))
     }
 
