@@ -15,7 +15,8 @@ The replacements are listed below
 | Java    | Kotlin    | Runs on JVM 14    |
 | Swing    | [TornadoFx](https://github.com/edvin/tornadofx)    | GUI framework    |
 | [WindowLicker](https://wiki.c2.com/?WindowLicker)    | [TestFX](https://github.com/TestFX/TestFX)    | GUI test framework     |
-| JUnit 4     | JUnit 5    | Wellknown unit test framework    |
+| JUnit 4     | JUnit 5    | Unit-testing framework    |
+| Hamcrest     | AssertJ    | An assertions library    |
 | [Smack](https://www.igniterealtime.org/projects/smack/)    |     | XMPP Client   |
 | [Openfire](https://www.igniterealtime.org/projects/openfire/)    |     | XMPP Server   |
 

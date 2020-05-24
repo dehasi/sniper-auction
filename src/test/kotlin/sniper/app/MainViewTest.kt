@@ -2,6 +2,7 @@ package sniper.app
 
 import javafx.scene.Scene
 import javafx.stage.Stage
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.testfx.api.FxAssert.verifyThat
@@ -44,5 +45,9 @@ class MainViewTest {
 
     private fun showsSniperHasLostAuction() {
         verifyThat("#main-label", hasText(HOST_NAME))
+    }
+
+    @AfterEach fun stopAuction() {
+        auction.stop()
     }
 }
