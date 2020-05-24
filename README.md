@@ -13,12 +13,14 @@ The replacements are listed below
 | Original    | Replacement    | Comment    |
 |:---:|:---:|:---:|
 | Java    | Kotlin    | Runs on JVM 14    |
+| Ant   | Gradle    | A build tool  |
 | Swing    | [TornadoFx](https://github.com/edvin/tornadofx)    | GUI framework    |
 | [WindowLicker](https://wiki.c2.com/?WindowLicker)    | [TestFX](https://github.com/TestFX/TestFX)    | GUI test framework     |
 | JUnit 4     | JUnit 5    | Unit-testing framework    |
 | Hamcrest     | AssertJ    | An assertions library    |
 | [Smack](https://www.igniterealtime.org/projects/smack/)    |     | XMPP Client   |
 | [Openfire](https://www.igniterealtime.org/projects/openfire/)    |     | XMPP Server   |
+| Local Openfire setup   | Docker compose    |   |
 
 The book assumes that XMPP server is already installed. 
 For the beginning I'll use a Docker container from [beatrichartz](https://github.com/beatrichartz/growing-object-oriented-software-guided-by-tests-kotlin/blob/master/docker-compose.yml).
