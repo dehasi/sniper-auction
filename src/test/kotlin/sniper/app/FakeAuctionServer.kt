@@ -24,10 +24,8 @@ class FakeAuctionServer(val itemId: String) {
         connection.login(String.format(ITEM_ID_AS_LOGIN, itemId),
                 AUCTION_PASSWORD, AUCTION_RESOURCE)
 
-        connection.chatManager.addChatListener { _: Chat, _: Boolean ->
-            fun chatCreated(chat: Chat?) {
-                currentChat = chat!!
-            }
+        connection.chatManager.addChatListener { chat: Chat, _: Boolean ->
+            currentChat = chat
         }
         print("Start sailing works")
     }
