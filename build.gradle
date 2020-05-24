@@ -35,14 +35,12 @@ repositories {
 dependencies {
     compile "org.igniterealtime.smack:smack:$smack_version"
     compile "org.igniterealtime.smack:smackx:$smack_version"
-
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-
     compile "no.tornado:tornadofx:$tornadofx_version"
 
     testCompile "org.testfx:testfx-junit5:$testfx_version"
-
     testCompile "org.junit.jupiter:junit-jupiter-api:$junit_version"
+
     testRuntime "org.junit.jupiter:junit-jupiter-engine:$junit_version"
 }
 
