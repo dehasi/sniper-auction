@@ -2,6 +2,7 @@ package sniper.app
 
 import org.jivesoftware.smack.Chat
 import org.jivesoftware.smack.XMPPConnection
+import java.lang.String.format
 
 class FakeAuctionServer(val itemId: String) {
     companion object {
@@ -21,8 +22,7 @@ class FakeAuctionServer(val itemId: String) {
     fun startSailingItem() {
         print("Start sailing $itemId")
         connection.connect()
-        connection.login(String.format(ITEM_ID_AS_LOGIN, itemId),
-                AUCTION_PASSWORD, AUCTION_RESOURCE)
+        connection.login(format(ITEM_ID_AS_LOGIN, itemId), AUCTION_PASSWORD, AUCTION_RESOURCE)
 
         connection.chatManager.addChatListener { chat: Chat, _: Boolean ->
             currentChat = chat
