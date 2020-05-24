@@ -17,18 +17,32 @@ class MainViewTest {
     private val SNIPER_ID: String = "sniper"
     private val SNIPER_PASSWORD: String = "password"
 
-    @Start fun onStart(stage: Stage) {
-        val data = Data(HOST_NAME, SNIPER_ID, SNIPER_PASSWORD)
+    private val auction: FakeAuctionServer = FakeAuctionServer("item-54321")
+
+    @Start fun biddingIn(stage: Stage) {
+        auction.startSailingItem()
+        startBiddingIn(stage, auction)
+    }
+
+    @Test fun sniperJoinsAuction_until_AuctionCloses() {
+        auction.hasReceivedJoinRequestFromSniper()
+        auction.announceClosed()
+        showsSniperHasLostAuction()
+    }
+
+    private fun startBiddingIn(stage: Stage, auction: FakeAuctionServer) {
+        val data = Data(HOST_NAME, SNIPER_ID, SNIPER_PASSWORD, auction.itemId)
         setInScope(data, kclass = Data::class)
 
         val view = MainView()
 
         stage.scene = Scene(view.root)
         stage.show()
+
+        verifyThat("#main-label", hasText(HOST_NAME))
     }
 
-
-    @Test fun should_contain_first_label() {
+    private fun showsSniperHasLostAuction() {
         verifyThat("#main-label", hasText(HOST_NAME))
     }
 }
