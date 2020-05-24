@@ -26,7 +26,6 @@ class FakeAuctionServer(val itemId: String) {
     }
 
     fun startSailingItem() {
-        print("Start sailing $itemId")
         connection.connect()
         connection.login(format(ITEM_ID_AS_LOGIN, itemId), AUCTION_PASSWORD, AUCTION_RESOURCE)
 
@@ -34,7 +33,6 @@ class FakeAuctionServer(val itemId: String) {
             currentChat = chat
             chat.addMessageListener(messageListener)
         }
-        print("Start sailing works")
     }
 
     fun hasReceivedJoinRequestFromSniper() {
