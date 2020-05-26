@@ -15,6 +15,9 @@ class FakeAuctionServer(val itemId: String) {
         const val ITEM_ID_AS_LOGIN = "auction-%s"
         const val AUCTION_PASSWORD: String = "auction"
         const val AUCTION_RESOURCE: String = "Auction"
+
+        const val JOIN_COMMAND_FORMAT = "SQLVersion: 1.1; Command: JOIN"
+        const val BID_COMMAND_FORMAT = "SQLVersion: 1.1; Command: BID; Price: %d"
     }
 
     private var connection: XMPPConnection;
@@ -35,8 +38,8 @@ class FakeAuctionServer(val itemId: String) {
         }
     }
 
-    fun hasReceivedJoinRequestFromSniper() {
-        messageListener.receivesAMessage()
+    fun hasReceivedJoinRequestFromSniper(sniperId:String) {
+        messageListener.receivesAMessageMatching(sniperId) { message -> message == JOIN_COMMAND_FORMAT }
     }
 
     fun announceClosed() {
@@ -58,7 +61,9 @@ class FakeAuctionServer(val itemId: String) {
 
     fun hasReceivedBid(bid: Int, sniperId: String) {
         assertThat(currentChat.participant).isEqualTo(sniperId)
-        messageListener.receivesAMessage { message -> message == "SQLVersion: 1.1; Command: BID; Price: $bid" }
+        messageListener.receivesAMessageMatching(sniperId) { message -> message == BID_COMMAND_FORMAT.format(bid) }
+        
+        
     }
 }
 
@@ -70,11 +75,11 @@ class SingleMessageListener : MessageListener {
         messages.add(message!!)
     }
 
-    fun receivesAMessage() {
-        receivesAMessage { true }
+    fun receivesAMessageMatching(sniperId:String) {
+        receivesAMessageMatching(sniperId) { true }
     }
 
-    fun receivesAMessage(predicate: (String) -> Boolean) {
+    fun receivesAMessageMatching(sniperId:String, predicate: (String) -> Boolean) {
         val message = messages.poll(5, SECONDS)
         assertThat(message).isNotNull
         val body = message!!.body

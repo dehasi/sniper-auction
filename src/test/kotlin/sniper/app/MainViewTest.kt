@@ -31,7 +31,7 @@ class MainViewTest {
     }
 
     @Test fun sniperMakesAHighestBid_butLoses() {
-        auction.hasReceivedJoinRequestFromSniper()
+        auction.hasReceivedJoinRequestFromSniper(SNIPER_XMPP_ID)
         
         auction.reportPrice(1000, 98, "other bidder")
         auction.hasShownSniperIsBidding()
