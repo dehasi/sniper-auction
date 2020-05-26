@@ -47,16 +47,18 @@ class FakeAuctionServer(val itemId: String) {
         connection.disconnect()
     }
 
-    fun reportPrice(price: Int, increment: Int, winner: String) {
-        TODO("Not yet implemented")
+    fun reportPrice(price: Int, increment: Int, bidder: String) {
+        currentChat.sendMessage("SQLVersion: 1.1; Event: PRICE; " +
+                "CurrentPrice: $price; Increment: $increment; Bidder: $bidder")
     }
 
     fun hasShownSniperIsBidding() {
         TODO("Not yet implemented")
     }
 
-    fun hasReceivedBid(bid: Int, sniperXmppId: String) {
-        TODO("Not yet implemented")
+    fun hasReceivedBid(bid: Int, sniperId: String) {
+        assertThat(currentChat.participant).isEqualTo(sniperId)
+        messageListener.receivesAMessage { message -> message == "SQLVersion: 1.1; Command: BID; Price: $bid" }
     }
 }
 
@@ -69,6 +71,14 @@ class SingleMessageListener : MessageListener {
     }
 
     fun receivesAMessage() {
-        assertThat(messages.poll(5, SECONDS)).isNotNull
+        receivesAMessage { true }
+    }
+
+    fun receivesAMessage(predicate: (String) -> Boolean) {
+        val message = messages.poll(5, SECONDS)
+        assertThat(message).isNotNull
+        val body = message!!.body
+        assertThat(body).isNotNull
+        assertThat(body).matches(predicate)
     }
 }
