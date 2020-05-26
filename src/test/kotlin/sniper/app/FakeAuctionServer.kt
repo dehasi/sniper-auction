@@ -46,6 +46,18 @@ class FakeAuctionServer(val itemId: String) {
     fun stop() {
         connection.disconnect()
     }
+
+    fun reportPrice(price: Int, increment: Int, winner: String) {
+        TODO("Not yet implemented")
+    }
+
+    fun hasShownSniperIsBidding() {
+        TODO("Not yet implemented")
+    }
+
+    fun hasReceivedBid(bid: Int, sniperXmppId: String) {
+        TODO("Not yet implemented")
+    }
 }
 
 class SingleMessageListener : MessageListener {

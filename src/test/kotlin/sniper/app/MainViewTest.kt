@@ -20,6 +20,7 @@ class MainViewTest {
         private const val HOST_NAME: String = "localhost"
         private const val SNIPER_ID: String = "sniper"
         private const val SNIPER_PASSWORD: String = "sniper"
+        private const val SNIPER_XMPP_ID: String = "Sniper@localhost/Auction"
     }
 
     private val auction: FakeAuctionServer = FakeAuctionServer("item-54321")
@@ -29,8 +30,14 @@ class MainViewTest {
         startBiddingIn(stage, auction)
     }
 
-    @Test fun sniperJoinsAuction_until_AuctionCloses() {
+    @Test fun sniperMakesAHighestBid_butLoses() {
         auction.hasReceivedJoinRequestFromSniper()
+        
+        auction.reportPrice(1000, 98, "other bidder")
+        auction.hasShownSniperIsBidding()
+        
+        auction.hasReceivedBid(1098, SNIPER_XMPP_ID)
+        
         auction.announceClosed()
         showsSniperHasLostAuction()
     }
