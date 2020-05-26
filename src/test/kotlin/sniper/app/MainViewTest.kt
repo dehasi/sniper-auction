@@ -16,9 +16,11 @@ import java.util.concurrent.TimeUnit.MILLISECONDS
 
 @ExtendWith(ApplicationExtension::class)
 class MainViewTest {
-    private val HOST_NAME: String = "localhost"
-    private val SNIPER_ID: String = "sniper"
-    private val SNIPER_PASSWORD: String = "sniper"
+    companion object {
+        private const val HOST_NAME: String = "localhost"
+        private const val SNIPER_ID: String = "sniper"
+        private const val SNIPER_PASSWORD: String = "sniper"
+    }
 
     private val auction: FakeAuctionServer = FakeAuctionServer("item-54321")
 
