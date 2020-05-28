@@ -5,6 +5,9 @@ import org.jivesoftware.smack.Chat
 import org.jivesoftware.smack.MessageListener
 import org.jivesoftware.smack.XMPPConnection
 import org.jivesoftware.smack.packet.Message
+import sniper.view.MainView.Companion.AUCTION_RESOURCE
+import sniper.view.MainView.Companion.BID_COMMAND_FORMAT
+import sniper.view.MainView.Companion.JOIN_COMMAND_FORMAT
 import java.lang.String.format
 import java.util.concurrent.ArrayBlockingQueue
 import java.util.concurrent.TimeUnit.SECONDS
@@ -14,10 +17,6 @@ class FakeAuctionServer(val itemId: String) {
         const val XMPP_HOSTNAME = "localhost"
         const val ITEM_ID_AS_LOGIN = "auction-%s"
         const val AUCTION_PASSWORD: String = "auction"
-        const val AUCTION_RESOURCE: String = "Auction"
-
-        const val JOIN_COMMAND_FORMAT = "SQLVersion: 1.1; Command: JOIN"
-        const val BID_COMMAND_FORMAT = "SQLVersion: 1.1; Command: BID; Price: %d"
     }
 
     private var connection: XMPPConnection;
@@ -38,8 +37,8 @@ class FakeAuctionServer(val itemId: String) {
         }
     }
 
-    fun hasReceivedJoinRequestFromSniper(sniperId:String) {
-        messageListener.receivesAMessageMatching(sniperId) { message -> message == JOIN_COMMAND_FORMAT }
+    fun hasReceivedJoinRequestFrom(sniperId: String) {
+        receivesAMessageMatching(sniperId) { it == JOIN_COMMAND_FORMAT }
     }
 
     fun announceClosed() {
@@ -60,10 +59,12 @@ class FakeAuctionServer(val itemId: String) {
     }
 
     fun hasReceivedBid(bid: Int, sniperId: String) {
+        receivesAMessageMatching(sniperId) { it == BID_COMMAND_FORMAT.format(bid) }
+    }
+
+    private fun receivesAMessageMatching(sniperId: String, predicate: (String) -> Boolean) {
         assertThat(currentChat.participant).isEqualTo(sniperId)
-        messageListener.receivesAMessageMatching(sniperId) { message -> message == BID_COMMAND_FORMAT.format(bid) }
-        
-        
+        messageListener.receivesAMessage(predicate)
     }
 }
 
@@ -75,15 +76,9 @@ class SingleMessageListener : MessageListener {
         messages.add(message!!)
     }
 
-    fun receivesAMessageMatching(sniperId:String) {
-        receivesAMessageMatching(sniperId) { true }
-    }
-
-    fun receivesAMessageMatching(sniperId:String, predicate: (String) -> Boolean) {
+    fun receivesAMessage(predicate: (String) -> Boolean) {
         val message = messages.poll(5, SECONDS)
         assertThat(message).isNotNull
-        val body = message!!.body
-        assertThat(body).isNotNull
-        assertThat(body).matches(predicate)
+        assertThat(message!!.body).matches(predicate)
     }
 }
