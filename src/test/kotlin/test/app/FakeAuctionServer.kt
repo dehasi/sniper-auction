@@ -1,4 +1,4 @@
-package sniper.app
+package test.app
 
 import org.assertj.core.api.Assertions.assertThat
 import org.jivesoftware.smack.Chat

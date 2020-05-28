@@ -1,4 +1,4 @@
-package sniper.app
+package test.app
 
 import javafx.scene.Scene
 import javafx.stage.Stage
@@ -10,6 +10,7 @@ import org.testfx.framework.junit5.ApplicationExtension
 import org.testfx.framework.junit5.Start
 import org.testfx.matcher.control.LabeledMatchers.hasText
 import org.testfx.util.WaitForAsyncUtils.sleep
+import sniper.app.Data
 import sniper.view.MainView
 import tornadofx.*
 import java.util.concurrent.TimeUnit.MILLISECONDS
@@ -32,12 +33,12 @@ class MainViewTest {
 
     @Test fun sniperMakesAHighestBid_butLoses() {
         auction.hasReceivedJoinRequestFrom(SNIPER_XMPP_ID)
-        
+
         auction.reportPrice(1000, 98, "other bidder")
         hasShownSniperIsBidding()
-        
+
         auction.hasReceivedBid(1098, SNIPER_XMPP_ID)
-        
+
         auction.announceClosed()
         showsSniperHasLostAuction()
     }
@@ -71,6 +72,6 @@ class MainViewTest {
     // [_] Single item - join, bid & win
     // [_] Single item - show price details
     // [_] Multiple items
-    // [_] Add new items through the GUI 
+    // [_] Add new items through the GUI
     // [_] Stop bidding at stop price
 }

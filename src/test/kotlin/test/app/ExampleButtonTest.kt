@@ -1,4 +1,4 @@
-package sniper.app
+package test.app
 
 import javafx.scene.Scene
 import javafx.scene.control.Button
