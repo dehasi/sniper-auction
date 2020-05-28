@@ -34,7 +34,7 @@ class MainViewTest {
         auction.hasReceivedJoinRequestFrom(SNIPER_XMPP_ID)
         
         auction.reportPrice(1000, 98, "other bidder")
-        auction.hasShownSniperIsBidding()
+        hasShownSniperIsBidding()
         
         auction.hasReceivedBid(1098, SNIPER_XMPP_ID)
         
@@ -52,6 +52,10 @@ class MainViewTest {
         stage.show()
 
         verifyThat("#main-label", hasText("Joining"))
+    }
+
+    private fun hasShownSniperIsBidding() {
+        verifyThat("#main-label", hasText("Bidding"))
     }
 
     private fun showsSniperHasLostAuction() {
