@@ -24,12 +24,18 @@ class MainView : View("Auction Sniper") {
         }
     }
 
+    override fun onDock() {
+        currentWindow?.setOnCloseRequest {
+            println("Closing!!!")
+        }
+    }
     init {
         status.value = "Joining"
         joinAuction(connection(data.hostname, data.username, data.password), data.itemId)
     }
 
     private fun joinAuction(connection: XMPPConnection, itemId: String) {
+        disconnectWhenUICloses(connection)
         val chat = connection.chatManager.createChat(
                 auctionId(itemId, connection),
                 MessageListener { _: Chat?, _: Message? ->
@@ -39,6 +45,16 @@ class MainView : View("Auction Sniper") {
                 })
         this.notToBeGCd = chat
         chat.sendMessage(JOIN_COMMAND_FORMAT)
+    }
+
+    private fun disconnectWhenUICloses(connection: XMPPConnection) {
+        if (onUndockListeners == null) onUndockListeners = mutableListOf()
+        onUndockListeners!!.add {
+            currentWindow?.setOnCloseRequest {
+                println("Closing")
+                connection.disconnect()
+            }
+        }
     }
 
     private fun connection(hostname: String, username: String, password: String): XMPPConnection {
