@@ -2,6 +2,7 @@ package test.app
 
 import org.jivesoftware.smack.Chat
 import org.jivesoftware.smack.packet.Message
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
@@ -17,10 +18,13 @@ class AuctionMessageTranslatorTest {
         val UNUSED_CHAT: Chat? = null
     }
 
-    @Mock
-    lateinit var listener: AuctionEventListener
+    @Mock private lateinit var listener: AuctionEventListener
 
-    private val translator: AuctionMessageTranslator = AuctionMessageTranslator()
+    private lateinit var translator: AuctionMessageTranslator
+
+    @BeforeEach fun createTranslator() {
+        translator = AuctionMessageTranslator(listener)
+    }
 
     @Test fun notifiesAuctionClosedWhenCloseMessageReceived() {
         val message = Message()
