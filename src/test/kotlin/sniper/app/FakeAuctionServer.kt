@@ -63,8 +63,8 @@ class FakeAuctionServer(val itemId: String) {
     }
 
     private fun receivesAMessageMatching(sniperId: String, predicate: (String) -> Boolean) {
-        assertThat(currentChat.participant).isEqualTo(sniperId)
         messageListener.receivesAMessage(predicate)
+        assertThat(currentChat.participant).isEqualTo(sniperId)
     }
 }
 

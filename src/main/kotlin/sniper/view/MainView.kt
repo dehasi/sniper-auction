@@ -38,13 +38,13 @@ class MainView : View("Auction Sniper") {
                     }
                 })
         this.notToBeGCd = chat
-        chat.sendMessage(Message())
+        chat.sendMessage(JOIN_COMMAND_FORMAT)
     }
 
     private fun connection(hostname: String, username: String, password: String): XMPPConnection {
         val connection = XMPPConnection(hostname)
         connection.connect()
-        connection.login(username, password)
+        connection.login(username, password, AUCTION_RESOURCE)
         return connection
     }
 
@@ -60,4 +60,3 @@ class MainView : View("Auction Sniper") {
         private const val AUCTION_ID_FORMAT: String = "$ITEM_ID_AS_LOGIN@%s/$AUCTION_RESOURCE"
     }
 }
-
