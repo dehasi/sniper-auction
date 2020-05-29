@@ -1,6 +1,7 @@
 package sniper.app
 
-open class AuctionEventListener {
+interface AuctionEventListener {
 
-    open fun auctionClosed() {}
+    fun auctionClosed()
+    fun currentPrice(price: Int, increment: Int)
 }
