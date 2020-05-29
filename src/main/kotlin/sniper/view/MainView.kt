@@ -3,13 +3,10 @@ package sniper.view
 import javafx.beans.property.SimpleStringProperty
 import org.jivesoftware.smack.Chat
 import org.jivesoftware.smack.XMPPConnection
-import sniper.app.AuctionEventListener
-import sniper.app.AuctionMessageTranslator
-import sniper.app.Data
-import sniper.app.Styles
+import sniper.app.*
 import tornadofx.*
 
-class MainView : View("Auction Sniper"), AuctionEventListener {
+class MainView : View("Auction Sniper"), SniperListener {
 
     private val data: Data by inject()
     private val status = SimpleStringProperty()
@@ -31,7 +28,7 @@ class MainView : View("Auction Sniper"), AuctionEventListener {
     private fun joinAuction(connection: XMPPConnection, itemId: String) {
         disconnectWhenUICloses(connection)
         val chat = connection.chatManager.createChat(
-                auctionId(itemId, connection), AuctionMessageTranslator(this))
+                auctionId(itemId, connection), AuctionMessageTranslator(AuctionSniper(this)))
         this.notToBeGCd = chat
         chat.sendMessage(JOIN_COMMAND_FORMAT)
     }
@@ -46,13 +43,10 @@ class MainView : View("Auction Sniper"), AuctionEventListener {
         }
     }
 
-    override fun auctionClosed() {
+    override fun sniperLost() {
         status.value = "Lost"
     }
 
-    override fun currentPrice(price: Int, increment: Int) {
-        TODO("Not yet implemented")
-    }
 
     private fun connection(hostname: String, username: String, password: String): XMPPConnection {
         val connection = XMPPConnection(hostname)
@@ -66,7 +60,6 @@ class MainView : View("Auction Sniper"), AuctionEventListener {
     }
 
     companion object {
-
         const val AUCTION_RESOURCE: String = "Auction"
         const val JOIN_COMMAND_FORMAT = "SQLVersion: 1.1; Command: JOIN"
         const val BID_COMMAND_FORMAT = "SQLVersion: 1.1; Command: BID; Price: %d"
