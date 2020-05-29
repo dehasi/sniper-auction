@@ -10,7 +10,8 @@ open class AuctionMessageTranslator(private val listener: AuctionEventListener) 
         val event: Map<String, String> = unpackedEventFrom(message!!)
 
         val type = event["Event"]
-        if (type == "CLOSE") listener.auctionClosed()
+        if (type == "CLOSE")
+            listener.auctionClosed()
         else if (type == "PRICE")
             listener.currentPrice(event["CurrentPrice"]!!.toInt(), event["Increment"]!!.toInt())
     }
