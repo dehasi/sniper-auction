@@ -74,4 +74,6 @@ class MainViewTest {
     // [_] Multiple items
     // [_] Add new items through the GUI
     // [_] Stop bidding at stop price
+    // [_] Translator - invalid message from Auction
+    // [_] Translator - incorrect message version
 }
