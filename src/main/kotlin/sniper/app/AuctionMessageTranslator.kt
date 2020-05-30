@@ -10,10 +10,12 @@ open class AuctionMessageTranslator(private val listener: AuctionEventListener) 
         val event: Map<String, String> = unpackedEventFrom(message!!)
 
         val type = event["Event"]
-        if (type == "CLOSE")
-            listener.auctionClosed()
-        else if (type == "PRICE")
-            listener.currentPrice(event["CurrentPrice"]!!.toInt(), event["Increment"]!!.toInt())
+
+        when (type) {
+            "CLOSE" -> listener.auctionClosed()
+            "PRICE" -> listener.currentPrice(event["CurrentPrice"]!!.toInt(), event["Increment"]!!.toInt())
+            else -> println("Unknown event:$event")
+        }
     }
 
     private fun unpackedEventFrom(message: Message): Map<String, String> {

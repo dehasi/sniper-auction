@@ -61,7 +61,7 @@ class MainViewTest {
     }
 
     private fun showsSniperHasLostAuction() {
-        sleep(5_000, MILLISECONDS)
+        sleep(6, MILLISECONDS)
         verifyThat("#main-label", hasText("Lost"))
     }
 
