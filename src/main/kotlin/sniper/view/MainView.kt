@@ -2,7 +2,6 @@ package sniper.view
 
 import javafx.beans.property.SimpleStringProperty
 import org.jivesoftware.smack.Chat
-import org.jivesoftware.smack.MessageListener
 import org.jivesoftware.smack.XMPPConnection
 import sniper.app.*
 import tornadofx.*
@@ -14,10 +13,10 @@ class MainView : View("Auction Sniper"), SniperListener {
     private lateinit var notToBeGCd: Chat
 
     override val root = hbox {
-        label {
+        label(status) {
             id = "main-label"
             addClass(Styles.heading)
-            bind(status)
+//            bind(status)
         }
     }
 
@@ -28,16 +27,14 @@ class MainView : View("Auction Sniper"), SniperListener {
 
     private fun joinAuction(connection: XMPPConnection, itemId: String) {
         disconnectWhenUICloses(connection)
-        val chat = connection.chatManager.createChat(auctionId(itemId, connection),
-//                MessageListener { chat, message ->
-//                    println("message:" + message?.body)
-//                }
-                null)
+        val chat = connection.chatManager.createChat(auctionId(itemId, connection), null)
         this.notToBeGCd = chat
 
-        val auction =object: Auction {
-             override fun bid(amount: Int) {
-                chat.sendMessage(BID_COMMAND_FORMAT.format(amount))
+        val auction = object : Auction {
+            override fun bid(amount: Int) {
+//                runLater {
+                    chat.sendMessage(BID_COMMAND_FORMAT.format(amount))
+//                }
             }
         }
         chat.addMessageListener(AuctionMessageTranslator(AuctionSniper(auction, this)))
@@ -55,11 +52,15 @@ class MainView : View("Auction Sniper"), SniperListener {
     }
 
     override fun sniperLost() {
-        status.value = "Lost"
+        runLater {
+            status.value = "Lost"
+        }
     }
 
     override fun sniperBidding() {
-        status.value = "Bidding"
+        runLater {
+            status.value = "Bidding"
+        }
     }
 
     private fun connection(hostname: String, username: String, password: String): XMPPConnection {

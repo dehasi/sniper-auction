@@ -33,9 +33,8 @@ class MainViewTest {
 
     @Test fun sniperMakesAHighestBid_butLoses() {
         auction.hasReceivedJoinRequestFrom(SNIPER_XMPP_ID)
-        sleep(6, MILLISECONDS)
+
         auction.reportPrice(1000, 98, "other bidder")
-        sleep(6, MILLISECONDS)
         hasShownSniperIsBidding()
 
         auction.hasReceivedBid(1098, SNIPER_XMPP_ID)
@@ -57,12 +56,12 @@ class MainViewTest {
     }
 
     private fun hasShownSniperIsBidding() {
-        sleep(10_000, MILLISECONDS)
+        sleep(200, MILLISECONDS)
         verifyThat("#main-label", hasText("Bidding"))
     }
 
     private fun showsSniperHasLostAuction() {
-        sleep(6, MILLISECONDS)
+        sleep(5_000, MILLISECONDS)
         verifyThat("#main-label", hasText("Lost"))
     }
 
