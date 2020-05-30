@@ -54,10 +54,6 @@ class FakeAuctionServer(val itemId: String) {
                 "CurrentPrice: $price; Increment: $increment; Bidder: $bidder")
     }
 
-    fun hasShownSniperIsBidding() {
-        TODO("Not yet implemented")
-    }
-
     fun hasReceivedBid(bid: Int, sniperId: String) {
         receivesAMessageMatching(sniperId) { it == BID_COMMAND_FORMAT.format(bid) }
     }

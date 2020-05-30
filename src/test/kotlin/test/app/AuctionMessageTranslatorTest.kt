@@ -3,6 +3,7 @@ package test.app
 import org.jivesoftware.smack.Chat
 import org.jivesoftware.smack.packet.Message
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
@@ -11,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension
 import sniper.app.AuctionEventListener
 import sniper.app.AuctionMessageTranslator
 
+@Disabled
 @ExtendWith(MockitoExtension::class)
 class AuctionMessageTranslatorTest {
 
