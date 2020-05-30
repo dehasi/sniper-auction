@@ -33,8 +33,9 @@ class MainViewTest {
 
     @Test fun sniperMakesAHighestBid_butLoses() {
         auction.hasReceivedJoinRequestFrom(SNIPER_XMPP_ID)
-
+        sleep(6, MILLISECONDS)
         auction.reportPrice(1000, 98, "other bidder")
+        sleep(6, MILLISECONDS)
         hasShownSniperIsBidding()
 
         auction.hasReceivedBid(1098, SNIPER_XMPP_ID)
@@ -56,7 +57,7 @@ class MainViewTest {
     }
 
     private fun hasShownSniperIsBidding() {
-        sleep(6, MILLISECONDS)
+        sleep(10_000, MILLISECONDS)
         verifyThat("#main-label", hasText("Bidding"))
     }
 

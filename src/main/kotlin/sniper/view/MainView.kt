@@ -2,6 +2,7 @@ package sniper.view
 
 import javafx.beans.property.SimpleStringProperty
 import org.jivesoftware.smack.Chat
+import org.jivesoftware.smack.MessageListener
 import org.jivesoftware.smack.XMPPConnection
 import sniper.app.*
 import tornadofx.*
@@ -27,11 +28,15 @@ class MainView : View("Auction Sniper"), SniperListener {
 
     private fun joinAuction(connection: XMPPConnection, itemId: String) {
         disconnectWhenUICloses(connection)
-        val chat = connection.chatManager.createChat(auctionId(itemId, connection), null)
+        val chat = connection.chatManager.createChat(auctionId(itemId, connection),
+//                MessageListener { chat, message ->
+//                    println("message:" + message?.body)
+//                }
+                null)
         this.notToBeGCd = chat
 
-        val auction: Auction = object : Auction {
-            override fun bid(amount: Int) {
+        val auction =object: Auction {
+             override fun bid(amount: Int) {
                 chat.sendMessage(BID_COMMAND_FORMAT.format(amount))
             }
         }
@@ -40,13 +45,13 @@ class MainView : View("Auction Sniper"), SniperListener {
     }
 
     private fun disconnectWhenUICloses(connection: XMPPConnection) {
-        if (onUndockListeners == null) onUndockListeners = mutableListOf()
-        onUndockListeners!!.add {
-            currentWindow?.setOnCloseRequest {
-                println("Closing")
-                connection.disconnect()
-            }
-        }
+//        if (onUndockListeners == null) onUndockListeners = mutableListOf()
+//        onUndockListeners!!.add {
+//            currentWindow?.setOnCloseRequest {
+//                println("Closing")
+//                connection.disconnect()
+//            }
+//        }
     }
 
     override fun sniperLost() {
@@ -76,9 +81,9 @@ class MainView : View("Auction Sniper"), SniperListener {
         private const val AUCTION_ID_FORMAT: String = "$ITEM_ID_AS_LOGIN@%s/$AUCTION_RESOURCE"
     }
 
-    override fun onDock() {
-        currentWindow?.setOnCloseRequest {
-            println("Closing!!!")
-        }
-    }
+//    override fun onDock() {
+//        currentWindow?.setOnCloseRequest {
+//            println("Closing!!!")
+//        }
+//    }
 }
