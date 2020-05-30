@@ -16,7 +16,6 @@ class MainView : View("Auction Sniper"), SniperListener {
         label(status) {
             id = "main-label"
             addClass(Styles.heading)
-//            bind(status)
         }
     }
 
@@ -32,9 +31,7 @@ class MainView : View("Auction Sniper"), SniperListener {
 
         val auction = object : Auction {
             override fun bid(amount: Int) {
-//                runLater {
-                    chat.sendMessage(BID_COMMAND_FORMAT.format(amount))
-//                }
+                chat.sendMessage(BID_COMMAND_FORMAT.format(amount))
             }
         }
         chat.addMessageListener(AuctionMessageTranslator(AuctionSniper(auction, this)))
@@ -42,13 +39,7 @@ class MainView : View("Auction Sniper"), SniperListener {
     }
 
     private fun disconnectWhenUICloses(connection: XMPPConnection) {
-//        if (onUndockListeners == null) onUndockListeners = mutableListOf()
-//        onUndockListeners!!.add {
-//            currentWindow?.setOnCloseRequest {
-//                println("Closing")
-//                connection.disconnect()
-//            }
-//        }
+        // TODO implement connection.disconnect()
     }
 
     override fun sniperLost() {
@@ -81,10 +72,4 @@ class MainView : View("Auction Sniper"), SniperListener {
         private const val ITEM_ID_AS_LOGIN = "auction-%s"
         private const val AUCTION_ID_FORMAT: String = "$ITEM_ID_AS_LOGIN@%s/$AUCTION_RESOURCE"
     }
-
-//    override fun onDock() {
-//        currentWindow?.setOnCloseRequest {
-//            println("Closing!!!")
-//        }
-//    }
 }
