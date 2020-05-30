@@ -69,7 +69,7 @@ class MainViewTest {
         auction.stop()
     }
     // [x] Single item - join, lose without bidding
-    // [_] Single item - join, bid & lose
+    // [x] Single item - join, bid & lose
     // [_] Single item - join, bid & win
     // [_] Single item - show price details
     // [_] Multiple items
