@@ -56,6 +56,7 @@ class MainViewTest {
     }
 
     private fun hasShownSniperIsBidding() {
+        sleep(6, MILLISECONDS)
         verifyThat("#main-label", hasText("Bidding"))
     }
 
