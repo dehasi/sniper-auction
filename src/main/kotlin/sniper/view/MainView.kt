@@ -11,6 +11,9 @@ class MainView : View("Auction Sniper"), SniperListener {
     private val data: Data by inject()
     private val status = SimpleStringProperty()
     private lateinit var notToBeGCd: Chat;
+    private var nullAuction: Auction = object : Auction {
+        override fun bid(price: Int) {}
+    }
 
     override val root = hbox {
         label {
@@ -28,7 +31,7 @@ class MainView : View("Auction Sniper"), SniperListener {
     private fun joinAuction(connection: XMPPConnection, itemId: String) {
         disconnectWhenUICloses(connection)
         val chat = connection.chatManager.createChat(
-                auctionId(itemId, connection), AuctionMessageTranslator(AuctionSniper(this)))
+                auctionId(itemId, connection), AuctionMessageTranslator(AuctionSniper(nullAuction, this)))
         this.notToBeGCd = chat
         chat.sendMessage(JOIN_COMMAND_FORMAT)
     }
@@ -47,6 +50,9 @@ class MainView : View("Auction Sniper"), SniperListener {
         status.value = "Lost"
     }
 
+    override fun sniperBidding() {
+        TODO("Not yet implemented")
+    }
 
     private fun connection(hostname: String, username: String, password: String): XMPPConnection {
         val connection = XMPPConnection(hostname)
