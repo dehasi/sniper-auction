@@ -77,4 +77,5 @@ class MainViewTest {
     // [_] Stop bidding at stop price
     // [_] Translator - invalid message from Auction
     // [_] Translator - incorrect message version
+    // [_] Auction - handle XMPPException on send
 }
