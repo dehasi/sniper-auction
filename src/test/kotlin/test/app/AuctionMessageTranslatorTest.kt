@@ -28,7 +28,7 @@ class AuctionMessageTranslatorTest {
 
     @Test fun notifiesAuctionClosedWhenCloseMessageReceived() {
         val message = Message()
-        message.body = "SQLVersion: 1.1; Event: CLOSE;"
+        message.body = "SQLVersion: 1.1; Event: CLOSE"
 
         translator.processMessage(UNUSED_CHAT, message)
 

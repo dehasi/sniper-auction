@@ -18,6 +18,7 @@ open class AuctionMessageTranslator(private val listener: AuctionEventListener) 
 
     private fun unpackedEventFrom(message: Message): Map<String, String> {
         return message.body.split(";")
+                .map { it.trim() }
                 .map { it.split(":")[0].trim() to it.split(":")[1].trim() }
                 .toMap()
     }

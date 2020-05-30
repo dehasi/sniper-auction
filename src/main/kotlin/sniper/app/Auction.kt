@@ -1,5 +1,5 @@
 package sniper.app
 
 interface Auction {
-    fun bid(price: Int)
+    fun bid(amount: Int)
 }
