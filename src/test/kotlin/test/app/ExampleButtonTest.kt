@@ -3,6 +3,7 @@ package test.app
 import javafx.scene.Scene
 import javafx.scene.control.Button
 import javafx.stage.Stage
+import org.jivesoftware.smack.packet.Message
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -29,5 +30,12 @@ class ExampleButtonTest {
         verifyThat("#button1", LabeledMatchers.hasText("click me"))
         robot.clickOn("#button1")
         verifyThat("#button1", LabeledMatchers.hasText("clicked"))
+    }
+
+    private fun unpackedEventFrom(message: Message): Map<String, String> {
+        return message.body.split(";")
+                .map { it.trim() }
+                .map { it.split(":")[0].trim() to it.split(":")[1].trim() }
+                .toMap()
     }
 }
