@@ -6,7 +6,7 @@ import org.jivesoftware.smack.XMPPConnection
 import sniper.app.*
 import tornadofx.*
 
-class MainView : View("Auction Sniper"), SniperListener {
+class MainView : View("Auction Sniper") {
 
     private val data: Data by inject()
     private val status = SimpleStringProperty()
@@ -38,18 +38,6 @@ class MainView : View("Auction Sniper"), SniperListener {
         // TODO implement connection.disconnect()
     }
 
-    override fun sniperLost() {
-        runLater {
-            status.value = "Lost"
-        }
-    }
-
-    override fun sniperBidding() {
-        runLater {
-            status.value = "Bidding"
-        }
-    }
-
     private fun connection(hostname: String, username: String, password: String): XMPPConnection {
         val connection = XMPPConnection(hostname)
         connection.connect()
@@ -62,7 +50,7 @@ class MainView : View("Auction Sniper"), SniperListener {
     }
 
 
-    inner class SniperStateDisplayer: SniperListener {
+    inner class SniperStateDisplayer : SniperListener {
         override fun sniperLost() {
             runLater {
                 showStatus("Lost")
