@@ -29,13 +29,9 @@ class MainView : View("Auction Sniper"), SniperListener {
         val chat = connection.chatManager.createChat(auctionId(itemId, connection), null)
         this.notToBeGCd = chat
 
-        val auction = object : Auction {
-            override fun bid(amount: Int) {
-                chat.sendMessage(BID_COMMAND_FORMAT.format(amount))
-            }
-        }
+        val auction = XMPPAuction(chat)
         chat.addMessageListener(AuctionMessageTranslator(AuctionSniper(auction, this)))
-        chat.sendMessage(JOIN_COMMAND_FORMAT)
+        auction.join()
     }
 
     private fun disconnectWhenUICloses(connection: XMPPConnection) {
@@ -71,5 +67,19 @@ class MainView : View("Auction Sniper"), SniperListener {
         const val BID_COMMAND_FORMAT = "SQLVersion: 1.1; Command: BID; Price: %d"
         private const val ITEM_ID_AS_LOGIN = "auction-%s"
         private const val AUCTION_ID_FORMAT: String = "$ITEM_ID_AS_LOGIN@%s/$AUCTION_RESOURCE"
+    }
+
+    class XMPPAuction(private val chat: Chat) : Auction {
+        override fun bid(amount: Int) {
+            sendMessage(BID_COMMAND_FORMAT.format(amount))
+        }
+
+        override fun join() {
+            sendMessage(JOIN_COMMAND_FORMAT)
+        }
+
+        private fun sendMessage(message: String) {
+            chat.sendMessage(message)
+        }
     }
 }

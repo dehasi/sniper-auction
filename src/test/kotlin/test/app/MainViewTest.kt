@@ -21,7 +21,7 @@ class MainViewTest {
         private const val HOST_NAME: String = "localhost"
         private const val SNIPER_ID: String = "sniper"
         private const val SNIPER_PASSWORD: String = "sniper"
-        private const val SNIPER_XMPP_ID: String = "sniper@lc/Auction" // check Openfire why not localhost
+        private const val SNIPER_XMPP_ID: String = "sniper@localhost/Auction"
     }
 
     private val auction: FakeAuctionServer = FakeAuctionServer("item-54321")
