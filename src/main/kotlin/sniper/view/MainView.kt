@@ -30,7 +30,7 @@ class MainView : View("Auction Sniper"), SniperListener {
         this.notToBeGCd = chat
 
         val auction = XMPPAuction(chat)
-        chat.addMessageListener(AuctionMessageTranslator(AuctionSniper(auction, this)))
+        chat.addMessageListener(AuctionMessageTranslator(AuctionSniper(auction, SniperStateDisplayer())))
         auction.join()
     }
 
@@ -59,6 +59,25 @@ class MainView : View("Auction Sniper"), SniperListener {
 
     private fun auctionId(itemId: String, connection: XMPPConnection): String {
         return String.format(AUCTION_ID_FORMAT, itemId, connection.serviceName)
+    }
+
+
+    inner class SniperStateDisplayer: SniperListener {
+        override fun sniperLost() {
+            runLater {
+                showStatus("Lost")
+            }
+        }
+
+        override fun sniperBidding() {
+            showStatus("Bidding")
+        }
+
+        private fun showStatus(s: String) {
+            runLater {
+                status.value = s
+            }
+        }
     }
 
     companion object {
