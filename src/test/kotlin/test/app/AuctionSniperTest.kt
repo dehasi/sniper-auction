@@ -1,6 +1,6 @@
 package test.app
 
-import org.assertj.core.api.Java6Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -13,8 +13,7 @@ import sniper.app.AuctionEventListener.PriceSource.FromOtherBidder
 import sniper.app.AuctionEventListener.PriceSource.FromSniper
 import sniper.app.AuctionSniper
 import sniper.app.SniperListener
-import test.app.AuctionSniperTest.SniperState.bidding
-import test.app.AuctionSniperTest.SniperState.idle
+import test.app.AuctionSniperTest.SniperState.*
 
 @ExtendWith(MockitoExtension::class)
 class AuctionSniperTest {
@@ -45,6 +44,15 @@ class AuctionSniperTest {
         assertThat(sniperState).isEqualTo(bidding)
     }
 
+    @Test
+    internal fun reportsWon_ifAuctionClosesWhenWinning() {
+        sniper.currentPrice(123, 45, FromSniper)
+        sniper.auctionClosed()
+
+        verify(sniperListener).sniperWon()
+        assertThat(sniperState).isEqualTo(winning)
+    }
+
     @Test internal fun bidsHigherAndReportsBiddingWhenNewPriceArrives() {
         val price = 1001
         val increment = 25
@@ -66,7 +74,12 @@ class AuctionSniperTest {
 
     private open inner class SniperListenerStub : SniperListener {
         override fun sniperLost() {}
-        override fun sniperWinning() {}
+        override fun sniperWinning() {
+            sniperState = winning
+        }
+
+        override fun sniperWon() {}
+
         override fun sniperBidding() {
             sniperState = bidding
         }

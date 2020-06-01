@@ -5,14 +5,21 @@ import sniper.app.AuctionEventListener.PriceSource
 class AuctionSniper(private val auction: Auction, private val sniperListener: SniperListener)
     : AuctionEventListener {
 
+    var isWinning = false
+
     override fun auctionClosed() {
-        sniperListener.sniperLost()
+        if (isWinning) {
+            sniperListener.sniperWon()
+        } else {
+            sniperListener.sniperLost()
+        }
     }
 
     override fun currentPrice(price: Int, increment: Int, priceSource: PriceSource) {
-        if (priceSource == PriceSource.FromSniper) {
+        isWinning = priceSource == PriceSource.FromSniper
+        if (isWinning) {
             sniperListener.sniperWinning()
-        } else if (priceSource == PriceSource.FromOtherBidder) {
+        } else {
             auction.bid(price + increment)
             sniperListener.sniperBidding()
         }

@@ -53,9 +53,7 @@ class MainView : View("Auction Sniper") {
 
     inner class SniperStateDisplayer : SniperListener {
         override fun sniperLost() {
-            runLater {
-                showStatus("Lost")
-            }
+            showStatus("Lost")
         }
 
         override fun sniperBidding() {
@@ -64,6 +62,10 @@ class MainView : View("Auction Sniper") {
 
         override fun sniperWinning() {
             showStatus("Winning")
+        }
+
+        override fun sniperWon() {
+            showStatus("Won")
         }
 
         private fun showStatus(value: String) {
