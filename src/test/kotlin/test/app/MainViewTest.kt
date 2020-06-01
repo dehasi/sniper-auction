@@ -79,4 +79,5 @@ class MainViewTest {
     // [_] Translator - incorrect message version
     // [_] Auction - handle XMPPException on send
     // [_] Experiment with testcontainers instead of local XMPP Server
+    // [_] Experiment with kotest
 }
