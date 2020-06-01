@@ -62,6 +62,10 @@ class MainView : View("Auction Sniper") {
             showStatus("Bidding")
         }
 
+        override fun sniperWinning() {
+            showStatus("Winning")
+        }
+
         private fun showStatus(s: String) {
             runLater {
                 status.value = s

@@ -8,6 +8,7 @@ import org.mockito.Mockito.verify
 import org.mockito.junit.jupiter.MockitoExtension
 import sniper.app.Auction
 import sniper.app.AuctionEventListener.PriceSource.FromOtherBidder
+import sniper.app.AuctionEventListener.PriceSource.FromSniper
 import sniper.app.AuctionSniper
 import sniper.app.SniperListener
 
@@ -31,5 +32,11 @@ class AuctionSniperTest {
         sniper.currentPrice(price, increment, FromOtherBidder)
 
         verify(sniperListener).sniperBidding()
+    }
+
+    @Test internal fun reportsIsWinning_whenCurrentPriceComesFromSniper() {
+        sniper.currentPrice(123, 45, FromSniper)
+
+        verify(sniperListener).sniperWinning()
     }
 }

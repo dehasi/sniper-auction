@@ -4,4 +4,5 @@ interface SniperListener {
 
     fun sniperLost()
     fun sniperBidding()
+    fun sniperWinning()
 }

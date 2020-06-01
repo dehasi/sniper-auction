@@ -38,7 +38,7 @@ class AuctionMessageTranslatorTest {
         verify(listener).auctionClosed()
     }
 
-    @Test fun notifiesBidDetails_WhenCurrentPriceMessageReceived_FromOtherBidded() {
+    @Test fun notifiesBidDetails_WhenCurrentPriceMessageReceived_FromOtherBidder() {
         val message = Message()
         message.body = "SQLVersion: 1.1; Event: PRICE; CurrentPrice: 192; Increment: 7; Bidder: someone else"
 
