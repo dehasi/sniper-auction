@@ -87,7 +87,7 @@ class MainViewTest {
 
     private fun showsSniperHasWonAuction() {
         sleep(200, MILLISECONDS)
-        verifyThat("#main-label", hasText("Win"))
+        verifyThat("#main-label", hasText("Won"))
     }
 
     @AfterEach fun stopAuction() {

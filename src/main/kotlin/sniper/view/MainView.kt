@@ -66,9 +66,9 @@ class MainView : View("Auction Sniper") {
             showStatus("Winning")
         }
 
-        private fun showStatus(s: String) {
+        private fun showStatus(value: String) {
             runLater {
-                status.value = s
+                status.value = value
             }
         }
     }
