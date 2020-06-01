@@ -7,6 +7,7 @@ import org.mockito.Mock
 import org.mockito.Mockito.verify
 import org.mockito.junit.jupiter.MockitoExtension
 import sniper.app.Auction
+import sniper.app.AuctionEventListener.PriceSource.FromOtherBidder
 import sniper.app.AuctionSniper
 import sniper.app.SniperListener
 
@@ -27,7 +28,7 @@ class AuctionSniperTest {
         val price = 1001
         val increment = 25
 
-        sniper.currentPrice(price, increment)
+        sniper.currentPrice(price, increment, FromOtherBidder)
 
         verify(sniperListener).sniperBidding()
     }

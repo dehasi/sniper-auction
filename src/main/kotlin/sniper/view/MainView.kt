@@ -30,7 +30,7 @@ class MainView : View("Auction Sniper") {
         this.notToBeGCd = chat
 
         val auction = XMPPAuction(chat)
-        chat.addMessageListener(AuctionMessageTranslator(AuctionSniper(auction, SniperStateDisplayer())))
+        chat.addMessageListener(AuctionMessageTranslator(connection.user, AuctionSniper(auction, SniperStateDisplayer())))
         auction.join()
     }
 

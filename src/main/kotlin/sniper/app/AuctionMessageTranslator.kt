@@ -3,15 +3,19 @@ package sniper.app
 import org.jivesoftware.smack.Chat
 import org.jivesoftware.smack.MessageListener
 import org.jivesoftware.smack.packet.Message
+import sniper.app.AuctionEventListener.PriceSource.FromOtherBidder
+import sniper.app.AuctionEventListener.PriceSource.FromSniper
 
-open class AuctionMessageTranslator(private val listener: AuctionEventListener) : MessageListener {
+open class AuctionMessageTranslator(
+        private val sniperId: String,
+        private val listener: AuctionEventListener) : MessageListener {
 
     override fun processMessage(chat: Chat?, message: Message?) {
         val event = AuctionEvent.from(message!!.body)
 
         when (event.type()) {
             "CLOSE" -> listener.auctionClosed()
-            "PRICE" -> listener.currentPrice(event.currentPrice(), event.increment())
+            "PRICE" -> listener.currentPrice(event.currentPrice(), event.increment(), event.isFrom(sniperId))
             else -> println("Unknown event:$event")
         }
     }
@@ -31,6 +35,10 @@ open class AuctionMessageTranslator(private val listener: AuctionEventListener) 
             return getInt("Increment")
         }
 
+        fun isFrom(sniperId: String): AuctionEventListener.PriceSource {
+            return if (bidder() == sniperId) FromSniper else FromOtherBidder
+        }
+
         private fun getInt(fieldName: String): Int {
             return get(fieldName).toInt()
         }
@@ -43,6 +51,8 @@ open class AuctionMessageTranslator(private val listener: AuctionEventListener) 
             val pair = field.split(":")
             fields[pair[0].trim()] = pair[1].trim()
         }
+
+        private fun bidder() = get("Bidder")
 
         companion object {
             fun from(messageBody: String): AuctionEvent {
