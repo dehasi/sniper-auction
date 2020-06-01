@@ -86,7 +86,8 @@ class MainViewTest {
     }
 
     private fun showsSniperHasWonAuction() {
-        TODO("Not yet implemented")
+        sleep(200, MILLISECONDS)
+        verifyThat("#main-label", hasText("Win"))
     }
 
     @AfterEach fun stopAuction() {
