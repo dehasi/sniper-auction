@@ -43,6 +43,21 @@ class MainViewTest {
         showsSniperHasLostAuction()
     }
 
+    @Test fun sniperWinsAnAuctionByBiddingHigher() {
+        auction.hasReceivedJoinRequestFrom(SNIPER_XMPP_ID)
+
+        auction.reportPrice(1000, 98, "other bidder")
+        hasShownSniperIsBidding()
+
+        auction.hasReceivedBid(1098, SNIPER_XMPP_ID)
+
+        auction.reportPrice(1098, 97, SNIPER_XMPP_ID)
+        hasShownSniperIsWinning()
+
+        auction.announceClosed()
+        showsSniperHasWonAuction()
+    }
+
     private fun startBiddingIn(stage: Stage, auction: FakeAuctionServer) {
         val data = Data(HOST_NAME, SNIPER_ID, SNIPER_PASSWORD, auction.itemId)
         setInScope(data, kclass = Data::class)
@@ -63,6 +78,15 @@ class MainViewTest {
     private fun showsSniperHasLostAuction() {
         sleep(200, MILLISECONDS)
         verifyThat("#main-label", hasText("Lost"))
+    }
+
+    private fun hasShownSniperIsWinning() {
+        sleep(200, MILLISECONDS)
+        verifyThat("#main-label", hasText("Winning"))
+    }
+
+    private fun showsSniperHasWonAuction() {
+        TODO("Not yet implemented")
     }
 
     @AfterEach fun stopAuction() {
