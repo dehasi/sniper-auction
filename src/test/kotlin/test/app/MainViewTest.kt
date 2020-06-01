@@ -95,7 +95,7 @@ class MainViewTest {
     }
     // [x] Single item - join, lose without bidding
     // [x] Single item - join, bid & lose
-    // [_] Single item - join, bid & win
+    // [x] Single item - join, bid & win
     // [_] Single item - show price details
     // [_] Multiple items
     // [_] Add new items through the GUI
