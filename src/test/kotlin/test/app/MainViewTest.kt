@@ -8,7 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.testfx.api.FxAssert.verifyThat
 import org.testfx.framework.junit5.ApplicationExtension
 import org.testfx.framework.junit5.Start
-import org.testfx.matcher.control.LabeledMatchers.hasText
+import org.testfx.matcher.control.TableViewMatchers.containsRow
 import org.testfx.util.WaitForAsyncUtils.sleep
 import sniper.app.Data
 import sniper.view.MainView
@@ -67,27 +67,27 @@ class MainViewTest {
         stage.scene = Scene(view.root)
         stage.show()
 
-        verifyThat("#main-label", hasText("Joining"))
+        verifyThat("#main-table", containsRow("Joining"))
     }
 
     private fun hasShownSniperIsBidding() {
         sleep(200, MILLISECONDS)
-        verifyThat("#main-label", hasText("Bidding"))
+        verifyThat("#main-table", containsRow("Bidding"))
     }
 
     private fun showsSniperHasLostAuction() {
         sleep(200, MILLISECONDS)
-        verifyThat("#main-label", hasText("Lost"))
+        verifyThat("#main-table", containsRow("Lost"))
     }
 
     private fun hasShownSniperIsWinning() {
         sleep(200, MILLISECONDS)
-        verifyThat("#main-label", hasText("Winning"))
+        verifyThat("#main-table", containsRow("Winning"))
     }
 
     private fun showsSniperHasWonAuction() {
         sleep(200, MILLISECONDS)
-        verifyThat("#main-label", hasText("Won"))
+        verifyThat("#main-table", containsRow("Won"))
     }
 
     @AfterEach fun stopAuction() {

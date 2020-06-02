@@ -1,6 +1,7 @@
 package sniper.view
 
 import javafx.beans.property.SimpleStringProperty
+import javafx.collections.FXCollections.observableArrayList
 import org.jivesoftware.smack.Chat
 import org.jivesoftware.smack.XMPPConnection
 import sniper.app.*
@@ -12,10 +13,12 @@ class MainView : View("Auction Sniper") {
     private val status = SimpleStringProperty()
     private lateinit var notToBeGCd: Chat
 
+    private val row = observableArrayList(status)
+
     override val root = hbox {
-        label(status) {
-            id = "main-label"
-            addClass(Styles.heading)
+        tableview(row) {
+            id = "main-table"
+            column("status", status::getValue)
         }
     }
 
