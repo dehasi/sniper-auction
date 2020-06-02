@@ -5,7 +5,7 @@ import sniper.app.AuctionEventListener.PriceSource
 class AuctionSniper(private val auction: Auction, private val sniperListener: SniperListener)
     : AuctionEventListener {
 
-    var isWinning = false
+    private var isWinning = false
 
     override fun auctionClosed() {
         if (isWinning) {
