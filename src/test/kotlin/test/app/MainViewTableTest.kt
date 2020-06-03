@@ -35,9 +35,16 @@ class MainViewTableTest {
         stage.show()
     }
 
-    @Test fun should_contain_first_label(robot: FxRobot) {
+    @Test fun table_reacts_on_value_update(robot: FxRobot) {
         verifyThat("#main-table", containsRow(sniperState.itemId, sniperState.lastPrice, sniperState.lastBid, "Joining"))
         row[0] = SniperStateData(sniperState, "3434")
+        verifyThat("#main-table", containsRow(sniperState.itemId, sniperState.lastPrice, sniperState.lastBid, "3434"))
+    }
+
+
+    @Test fun table_reacts_on_value_adding(robot: FxRobot) {
+        verifyThat("#main-table", containsRow(sniperState.itemId, sniperState.lastPrice, sniperState.lastBid, "Joining"))
+        row.add(SniperStateData(sniperState2, "3434"))
         verifyThat("#main-table", containsRow(sniperState.itemId, sniperState.lastPrice, sniperState.lastBid, "3434"))
     }
 }

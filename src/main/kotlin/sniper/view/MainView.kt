@@ -13,19 +13,14 @@ class MainView : View("Auction Sniper") {
     private val data: Data by inject()
     private lateinit var notToBeGCd: Chat
 
-    private val row = observableArrayList(AuctionData("1"))
+    private val snipers = observableArrayList<SniperStateData>()
 
     override val root = hbox {
-        tableview(row) {
-            id = "main-table"
-            column("status", AuctionData::status).cellFormat {
-                text = it
-            }
-        }
+        this +=SnipersTableModel(snipers)
     }
 
     init {
-        row[0] = AuctionData("Joining")
+        snipers.add(SniperStateData(SniperState(data.itemId, 0,0), "Joining"))
         joinAuction(connection(data.hostname, data.username, data.password), data.itemId)
     }
 
@@ -75,7 +70,7 @@ class MainView : View("Auction Sniper") {
 
         private fun showStatus(value: String) {
             runLater {
-                row[0] = AuctionData(value)
+                println(value)
             }
         }
     }
@@ -101,10 +96,6 @@ class MainView : View("Auction Sniper") {
             chat.sendMessage(message)
         }
     }
-}
-
-class AuctionData(status: String) {
-    val status = SimpleStringProperty(status)
 }
 
 class SniperStateData(state: SniperState, statusText: String) {
