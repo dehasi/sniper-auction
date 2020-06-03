@@ -86,18 +86,18 @@ class MainViewE2ETest {
 
     private fun hasShownSniperIsWinning(winningBid: Int) {
         sleep(200, MILLISECONDS)
-        verifyThat("#main-table", containsRow("Winning"))
+        verifyThat("#snipers-table", containsRow("Winning"))
         showsSniperStatus(itemId, winningBid, winningBid, "Winning")
     }
 
     private fun showsSniperHasWonAuction(lastPrice: Int) {
         sleep(200, MILLISECONDS)
-        verifyThat("#main-table", containsRow("Won"))
+        verifyThat("#snipers-table", containsRow("Won"))
         showsSniperStatus(itemId, lastPrice, lastPrice, "Won")
     }
 
     private fun showsSniperStatus(itemId: String, lastPrice: Int, lastBid: Int, status: String) {
-        verifyThat("#main-table", containsRow(itemId, lastPrice, lastBid, status))
+        verifyThat("#snipers-table", containsRow(itemId, lastPrice, lastBid, status))
     }
 
     @AfterEach fun stopAuction() {

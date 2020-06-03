@@ -57,7 +57,7 @@ class MainView : View("Auction Sniper") {
         }
 
         override fun sniperBidding(state: SniperState) {
-            showStatus("Bidding")
+            snipers[0] = SniperStateData(state, "Bidding")
         }
 
         override fun sniperWinning() {
