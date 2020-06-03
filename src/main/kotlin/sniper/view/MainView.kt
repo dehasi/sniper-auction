@@ -1,5 +1,6 @@
 package sniper.view
 
+import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections.observableArrayList
 import org.jivesoftware.smack.Chat
@@ -104,4 +105,11 @@ class MainView : View("Auction Sniper") {
 
 class AuctionData(status: String) {
     val status = SimpleStringProperty(status)
+}
+
+class SniperStateData(state: SniperState, statusText: String) {
+    val itemId = SimpleStringProperty(state.itemId)
+    val lastPrice = SimpleIntegerProperty(state.lastPrice)
+    val lastBid = SimpleIntegerProperty(state.lastBid)
+    val status = SimpleStringProperty(statusText)
 }

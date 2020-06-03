@@ -16,7 +16,7 @@ import tornadofx.*
 import java.util.concurrent.TimeUnit.MILLISECONDS
 
 @ExtendWith(ApplicationExtension::class)
-class MainViewTest {
+class MainViewE2ETest {
     companion object {
         private const val HOST_NAME: String = "localhost"
         private const val SNIPER_ID: String = "sniper"
@@ -26,7 +26,11 @@ class MainViewTest {
 
     private val auction: FakeAuctionServer = FakeAuctionServer("item-54321")
 
+    private lateinit var itemId: String
+
     @Start fun biddingIn(stage: Stage) {
+        itemId = auction.itemId
+
         auction.startSailingItem()
         startBiddingIn(stage, auction)
     }
@@ -35,7 +39,7 @@ class MainViewTest {
         auction.hasReceivedJoinRequestFrom(SNIPER_XMPP_ID)
 
         auction.reportPrice(1000, 98, "other bidder")
-        hasShownSniperIsBidding()
+        hasShownSniperIsBidding(1000, 1098)
 
         auction.hasReceivedBid(1098, SNIPER_XMPP_ID)
 
@@ -47,15 +51,15 @@ class MainViewTest {
         auction.hasReceivedJoinRequestFrom(SNIPER_XMPP_ID)
 
         auction.reportPrice(1000, 98, "other bidder")
-        hasShownSniperIsBidding()
+        hasShownSniperIsBidding(1000, 1098)
 
         auction.hasReceivedBid(1098, SNIPER_XMPP_ID)
 
         auction.reportPrice(1098, 97, SNIPER_XMPP_ID)
-        hasShownSniperIsWinning()
+        hasShownSniperIsWinning(1098)
 
         auction.announceClosed()
-        showsSniperHasWonAuction()
+        showsSniperHasWonAuction(1098)
     }
 
     private fun startBiddingIn(stage: Stage, auction: FakeAuctionServer) {
@@ -70,24 +74,30 @@ class MainViewTest {
         verifyThat("#main-table", containsRow("Joining"))
     }
 
-    private fun hasShownSniperIsBidding() {
+    private fun hasShownSniperIsBidding(lastPrice: Int, lastBid: Int) {
         sleep(200, MILLISECONDS)
-        verifyThat("#main-table", containsRow("Bidding"))
+        showsSniperStatus(itemId, lastPrice, lastBid, "Bidding")
     }
 
     private fun showsSniperHasLostAuction() {
         sleep(200, MILLISECONDS)
-        verifyThat("#main-table", containsRow("Lost"))
+        showsSniperStatus(itemId, 0, 0, "Lost")
     }
 
-    private fun hasShownSniperIsWinning() {
+    private fun hasShownSniperIsWinning(winningBid: Int) {
         sleep(200, MILLISECONDS)
         verifyThat("#main-table", containsRow("Winning"))
+        showsSniperStatus(itemId, winningBid, winningBid, "Winning")
     }
 
-    private fun showsSniperHasWonAuction() {
+    private fun showsSniperHasWonAuction(lastPrice: Int) {
         sleep(200, MILLISECONDS)
         verifyThat("#main-table", containsRow("Won"))
+        showsSniperStatus(itemId, lastPrice, lastPrice, "Won")
+    }
+
+    private fun showsSniperStatus(itemId: String, lastPrice: Int, lastBid: Int, status: String) {
+        verifyThat("#main-table", containsRow(itemId, lastPrice, lastBid, status))
     }
 
     @AfterEach fun stopAuction() {
