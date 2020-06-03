@@ -10,20 +10,21 @@ import tornadofx.*
 class MainView : View("Auction Sniper") {
 
     private val data: Data by inject()
-    private val status = SimpleStringProperty()
     private lateinit var notToBeGCd: Chat
 
-    private val row = observableArrayList(status)
+    private val row = observableArrayList(AuctionData("1"))
 
     override val root = hbox {
         tableview(row) {
             id = "main-table"
-            column("status", status::getValue)
+            column("status", AuctionData::status).cellFormat {
+                text = it
+            }
         }
     }
 
     init {
-        status.value = "Joining"
+        row[0] = AuctionData("Joining")
         joinAuction(connection(data.hostname, data.username, data.password), data.itemId)
     }
 
@@ -73,7 +74,7 @@ class MainView : View("Auction Sniper") {
 
         private fun showStatus(value: String) {
             runLater {
-                status.value = value
+                row[0] = AuctionData(value)
             }
         }
     }
@@ -99,4 +100,8 @@ class MainView : View("Auction Sniper") {
             chat.sendMessage(message)
         }
     }
+}
+
+class AuctionData(status: String) {
+    val status = SimpleStringProperty(status)
 }
