@@ -116,4 +116,5 @@ class MainViewE2ETest {
     // [_] Experiment with testcontainers instead of local XMPP Server
     // [_] Experiment with kotest
     // [_] Extract statuses to constants
+    // [_] try MockK instead of Mockito
 }
