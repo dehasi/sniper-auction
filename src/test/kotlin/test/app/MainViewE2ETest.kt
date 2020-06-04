@@ -14,6 +14,7 @@ import sniper.app.Data
 import sniper.view.MainView
 import sniper.view.MainView.Companion.STATUS_BIDDING
 import sniper.view.MainView.Companion.STATUS_JOINING
+import sniper.view.MainView.Companion.STATUS_LOST
 import sniper.view.MainView.Companion.STATUS_WINNING
 import sniper.view.MainView.Companion.STATUS_WON
 import tornadofx.*
@@ -85,7 +86,7 @@ class MainViewE2ETest {
 
     private fun showsSniperHasLostAuction() {
         sleep(200, MILLISECONDS)
-        showsSniperStatus(itemId, 0, 0, "Lost")
+        showsSniperStatus(itemId, 0, 0, STATUS_LOST)
     }
 
     private fun hasShownSniperIsWinning(winningBid: Int) {
@@ -119,6 +120,6 @@ class MainViewE2ETest {
     // [_] Auction - handle XMPPException on send
     // [_] Experiment with testcontainers instead of local XMPP Server
     // [_] Experiment with kotest
-    // [_] Extract statuses to constants
+    // [x] Extract statuses to constants
     // [_] try MockK instead of Mockito
 }

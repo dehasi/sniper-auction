@@ -1,5 +1,7 @@
 package sniper.view
 
+import javafx.beans.property.SimpleIntegerProperty
+import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections.observableArrayList
 import sniper.app.SniperSnapshot
 import sniper.app.SniperState.JOINING
@@ -28,6 +30,11 @@ class SnipersTableModel : View() {
             column("Status", SniperStateData::status)
         }
     }
+}
 
-
+class SniperStateData(snapshot: SniperSnapshot, statusText: String) {
+    val itemId = SimpleStringProperty(snapshot.itemId)
+    val lastPrice = SimpleIntegerProperty(snapshot.lastPrice)
+    val lastBid = SimpleIntegerProperty(snapshot.lastBid)
+    val status = SimpleStringProperty(statusText)
 }

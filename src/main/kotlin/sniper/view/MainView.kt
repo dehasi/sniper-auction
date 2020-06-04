@@ -101,10 +101,3 @@ class MainView : View("Auction Sniper") {
         }
     }
 }
-
-class SniperStateData(snapshot: SniperSnapshot, statusText: String) {
-    val itemId = SimpleStringProperty(snapshot.itemId)
-    val lastPrice = SimpleIntegerProperty(snapshot.lastPrice)
-    val lastBid = SimpleIntegerProperty(snapshot.lastBid)
-    val status = SimpleStringProperty(statusText)
-}
