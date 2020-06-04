@@ -15,7 +15,7 @@ class SnipersTableModel : View() {
 
     private val snipers = observableArrayList(SniperStateData(STARTING_UP, "Joining"))
 
-    fun sniperStatusChanged(newSniperSnapshot: SniperSnapshot, newtStatusTest: String) {
+    fun sniperStatusChanged(newSniperSnapshot: SniperSnapshot) {
         snipers[0] = SniperStateData(newSniperSnapshot, STATUS_TEXT[newSniperSnapshot.state.ordinal])
     }
 
