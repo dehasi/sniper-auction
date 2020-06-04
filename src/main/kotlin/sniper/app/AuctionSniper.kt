@@ -24,7 +24,7 @@ class AuctionSniper(private val itemId: String,
         } else {
             val bid = price + increment
             auction.bid(bid)
-            sniperListener.sniperBidding(SniperState(itemId, price, bid))
+            sniperListener.sniperBidding(SniperSnapshot(itemId, price, bid))
         }
     }
 }

@@ -54,8 +54,8 @@ class MainView : View("Auction Sniper") {
             showStatus("Lost")
         }
 
-        override fun sniperBidding(state: SniperState) {
-            snipersTableModel.sniperStatusChanged(state, "Bidding")
+        override fun sniperBidding(snapshot: SniperSnapshot) {
+            snipersTableModel.sniperStatusChanged(snapshot, "Bidding")
         }
 
         override fun sniperWinning() {
@@ -96,9 +96,9 @@ class MainView : View("Auction Sniper") {
     }
 }
 
-class SniperStateData(state: SniperState, statusText: String) {
-    val itemId = SimpleStringProperty(state.itemId)
-    val lastPrice = SimpleIntegerProperty(state.lastPrice)
-    val lastBid = SimpleIntegerProperty(state.lastBid)
+class SniperStateData(snapshot: SniperSnapshot, statusText: String) {
+    val itemId = SimpleStringProperty(snapshot.itemId)
+    val lastPrice = SimpleIntegerProperty(snapshot.lastPrice)
+    val lastBid = SimpleIntegerProperty(snapshot.lastBid)
     val status = SimpleStringProperty(statusText)
 }

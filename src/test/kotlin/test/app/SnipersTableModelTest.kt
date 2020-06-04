@@ -15,15 +15,15 @@ import org.testfx.framework.junit5.Start
 import org.testfx.matcher.control.TableViewMatchers.containsRow
 import org.testfx.matcher.control.TableViewMatchers.containsRowAtIndex
 import sniper.app.Column
-import sniper.app.SniperState
+import sniper.app.SniperSnapshot
 import sniper.view.SniperStateData
 import sniper.view.SnipersTableModel
 
 @ExtendWith(ApplicationExtension::class)
 class SnipersTableModelTest {
 
-    private val sniperState = SniperState("item-xxxxx", 1000, 1002)
-    private val sniperState2 = SniperState("item-yyyy", 8888, 9999)
+    private val sniperState = SniperSnapshot("item-xxxxx", 1000, 1002)
+    private val sniperState2 = SniperSnapshot("item-yyyy", 8888, 9999)
     private val row = observableArrayList(SniperStateData(sniperState, "Joining"))
 
     private lateinit var model: SnipersTableModel
