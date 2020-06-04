@@ -1,33 +1,23 @@
 package test.app
 
+import io.mockk.mockk
+import io.mockk.verify
 import org.jivesoftware.smack.Chat
 import org.jivesoftware.smack.packet.Message
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.Mock
-import org.mockito.Mockito.verify
-import org.mockito.junit.jupiter.MockitoExtension
 import sniper.app.AuctionEventListener
 import sniper.app.AuctionEventListener.PriceSource.FromOtherBidder
 import sniper.app.AuctionEventListener.PriceSource.FromSniper
 import sniper.app.AuctionMessageTranslator
 
-@ExtendWith(MockitoExtension::class)
 class AuctionMessageTranslatorTest {
-
     companion object {
         val UNUSED_CHAT: Chat? = null
         val SNIPER_ID = "42"
     }
 
-    @Mock private lateinit var listener: AuctionEventListener
-
-    private lateinit var translator: AuctionMessageTranslator
-
-    @BeforeEach fun createTranslator() {
-        translator = AuctionMessageTranslator(SNIPER_ID, listener)
-    }
+    private val listener: AuctionEventListener = mockk(relaxed = true)
+    private val translator: AuctionMessageTranslator = AuctionMessageTranslator(SNIPER_ID, listener)
 
     @Test fun notifiesAuctionClosedWhenCloseMessageReceived() {
         val message = Message()
@@ -35,7 +25,9 @@ class AuctionMessageTranslatorTest {
 
         translator.processMessage(UNUSED_CHAT, message)
 
-        verify(listener).auctionClosed()
+        verify {
+            listener.auctionClosed()
+        }
     }
 
     @Test fun notifiesBidDetails_WhenCurrentPriceMessageReceived_FromOtherBidder() {
@@ -44,7 +36,9 @@ class AuctionMessageTranslatorTest {
 
         translator.processMessage(UNUSED_CHAT, message)
 
-        verify(listener).currentPrice(192, 7, FromOtherBidder)
+        verify {
+            listener.currentPrice(192, 7, FromOtherBidder)
+        }
     }
 
     @Test fun notifiesBidDetails_WhenCurrentPriceMessageReceived_FromSniper() {
@@ -53,6 +47,6 @@ class AuctionMessageTranslatorTest {
 
         translator.processMessage(UNUSED_CHAT, message)
 
-        verify(listener).currentPrice(192, 7, FromSniper)
+        verify { listener.currentPrice(192, 7, FromSniper) }
     }
 }

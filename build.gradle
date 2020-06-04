@@ -41,7 +41,7 @@ dependencies {
     testCompile "org.testfx:testfx-junit5:$testfx_version"
     testCompile "org.junit.jupiter:junit-jupiter-api:$junit_version"
 
-    testCompile group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.3.3'
+    testCompile group: 'io.mockk', name: 'mockk', version: '1.10.0'
 
     testCompile "org.assertj:assertj-core:3.11.1"
     testRuntime "org.junit.jupiter:junit-jupiter-engine:$junit_version"
