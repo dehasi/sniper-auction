@@ -35,7 +35,7 @@ class MainViewE2ETest {
         startBiddingIn(stage, auction)
     }
 
-    @Test fun sniperMakesAHighestBid_butLoses() {
+    @Test fun `sniper makes a highest bid but loses`() {
         auction.hasReceivedJoinRequestFrom(SNIPER_XMPP_ID)
 
         auction.reportPrice(1000, 98, "other bidder")
@@ -47,7 +47,7 @@ class MainViewE2ETest {
         showsSniperHasLostAuction()
     }
 
-    @Test fun sniperWinsAnAuctionByBiddingHigher() {
+    @Test fun `sniper wins an auction by bidding higher`() {
         auction.hasReceivedJoinRequestFrom(SNIPER_XMPP_ID)
 
         auction.reportPrice(1000, 98, "other bidder")
