@@ -71,7 +71,7 @@ class MainViewE2ETest {
         stage.scene = Scene(view.root)
         stage.show()
 
-        showsSniperStatus(itemId, 0, 0, "Joining")
+        showsSniperStatus("", 0, 0, "Joining")
     }
 
     private fun hasShownSniperIsBidding(lastPrice: Int, lastBid: Int) {

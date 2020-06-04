@@ -2,7 +2,6 @@ package sniper.view
 
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleStringProperty
-import javafx.collections.FXCollections.observableArrayList
 import org.jivesoftware.smack.Chat
 import org.jivesoftware.smack.XMPPConnection
 import sniper.app.*
@@ -13,14 +12,13 @@ class MainView : View("Auction Sniper") {
     private val data: Data by inject()
     private lateinit var notToBeGCd: Chat
 
-    private val snipers = observableArrayList<SniperStateData>()
+    private val snipersTableModel = SnipersTableModel()
 
     override val root = hbox {
-        this +=SnipersTableModel(snipers)
+        this += snipersTableModel
     }
 
     init {
-        snipers.add(SniperStateData(SniperState(data.itemId, 0,0), "Joining"))
         joinAuction(connection(data.hostname, data.username, data.password), data.itemId)
     }
 
@@ -57,7 +55,7 @@ class MainView : View("Auction Sniper") {
         }
 
         override fun sniperBidding(state: SniperState) {
-            snipers[0] = SniperStateData(state, "Bidding")
+            snipersTableModel.sniperStatusChanged(state, "Bidding")
         }
 
         override fun sniperWinning() {

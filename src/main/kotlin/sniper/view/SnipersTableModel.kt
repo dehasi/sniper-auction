@@ -1,17 +1,19 @@
 package sniper.view
 
-import javafx.collections.ObservableList
+import javafx.collections.FXCollections
 import sniper.app.SniperState
 import tornadofx.*
 
-class SnipersTableModel(private val row: ObservableList<SniperStateData>) : View() {
+class SnipersTableModel() : View() {
+
+    private val snipers = FXCollections.observableArrayList<SniperStateData>(SniperStateData(SniperState("", 0, 0), "Joining"))
 
     fun sniperStatusChanged(sniperState: SniperState, status: String) {
-        row[0] = SniperStateData(sniperState, status)
+        snipers[0] = SniperStateData(sniperState, status)
     }
 
     override val root = hbox {
-        tableview(row) {
+        tableview(snipers) {
             id = "snipers-table"
             column("itemId", SniperStateData::itemId)
             column("lastPrice", SniperStateData::lastPrice)

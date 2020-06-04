@@ -5,6 +5,7 @@ import javafx.scene.Scene
 import javafx.scene.control.TableView
 import javafx.stage.Stage
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.testfx.api.FxAssert.verifyThat
@@ -28,7 +29,7 @@ class SnipersTableModelTest {
     private lateinit var model: SnipersTableModel
 
     @Start fun onStart(stage: Stage) {
-        model = SnipersTableModel(row)
+        model = SnipersTableModel()
 
         stage.scene = Scene(model.root)
         stage.show()
@@ -40,12 +41,13 @@ class SnipersTableModelTest {
     }
 
     @Test fun setSniperValuesInColumns() {
+        model.sniperStatusChanged(sniperState, "Joining")
         verifyThat("#snipers-table", containsRow(sniperState.itemId, sniperState.lastPrice, sniperState.lastBid, "Joining"))
         model.sniperStatusChanged(sniperState2, "Bidding")
         verifyThat("#snipers-table", containsRow(sniperState2.itemId, sniperState2.lastPrice, sniperState2.lastBid, "Bidding"))
     }
 
-    @Test fun table_reacts_on_value_adding(robot: FxRobot) {
+    @Test @Disabled("Will be in the future chapters") fun table_reacts_on_value_adding(robot: FxRobot) {
         row.add(SniperStateData(sniperState2, "Winning"))
         verifyThat("#snipers-table", containsRowAtIndex(0, sniperState.itemId, sniperState.lastPrice, sniperState.lastBid, "Joining"))
         verifyThat("#snipers-table", containsRowAtIndex(1, sniperState2.itemId, sniperState2.lastPrice, sniperState2.lastBid, "Winning"))
