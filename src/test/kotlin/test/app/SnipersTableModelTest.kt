@@ -29,7 +29,7 @@ class SnipersTableModelTest {
 
     private val sniperState = SniperSnapshot("item-xxxxx", 1000, 1002, JOINING)
     private val sniperState2 = SniperSnapshot("item-yyyy", 8888, 9999, BIDDING)
-    private val row = observableArrayList(SniperStateData(sniperState, STATUS_JOINING))
+    private val row = observableArrayList(SniperStateData(sniperState))
 
     private lateinit var model: SnipersTableModel
 
@@ -53,7 +53,7 @@ class SnipersTableModelTest {
     }
 
     @Test @Disabled("Will be in the future chapters") fun table_reacts_on_value_adding() {
-        row.add(SniperStateData(sniperState2, STATUS_WINNING))
+        row.add(SniperStateData(sniperState2))
         verifyThat("#snipers-table", containsRowAtIndex(0, sniperState.itemId, sniperState.lastPrice, sniperState.lastBid, STATUS_JOINING))
         verifyThat("#snipers-table", containsRowAtIndex(1, sniperState2.itemId, sniperState2.lastPrice, sniperState2.lastBid, STATUS_WINNING))
     }

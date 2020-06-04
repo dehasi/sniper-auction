@@ -14,10 +14,10 @@ class SnipersTableModel : View() {
         private val STARTING_UP = SniperSnapshot("", 0, 0, JOINING)
     }
 
-    private val snipers = observableArrayList(SniperStateData(STARTING_UP, "Joining"))
+    private val snipers = observableArrayList(SniperStateData(STARTING_UP))
 
     fun sniperStatusChanged(newSniperSnapshot: SniperSnapshot) {
-        snipers[0] = SniperStateData(newSniperSnapshot, "412")
+        snipers[0] = SniperStateData(newSniperSnapshot)
     }
 
     override val root = hbox {
@@ -31,7 +31,7 @@ class SnipersTableModel : View() {
     }
 }
 
-class SniperStateData(snapshot: SniperSnapshot, statusText: String) {
+class SniperStateData(snapshot: SniperSnapshot) {
     val itemId = SimpleStringProperty(snapshot.itemId)
     val lastPrice = SimpleIntegerProperty(snapshot.lastPrice)
     val lastBid = SimpleIntegerProperty(snapshot.lastBid)
