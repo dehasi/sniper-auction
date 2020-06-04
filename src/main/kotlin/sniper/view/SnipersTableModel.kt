@@ -2,11 +2,12 @@ package sniper.view
 
 import javafx.collections.FXCollections.observableArrayList
 import sniper.app.SniperSnapshot
+import sniper.app.SniperState.JOINING
 import tornadofx.*
 
 class SnipersTableModel : View() {
     companion object {
-        private val STARTING_UP = SniperSnapshot("", 0, 0)
+        private val STARTING_UP = SniperSnapshot("", 0, 0, JOINING)
     }
 
     private val snipers = observableArrayList(SniperStateData(STARTING_UP, "Joining"))

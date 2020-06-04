@@ -14,6 +14,7 @@ import sniper.app.AuctionEventListener.PriceSource.FromSniper
 import sniper.app.AuctionSniper
 import sniper.app.SniperListener
 import sniper.app.SniperSnapshot
+import sniper.app.SniperState.BIDDING
 import test.app.AuctionSniperTest.SniperState.*
 
 @ExtendWith(MockitoExtension::class)
@@ -61,7 +62,7 @@ class AuctionSniperTest {
 
         sniper.currentPrice(price, increment, FromOtherBidder)
 
-        verify(sniperListener).sniperBidding(SniperSnapshot(itemId, price, bid))
+        verify(sniperListener).sniperBidding(SniperSnapshot(itemId, price, bid, BIDDING))
     }
 
     @Test internal fun reportsIsWinning_whenCurrentPriceComesFromSniper() {

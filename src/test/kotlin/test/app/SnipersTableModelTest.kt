@@ -16,14 +16,16 @@ import org.testfx.matcher.control.TableViewMatchers.containsRow
 import org.testfx.matcher.control.TableViewMatchers.containsRowAtIndex
 import sniper.app.Column
 import sniper.app.SniperSnapshot
+import sniper.app.SniperState
+import sniper.app.SniperState.BIDDING
 import sniper.view.SniperStateData
 import sniper.view.SnipersTableModel
 
 @ExtendWith(ApplicationExtension::class)
 class SnipersTableModelTest {
 
-    private val sniperState = SniperSnapshot("item-xxxxx", 1000, 1002)
-    private val sniperState2 = SniperSnapshot("item-yyyy", 8888, 9999)
+    private val sniperState = SniperSnapshot("item-xxxxx", 1000, 1002, BIDDING)
+    private val sniperState2 = SniperSnapshot("item-yyyy", 8888, 9999, BIDDING)
     private val row = observableArrayList(SniperStateData(sniperState, "Joining"))
 
     private lateinit var model: SnipersTableModel
@@ -47,7 +49,7 @@ class SnipersTableModelTest {
         verifyThat("#snipers-table", containsRow(sniperState2.itemId, sniperState2.lastPrice, sniperState2.lastBid, "Bidding"))
     }
 
-    @Test @Disabled("Will be in the future chapters") fun table_reacts_on_value_adding(robot: FxRobot) {
+    @Test @Disabled("Will be in the future chapters") fun table_reacts_on_value_adding() {
         row.add(SniperStateData(sniperState2, "Winning"))
         verifyThat("#snipers-table", containsRowAtIndex(0, sniperState.itemId, sniperState.lastPrice, sniperState.lastBid, "Joining"))
         verifyThat("#snipers-table", containsRowAtIndex(1, sniperState2.itemId, sniperState2.lastPrice, sniperState2.lastBid, "Winning"))
