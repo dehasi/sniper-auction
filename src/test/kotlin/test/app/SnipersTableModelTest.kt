@@ -45,12 +45,6 @@ class SnipersTableModelTest {
         verifyThat("#snipers-table", containsRow(sniperState2.itemId, sniperState2.lastPrice, sniperState2.lastBid, "Bidding"))
     }
 
-    @Test fun table_reacts_on_value_update(robot: FxRobot) {
-        verifyThat("#snipers-table", containsRow(sniperState.itemId, sniperState.lastPrice, sniperState.lastBid, "Joining"))
-        row[0] = SniperStateData(sniperState, "Bidding")
-        verifyThat("#snipers-table", containsRow(sniperState.itemId, sniperState.lastPrice, sniperState.lastBid, "Bidding"))
-    }
-
     @Test fun table_reacts_on_value_adding(robot: FxRobot) {
         row.add(SniperStateData(sniperState2, "Winning"))
         verifyThat("#snipers-table", containsRowAtIndex(0, sniperState.itemId, sniperState.lastPrice, sniperState.lastBid, "Joining"))
