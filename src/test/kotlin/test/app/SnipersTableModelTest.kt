@@ -16,8 +16,10 @@ import org.testfx.matcher.control.TableViewMatchers.containsRow
 import org.testfx.matcher.control.TableViewMatchers.containsRowAtIndex
 import sniper.app.Column
 import sniper.app.SniperSnapshot
-import sniper.app.SniperState
 import sniper.app.SniperState.BIDDING
+import sniper.view.MainView.Companion.STATUS_BIDDING
+import sniper.view.MainView.Companion.STATUS_JOINING
+import sniper.view.MainView.Companion.STATUS_WINNING
 import sniper.view.SniperStateData
 import sniper.view.SnipersTableModel
 
@@ -26,7 +28,7 @@ class SnipersTableModelTest {
 
     private val sniperState = SniperSnapshot("item-xxxxx", 1000, 1002, BIDDING)
     private val sniperState2 = SniperSnapshot("item-yyyy", 8888, 9999, BIDDING)
-    private val row = observableArrayList(SniperStateData(sniperState, "Joining"))
+    private val row = observableArrayList(SniperStateData(sniperState, STATUS_JOINING))
 
     private lateinit var model: SnipersTableModel
 
@@ -43,15 +45,15 @@ class SnipersTableModelTest {
     }
 
     @Test fun setSniperValuesInColumns() {
-        model.sniperStatusChanged(sniperState, "Joining")
-        verifyThat("#snipers-table", containsRow(sniperState.itemId, sniperState.lastPrice, sniperState.lastBid, "Joining"))
-        model.sniperStatusChanged(sniperState2, "Bidding")
-        verifyThat("#snipers-table", containsRow(sniperState2.itemId, sniperState2.lastPrice, sniperState2.lastBid, "Bidding"))
+        model.sniperStatusChanged(sniperState, STATUS_JOINING)
+        verifyThat("#snipers-table", containsRow(sniperState.itemId, sniperState.lastPrice, sniperState.lastBid, STATUS_JOINING))
+        model.sniperStatusChanged(sniperState2, STATUS_BIDDING)
+        verifyThat("#snipers-table", containsRow(sniperState2.itemId, sniperState2.lastPrice, sniperState2.lastBid, STATUS_BIDDING))
     }
 
     @Test @Disabled("Will be in the future chapters") fun table_reacts_on_value_adding() {
-        row.add(SniperStateData(sniperState2, "Winning"))
-        verifyThat("#snipers-table", containsRowAtIndex(0, sniperState.itemId, sniperState.lastPrice, sniperState.lastBid, "Joining"))
-        verifyThat("#snipers-table", containsRowAtIndex(1, sniperState2.itemId, sniperState2.lastPrice, sniperState2.lastBid, "Winning"))
+        row.add(SniperStateData(sniperState2, STATUS_WINNING))
+        verifyThat("#snipers-table", containsRowAtIndex(0, sniperState.itemId, sniperState.lastPrice, sniperState.lastBid, STATUS_JOINING))
+        verifyThat("#snipers-table", containsRowAtIndex(1, sniperState2.itemId, sniperState2.lastPrice, sniperState2.lastBid, STATUS_WINNING))
     }
 }
