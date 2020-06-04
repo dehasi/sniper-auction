@@ -51,7 +51,7 @@ class MainView : View("Auction Sniper") {
 
     inner class SniperStateDisplayer : SniperListener {
         override fun sniperLost() {
-            showStatus(LOST)
+            showStatus(STATUS_LOST)
         }
 
         override fun sniperBidding(snapshot: SniperSnapshot) {
@@ -59,11 +59,11 @@ class MainView : View("Auction Sniper") {
         }
 
         override fun sniperWinning() {
-            showStatus(WINNING)
+            showStatus(STATUS_WINNING)
         }
 
         override fun sniperWon() {
-            showStatus(WON)
+            showStatus(STATUS_WON)
         }
 
         private fun showStatus(value: String) {
@@ -80,11 +80,11 @@ class MainView : View("Auction Sniper") {
         private const val ITEM_ID_AS_LOGIN = "auction-%s"
         private const val AUCTION_ID_FORMAT: String = "$ITEM_ID_AS_LOGIN@%s/$AUCTION_RESOURCE"
 
-        const val JOINING = "Joining"
-        const val BIDDING = "Bidding"
-        const val WINNING = "Winning"
-        const val LOST = "Lost"
-        const val WON = "Won"
+        const val STATUS_JOINING = "Joining"
+        const val STATUS_BIDDING = "Bidding"
+        const val STATUS_WINNING = "Winning"
+        const val STATUS_LOST = "Lost"
+        const val STATUS_WON = "Won"
     }
 
     class XMPPAuction(private val chat: Chat) : Auction {

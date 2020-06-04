@@ -12,10 +12,10 @@ import org.testfx.matcher.control.TableViewMatchers.containsRow
 import org.testfx.util.WaitForAsyncUtils.sleep
 import sniper.app.Data
 import sniper.view.MainView
-import sniper.view.MainView.Companion.BIDDING
-import sniper.view.MainView.Companion.JOINING
-import sniper.view.MainView.Companion.WINNING
-import sniper.view.MainView.Companion.WON
+import sniper.view.MainView.Companion.STATUS_BIDDING
+import sniper.view.MainView.Companion.STATUS_JOINING
+import sniper.view.MainView.Companion.STATUS_WINNING
+import sniper.view.MainView.Companion.STATUS_WON
 import tornadofx.*
 import java.util.concurrent.TimeUnit.MILLISECONDS
 
@@ -75,12 +75,12 @@ class MainViewE2ETest {
         stage.scene = Scene(view.root)
         stage.show()
 
-        showsSniperStatus("", 0, 0, JOINING)
+        showsSniperStatus("", 0, 0, STATUS_JOINING)
     }
 
     private fun hasShownSniperIsBidding(lastPrice: Int, lastBid: Int) {
         sleep(200, MILLISECONDS)
-        showsSniperStatus(itemId, lastPrice, lastBid, BIDDING)
+        showsSniperStatus(itemId, lastPrice, lastBid, STATUS_BIDDING)
     }
 
     private fun showsSniperHasLostAuction() {
@@ -90,14 +90,14 @@ class MainViewE2ETest {
 
     private fun hasShownSniperIsWinning(winningBid: Int) {
         sleep(200, MILLISECONDS)
-        verifyThat("#snipers-table", containsRow(WINNING))
-        showsSniperStatus(itemId, winningBid, winningBid, WINNING)
+        verifyThat("#snipers-table", containsRow(STATUS_WINNING))
+        showsSniperStatus(itemId, winningBid, winningBid, STATUS_WINNING)
     }
 
     private fun showsSniperHasWonAuction(lastPrice: Int) {
         sleep(200, MILLISECONDS)
-        verifyThat("#snipers-table", containsRow(WON))
-        showsSniperStatus(itemId, lastPrice, lastPrice, WON)
+        verifyThat("#snipers-table", containsRow(STATUS_WON))
+        showsSniperStatus(itemId, lastPrice, lastPrice, STATUS_WON)
     }
 
     private fun showsSniperStatus(itemId: String, lastPrice: Int, lastBid: Int, status: String) {
