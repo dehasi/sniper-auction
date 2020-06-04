@@ -115,4 +115,5 @@ class MainViewE2ETest {
     // [_] Auction - handle XMPPException on send
     // [_] Experiment with testcontainers instead of local XMPP Server
     // [_] Experiment with kotest
+    // [_] Extract statuses to constants
 }
