@@ -2,7 +2,9 @@ package test.app
 
 import javafx.collections.FXCollections.observableArrayList
 import javafx.scene.Scene
+import javafx.scene.control.TableView
 import javafx.stage.Stage
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.testfx.api.FxAssert.verifyThat
@@ -11,6 +13,7 @@ import org.testfx.framework.junit5.ApplicationExtension
 import org.testfx.framework.junit5.Start
 import org.testfx.matcher.control.TableViewMatchers.containsRow
 import org.testfx.matcher.control.TableViewMatchers.containsRowAtIndex
+import sniper.app.Column
 import sniper.app.SniperState
 import sniper.view.SniperStateData
 import sniper.view.SnipersTableModel
@@ -29,15 +32,20 @@ class SnipersTableModelTest {
         stage.show()
     }
 
+    @Test fun hasEnoughColumns(robot: FxRobot) {
+        val table = robot.lookup("#snipers-table").query<TableView<SniperStateData>>()
+        assertThat(table.columns).hasSameSizeAs(Column.values())
+    }
+
     @Test fun table_reacts_on_value_update(robot: FxRobot) {
-        verifyThat("snipers-table", containsRow(sniperState.itemId, sniperState.lastPrice, sniperState.lastBid, "Joining"))
+        verifyThat("#snipers-table", containsRow(sniperState.itemId, sniperState.lastPrice, sniperState.lastBid, "Joining"))
         row[0] = SniperStateData(sniperState, "Bidding")
-        verifyThat("snipers-table", containsRow(sniperState.itemId, sniperState.lastPrice, sniperState.lastBid, "Bidding"))
+        verifyThat("#snipers-table", containsRow(sniperState.itemId, sniperState.lastPrice, sniperState.lastBid, "Bidding"))
     }
 
     @Test fun table_reacts_on_value_adding(robot: FxRobot) {
         row.add(SniperStateData(sniperState2, "Winning"))
-        verifyThat("snipers-table", containsRowAtIndex(0, sniperState.itemId, sniperState.lastPrice, sniperState.lastBid, "Joining"))
-        verifyThat("snipers-table", containsRowAtIndex(1, sniperState2.itemId, sniperState2.lastPrice, sniperState2.lastBid, "Winning"))
+        verifyThat("#snipers-table", containsRowAtIndex(0, sniperState.itemId, sniperState.lastPrice, sniperState.lastBid, "Joining"))
+        verifyThat("#snipers-table", containsRowAtIndex(1, sniperState2.itemId, sniperState2.lastPrice, sniperState2.lastBid, "Winning"))
     }
 }

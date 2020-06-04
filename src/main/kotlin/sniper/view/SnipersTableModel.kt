@@ -13,4 +13,6 @@ class SnipersTableModel(private val row: ObservableList<SniperStateData>) : View
             column("Status", SniperStateData::status)
         }
     }
+
+
 }
