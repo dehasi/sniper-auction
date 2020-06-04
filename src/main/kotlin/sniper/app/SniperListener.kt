@@ -3,7 +3,7 @@ package sniper.app
 interface SniperListener {
 
     fun sniperLost()
-    fun sniperBidding(snapshot: SniperSnapshot)
+    fun sniperStateChanged(snapshot: SniperSnapshot)
     fun sniperWinning()
     fun sniperWon()
 }

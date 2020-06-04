@@ -54,7 +54,7 @@ class MainView : View("Auction Sniper") {
             showStatus(STATUS_LOST)
         }
 
-        override fun sniperBidding(snapshot: SniperSnapshot) {
+        override fun sniperStateChanged(snapshot: SniperSnapshot) {
             snipersTableModel.sniperStatusChanged(snapshot)
         }
 

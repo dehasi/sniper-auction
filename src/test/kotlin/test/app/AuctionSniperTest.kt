@@ -1,6 +1,10 @@
 package test.app
 
+import com.danhaywood.java.assertjext.Conditions.matchedBy
 import org.assertj.core.api.Assertions.assertThat
+import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.FeatureMatcher
+import org.hamcrest.Matcher
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -8,14 +12,11 @@ import org.mockito.Mock
 import org.mockito.Mockito.spy
 import org.mockito.Mockito.verify
 import org.mockito.junit.jupiter.MockitoExtension
-import sniper.app.Auction
+import sniper.app.*
 import sniper.app.AuctionEventListener.PriceSource.FromOtherBidder
 import sniper.app.AuctionEventListener.PriceSource.FromSniper
-import sniper.app.AuctionSniper
-import sniper.app.SniperListener
-import sniper.app.SniperSnapshot
 import sniper.app.SniperState.BIDDING
-import test.app.AuctionSniperTest.SniperState.*
+import test.app.AuctionSniperTest.SniperTestState.*
 
 @ExtendWith(MockitoExtension::class)
 class AuctionSniperTest {
@@ -62,7 +63,7 @@ class AuctionSniperTest {
 
         sniper.currentPrice(price, increment, FromOtherBidder)
 
-        verify(sniperListener).sniperBidding(SniperSnapshot(itemId, price, bid, BIDDING))
+        verify(sniperListener).sniperStateChanged(SniperSnapshot(itemId, price, bid, BIDDING))
     }
 
     @Test internal fun reportsIsWinning_whenCurrentPriceComesFromSniper() {
@@ -71,7 +72,7 @@ class AuctionSniperTest {
         verify(sniperListener).sniperWinning()
     }
 
-    private enum class SniperState {
+    private enum class SniperTestState {
         idle, winning, bidding
     }
 
@@ -83,8 +84,19 @@ class AuctionSniperTest {
 
         override fun sniperWon() {}
 
-        override fun sniperBidding(snapshot: SniperSnapshot) {
+        override fun sniperStateChanged(snapshot: SniperSnapshot) {
+            assertThat(snapshot).`is`(matchedBy(aSniperTharIs(BIDDING)))
             sniperState = bidding
         }
+    }
+
+    fun aSniperTharIs(state: SniperState): Matcher<SniperSnapshot> {
+        return MyMatcher(state)
+    }
+}
+
+class MyMatcher(state: SniperState) : FeatureMatcher<SniperSnapshot, SniperState>(equalTo(state), "sniper that is", "was") {
+    override fun featureValueOf(actual: SniperSnapshot): SniperState {
+        return actual.state
     }
 }

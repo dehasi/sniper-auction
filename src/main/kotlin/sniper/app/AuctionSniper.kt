@@ -1,6 +1,7 @@
 package sniper.app
 
 import sniper.app.AuctionEventListener.PriceSource
+import sniper.app.SniperState.BIDDING
 
 class AuctionSniper(private val itemId: String,
                     private val auction: Auction,
@@ -24,7 +25,7 @@ class AuctionSniper(private val itemId: String,
         } else {
             val bid = price + increment
             auction.bid(bid)
-            sniperListener.sniperBidding(SniperSnapshot(itemId, price, bid, SniperState.BIDDING))
+            sniperListener.sniperStateChanged(SniperSnapshot(itemId, price, bid, BIDDING))
         }
     }
 }

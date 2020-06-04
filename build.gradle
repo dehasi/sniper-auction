@@ -48,6 +48,8 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.6.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.2")
     testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.6.2")
+    testCompile group: 'org.hamcrest', name: 'hamcrest', version: '2.2'
+    testCompile group: 'com.danhaywood.java', name: 'danhaywood-java-assertjext', version: '0.1.0'
 }
 
 mainClassName = "sniper.app.SniperApp"
