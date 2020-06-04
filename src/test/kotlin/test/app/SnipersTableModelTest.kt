@@ -25,16 +25,24 @@ class SnipersTableModelTest {
     private val sniperState2 = SniperState("item-yyyy", 8888, 9999)
     private val row = observableArrayList(SniperStateData(sniperState, "Joining"))
 
-    @Start fun onStart(stage: Stage) {
-        val tableView = SnipersTableModel(row)
+    private lateinit var model: SnipersTableModel
 
-        stage.scene = Scene(tableView.root)
+    @Start fun onStart(stage: Stage) {
+        model = SnipersTableModel(row)
+
+        stage.scene = Scene(model.root)
         stage.show()
     }
 
     @Test fun hasEnoughColumns(robot: FxRobot) {
         val table = robot.lookup("#snipers-table").query<TableView<SniperStateData>>()
         assertThat(table.columns).hasSameSizeAs(Column.values())
+    }
+
+    @Test fun setSniperValuesInColumns() {
+        verifyThat("#snipers-table", containsRow(sniperState.itemId, sniperState.lastPrice, sniperState.lastBid, "Joining"))
+        model.sniperStatusChanged(sniperState2, "Bidding")
+        verifyThat("#snipers-table", containsRow(sniperState2.itemId, sniperState2.lastPrice, sniperState2.lastBid, "Bidding"))
     }
 
     @Test fun table_reacts_on_value_update(robot: FxRobot) {
