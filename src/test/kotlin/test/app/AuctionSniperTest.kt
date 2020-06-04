@@ -12,9 +12,13 @@ import org.mockito.Mock
 import org.mockito.Mockito.spy
 import org.mockito.Mockito.verify
 import org.mockito.junit.jupiter.MockitoExtension
-import sniper.app.*
+import sniper.app.Auction
 import sniper.app.AuctionEventListener.PriceSource.FromOtherBidder
 import sniper.app.AuctionEventListener.PriceSource.FromSniper
+import sniper.app.AuctionSniper
+import sniper.app.SniperListener
+import sniper.app.SniperListener.SniperSnapshot
+import sniper.app.SniperState
 import sniper.app.SniperState.BIDDING
 import test.app.AuctionSniperTest.SniperTestState.*
 

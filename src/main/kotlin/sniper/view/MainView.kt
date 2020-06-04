@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleStringProperty
 import org.jivesoftware.smack.Chat
 import org.jivesoftware.smack.XMPPConnection
 import sniper.app.*
+import sniper.app.SniperListener.SniperSnapshot
 import tornadofx.*
 
 class MainView : View("Auction Sniper") {

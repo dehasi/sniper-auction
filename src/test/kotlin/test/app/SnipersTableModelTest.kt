@@ -15,7 +15,7 @@ import org.testfx.framework.junit5.Start
 import org.testfx.matcher.control.TableViewMatchers.containsRow
 import org.testfx.matcher.control.TableViewMatchers.containsRowAtIndex
 import sniper.app.Column
-import sniper.app.SniperSnapshot
+import sniper.app.SniperListener.SniperSnapshot
 import sniper.app.SniperState.BIDDING
 import sniper.app.SniperState.JOINING
 import sniper.view.MainView.Companion.STATUS_BIDDING

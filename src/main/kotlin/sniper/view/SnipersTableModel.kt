@@ -3,7 +3,7 @@ package sniper.view
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections.observableArrayList
-import sniper.app.SniperSnapshot
+import sniper.app.SniperListener.SniperSnapshot
 import sniper.app.SniperState.JOINING
 import sniper.view.MainView.Companion.STATUS_BIDDING
 import sniper.view.MainView.Companion.STATUS_JOINING

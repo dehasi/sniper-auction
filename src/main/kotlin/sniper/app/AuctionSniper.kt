@@ -1,6 +1,7 @@
 package sniper.app
 
 import sniper.app.AuctionEventListener.PriceSource
+import sniper.app.SniperListener.SniperSnapshot
 import sniper.app.SniperState.BIDDING
 
 class AuctionSniper(private val itemId: String,
