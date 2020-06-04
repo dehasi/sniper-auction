@@ -17,6 +17,7 @@ import org.testfx.matcher.control.TableViewMatchers.containsRowAtIndex
 import sniper.app.Column
 import sniper.app.SniperSnapshot
 import sniper.app.SniperState.BIDDING
+import sniper.app.SniperState.JOINING
 import sniper.view.MainView.Companion.STATUS_BIDDING
 import sniper.view.MainView.Companion.STATUS_JOINING
 import sniper.view.MainView.Companion.STATUS_WINNING
@@ -26,7 +27,7 @@ import sniper.view.SnipersTableModel
 @ExtendWith(ApplicationExtension::class)
 class SnipersTableModelTest {
 
-    private val sniperState = SniperSnapshot("item-xxxxx", 1000, 1002, BIDDING)
+    private val sniperState = SniperSnapshot("item-xxxxx", 1000, 1002, JOINING)
     private val sniperState2 = SniperSnapshot("item-yyyy", 8888, 9999, BIDDING)
     private val row = observableArrayList(SniperStateData(sniperState, STATUS_JOINING))
 
@@ -45,9 +46,9 @@ class SnipersTableModelTest {
     }
 
     @Test fun setSniperValuesInColumns() {
-        model.sniperStatusChanged(sniperState, STATUS_JOINING)
+        model.sniperStatusChanged(sniperState, "")
         verifyThat("#snipers-table", containsRow(sniperState.itemId, sniperState.lastPrice, sniperState.lastBid, STATUS_JOINING))
-        model.sniperStatusChanged(sniperState2, STATUS_BIDDING)
+        model.sniperStatusChanged(sniperState2, "")
         verifyThat("#snipers-table", containsRow(sniperState2.itemId, sniperState2.lastPrice, sniperState2.lastBid, STATUS_BIDDING))
     }
 
