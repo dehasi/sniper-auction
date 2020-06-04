@@ -21,8 +21,8 @@ import test.app.AuctionSniperTest.SniperTestState.*
 
 class AuctionSniperTest {
 
-    private val auction: Auction = mockk(relaxed = true)
-    private var sniperListener: SniperListener = mockk(relaxed = true)
+    private val auction: Auction = mockk(relaxUnitFun = true)
+    private var sniperListener: SniperListener = mockk(relaxUnitFun = true)
 
     private var sniperState = idle;
     private val itemId = "item-xxxx"

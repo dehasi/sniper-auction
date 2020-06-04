@@ -16,7 +16,7 @@ class AuctionMessageTranslatorTest {
         val SNIPER_ID = "42"
     }
 
-    private val listener: AuctionEventListener = mockk(relaxed = true)
+    private val listener: AuctionEventListener = mockk(relaxUnitFun = true)
     private val translator: AuctionMessageTranslator = AuctionMessageTranslator(SNIPER_ID, listener)
 
     @Test fun notifiesAuctionClosedWhenCloseMessageReceived() {
