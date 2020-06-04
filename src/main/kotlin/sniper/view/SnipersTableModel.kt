@@ -12,13 +12,12 @@ import tornadofx.*
 class SnipersTableModel : View() {
     companion object {
         private val STARTING_UP = SniperSnapshot("", 0, 0, JOINING)
-        private val STATUS_TEXT = listOf(STATUS_JOINING, STATUS_BIDDING)
     }
 
     private val snipers = observableArrayList(SniperStateData(STARTING_UP, "Joining"))
 
     fun sniperStatusChanged(newSniperSnapshot: SniperSnapshot) {
-        snipers[0] = SniperStateData(newSniperSnapshot, STATUS_TEXT[newSniperSnapshot.state.ordinal])
+        snipers[0] = SniperStateData(newSniperSnapshot, "412")
     }
 
     override val root = hbox {
@@ -36,5 +35,9 @@ class SniperStateData(snapshot: SniperSnapshot, statusText: String) {
     val itemId = SimpleStringProperty(snapshot.itemId)
     val lastPrice = SimpleIntegerProperty(snapshot.lastPrice)
     val lastBid = SimpleIntegerProperty(snapshot.lastBid)
-    val status = SimpleStringProperty(statusText)
+    val status = SimpleStringProperty(STATUS_TEXT[snapshot.state.ordinal])
+
+    companion object {
+        private val STATUS_TEXT = listOf(STATUS_JOINING, STATUS_BIDDING)
+    }
 }
