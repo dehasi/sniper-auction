@@ -8,4 +8,4 @@ interface SniperListener {
     fun sniperWon()
 }
 
-public data class SniperState(val itemId: String, val lastPrice: Int, val lastBid: Int)
+data class SniperState(val itemId: String, val lastPrice: Int, val lastBid: Int)
