@@ -1,13 +1,9 @@
 package test.app
 
-import com.danhaywood.java.assertjext.Conditions.matchedBy
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
-import org.hamcrest.CoreMatchers.equalTo
-import org.hamcrest.FeatureMatcher
-import org.hamcrest.Matcher
 import org.junit.jupiter.api.Test
 import sniper.app.Auction
 import sniper.app.AuctionEventListener.PriceSource.FromOtherBidder
@@ -15,7 +11,6 @@ import sniper.app.AuctionEventListener.PriceSource.FromSniper
 import sniper.app.AuctionSniper
 import sniper.app.SniperListener
 import sniper.app.SniperListener.SniperSnapshot
-import sniper.app.SniperState
 import sniper.app.SniperState.BIDDING
 import sniper.app.SniperState.WINNING
 import test.app.AuctionSniperTest.SniperTestState.*
@@ -84,29 +79,5 @@ class AuctionSniperTest {
 
     private enum class SniperTestState {
         idle, winning, bidding
-    }
-
-    private open inner class SniperListenerStub : SniperListener {
-        override fun sniperLost() {}
-        override fun sniperWinning() {
-            sniperState = winning
-        }
-
-        override fun sniperWon() {}
-
-        override fun sniperStateChanged(snapshot: SniperSnapshot) {
-            assertThat(snapshot).`is`(matchedBy(aSniperTharIs(BIDDING)))
-            sniperState = bidding
-        }
-    }
-
-    fun aSniperTharIs(state: SniperState): Matcher<SniperSnapshot> {
-        return MyMatcher(state)
-    }
-}
-
-class MyMatcher(state: SniperState) : FeatureMatcher<SniperSnapshot, SniperState>(equalTo(state), "sniper that is", "was") {
-    override fun featureValueOf(actual: SniperSnapshot): SniperState {
-        return actual.state
     }
 }
