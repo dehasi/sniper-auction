@@ -1,6 +1,8 @@
 package sniper.app
 
 import sniper.app.AuctionEventListener.PriceSource
+import sniper.app.AuctionEventListener.PriceSource.FromOtherBidder
+import sniper.app.AuctionEventListener.PriceSource.FromSniper
 import sniper.app.SniperListener.SniperSnapshot
 
 class AuctionSniper(private val itemId: String,
@@ -9,25 +11,26 @@ class AuctionSniper(private val itemId: String,
     : AuctionEventListener {
 
     private var snapshot = SniperSnapshot.joining(itemId)
-    private var isWinning = false
 
     override fun auctionClosed() {
-        if (isWinning) {
-            sniperListener.sniperWon()
-        } else {
-            sniperListener.sniperLost()
-        }
+        snapshot = snapshot.closed()
+        notifyChange()
     }
 
     override fun currentPrice(price: Int, increment: Int, priceSource: PriceSource) {
-        isWinning = priceSource == PriceSource.FromSniper
-        snapshot = if (isWinning) {
-            snapshot.winning(price)
-        } else {
-            val bid = price + increment
-            auction.bid(bid)
-            snapshot.bidding(price, bid)
+
+        snapshot = when (priceSource) {
+            FromSniper -> snapshot.winning(price)
+            FromOtherBidder -> {
+                val bid = price + increment
+                auction.bid(bid)
+                snapshot.bidding(price, bid)
+            }
         }
+        notifyChange()
+    }
+
+    private fun notifyChange() {
         sniperListener.sniperStateChanged(snapshot)
     }
 }

@@ -11,8 +11,7 @@ import sniper.app.AuctionEventListener.PriceSource.FromSniper
 import sniper.app.AuctionSniper
 import sniper.app.SniperListener
 import sniper.app.SniperListener.SniperSnapshot
-import sniper.app.SniperState.BIDDING
-import sniper.app.SniperState.WINNING
+import sniper.app.SniperState.*
 import test.app.AuctionSniperTest.SniperTestState.*
 
 
@@ -29,7 +28,7 @@ class AuctionSniperTest {
     @Test fun returnsLostWhenAuctionClosesImmediately() {
         sniper.auctionClosed()
 
-        verify { sniperListener.sniperLost() }
+        verify { sniperListener.sniperStateChanged(SniperSnapshot(itemId, 0, 0, LOST)) }
     }
 
     @Test fun returnsLostWhenAuctionClosesWhenBidding() {
@@ -39,7 +38,7 @@ class AuctionSniperTest {
         sniper.currentPrice(123, 45, FromOtherBidder)
         sniper.auctionClosed()
 
-        verify { sniperListener.sniperLost() }
+        verify { sniperListener.sniperStateChanged(SniperSnapshot(itemId, 123, 168, LOST)) }
         assertThat(sniperState).isEqualTo(bidding)
     }
 
@@ -51,7 +50,7 @@ class AuctionSniperTest {
         sniper.currentPrice(123, 45, FromSniper)
         sniper.auctionClosed()
 
-        verify { sniperListener.sniperWon() }
+        verify { sniperListener.sniperStateChanged(SniperSnapshot(eq(itemId), any(), any(), eq(WON))) }
         assertThat(sniperState).isEqualTo(winning)
     }
 
