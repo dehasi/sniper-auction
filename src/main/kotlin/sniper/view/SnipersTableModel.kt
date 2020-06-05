@@ -28,16 +28,12 @@ class SnipersTableModel : View(), SniperListener {
     override val root = hbox {
         tableview(snipers) {
             id = "snipers-table"
-            column("itemId", SniperStateData::itemId)
-            column("lastPrice", SniperStateData::lastPrice)
-            column("lastBid", SniperStateData::lastBid)
-            column("Status", SniperStateData::status)
+            column("Item", SniperStateData::itemId)
+            column("Last Price", SniperStateData::lastPrice)
+            column("Last Bid", SniperStateData::lastBid)
+            column("State", SniperStateData::status)
         }
     }
-//
-//    override fun sniperStateChanged(snapshot: SniperSnapshot) {
-//        TODO("Not yet implemented")
-//    }
 }
 
 class SniperStateData(snapshot: SniperSnapshot) {
