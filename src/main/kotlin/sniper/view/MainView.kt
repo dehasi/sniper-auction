@@ -28,7 +28,7 @@ class MainView : View("Auction Sniper") {
 
         val auction = XMPPAuction(chat)
         chat.addMessageListener(AuctionMessageTranslator(
-                connection.user, AuctionSniper(itemId, auction, SniperStateDisplayer())))
+                connection.user, AuctionSniper(itemId, auction, SniperStateDisplayer(snipers))))
         auction.join()
     }
 
@@ -48,7 +48,7 @@ class MainView : View("Auction Sniper") {
     }
 
 
-    inner class SniperStateDisplayer : SniperListener {
+    inner class SniperStateDisplayer(private val snipers: SnipersTableModel) : SniperListener {
         override fun sniperStateChanged(snapshot: SniperSnapshot) {
             snipers.sniperStatusChanged(snapshot)
         }
