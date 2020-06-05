@@ -49,7 +49,7 @@ class MainViewE2ETest {
         auction.hasReceivedBid(1098, SNIPER_XMPP_ID)
 
         auction.announceClosed()
-        showsSniperHasLostAuction()
+        showsSniperHasLostAuction(1000, 1098)
     }
 
     @Test fun `sniper wins an auction by bidding higher`() {
@@ -84,9 +84,9 @@ class MainViewE2ETest {
         showsSniperStatus(itemId, lastPrice, lastBid, STATUS_BIDDING)
     }
 
-    private fun showsSniperHasLostAuction() {
+    private fun showsSniperHasLostAuction(lastPrice: Int, lastBid: Int) {
         sleep(200, MILLISECONDS)
-        showsSniperStatus(itemId, 0, 0, STATUS_LOST)
+        showsSniperStatus(itemId, lastPrice, lastBid, STATUS_LOST)
     }
 
     private fun hasShownSniperIsWinning(winningBid: Int) {
