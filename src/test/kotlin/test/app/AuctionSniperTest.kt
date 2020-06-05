@@ -72,11 +72,13 @@ class AuctionSniperTest {
     }
 
     @Test internal fun reportsIsWinning_whenCurrentPriceComesFromSniper() {
-        sniper.currentPrice(123, 45, FromOtherBidder)
-        sniper.currentPrice(123, 45, FromSniper)
+        sniper.currentPrice(123, 12, FromOtherBidder)
+        sniper.currentPrice(135, 45, FromSniper)
 
-//        verify(sniperListener).sniperStateChanged(Mockito.argThat(SniperTharIs(BIDDING)))
-//        verify(sniperListener).sniperStateChanged(MockitoHamcrest.argThat(aSniperTharIs(WINNING)))
+        verify {
+            sniperListener.sniperStateChanged(SniperSnapshot(itemId, 123, 135, BIDDING))
+            sniperListener.sniperStateChanged(SniperSnapshot(itemId, 135, 135, BIDDING))
+        }
     }
 
     private enum class SniperTestState {
