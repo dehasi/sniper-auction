@@ -91,13 +91,11 @@ class MainViewE2ETest {
 
     private fun hasShownSniperIsWinning(winningBid: Int) {
         sleep(200, MILLISECONDS)
-        verifyThat("#snipers-table", containsRow(STATUS_WINNING))
         showsSniperStatus(itemId, winningBid, winningBid, STATUS_WINNING)
     }
 
     private fun showsSniperHasWonAuction(lastPrice: Int) {
         sleep(200, MILLISECONDS)
-        verifyThat("#snipers-table", containsRow(STATUS_WON))
         showsSniperStatus(itemId, lastPrice, lastPrice, STATUS_WON)
     }
 
@@ -121,5 +119,5 @@ class MainViewE2ETest {
     // [_] Experiment with testcontainers instead of local XMPP Server
     // [_] Experiment with kotest
     // [x] Extract statuses to constants
-    // [_] try MockK instead of Mockito
+    // [x] Use MockK instead of Mockito
 }
