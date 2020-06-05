@@ -21,12 +21,12 @@ class AuctionSniper(private val itemId: String,
 
     override fun currentPrice(price: Int, increment: Int, priceSource: PriceSource) {
         isWinning = priceSource == PriceSource.FromSniper
-        if (isWinning) {
-            snapshot = snapshot.winning(price)
+        snapshot = if (isWinning) {
+            snapshot.winning(price)
         } else {
             val bid = price + increment
             auction.bid(bid)
-            snapshot = snapshot.bidding(price, bid)
+            snapshot.bidding(price, bid)
         }
         sniperListener.sniperStateChanged(snapshot)
     }
