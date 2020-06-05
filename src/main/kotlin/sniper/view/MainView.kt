@@ -1,7 +1,5 @@
 package sniper.view
 
-import javafx.beans.property.SimpleIntegerProperty
-import javafx.beans.property.SimpleStringProperty
 import org.jivesoftware.smack.Chat
 import org.jivesoftware.smack.XMPPConnection
 import sniper.app.*
@@ -51,22 +49,8 @@ class MainView : View("Auction Sniper") {
 
 
     inner class SniperStateDisplayer : SniperListener {
-        override fun sniperLost() {
-            showStatus(STATUS_LOST)
-        }
-
         override fun sniperStateChanged(snapshot: SniperSnapshot) {
             snipersTableModel.sniperStatusChanged(snapshot)
-        }
-
-        override fun sniperWon() {
-            showStatus(STATUS_WON)
-        }
-
-        private fun showStatus(value: String) {
-            runLater {
-                println(value)
-            }
         }
     }
 

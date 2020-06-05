@@ -5,9 +5,7 @@ import sniper.app.SniperState.WINNING
 
 interface SniperListener {
 
-    fun sniperLost()
     fun sniperStateChanged(snapshot: SniperSnapshot)
-    fun sniperWon()
 
     data class SniperSnapshot(val itemId: String, val lastPrice: Int, val lastBid: Int, val state: SniperState) {
         fun winning(price: Int) = SniperSnapshot(itemId, price, lastBid, WINNING)
