@@ -11,10 +11,10 @@ class MainView : View("Auction Sniper") {
     private val data: Data by inject()
     private lateinit var notToBeGCd: Chat
 
-    private val snipersTableModel = SnipersTableModel()
+    private val snipers = SnipersTableModel()
 
     override val root = hbox {
-        this += snipersTableModel
+        this += snipers
     }
 
     init {
@@ -50,7 +50,7 @@ class MainView : View("Auction Sniper") {
 
     inner class SniperStateDisplayer : SniperListener {
         override fun sniperStateChanged(snapshot: SniperSnapshot) {
-            snipersTableModel.sniperStatusChanged(snapshot)
+            snipers.sniperStatusChanged(snapshot)
         }
     }
 
