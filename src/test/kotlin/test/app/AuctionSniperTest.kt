@@ -17,6 +17,7 @@ import sniper.app.SniperListener
 import sniper.app.SniperListener.SniperSnapshot
 import sniper.app.SniperState
 import sniper.app.SniperState.BIDDING
+import sniper.app.SniperState.WINNING
 import test.app.AuctionSniperTest.SniperTestState.*
 
 
@@ -49,7 +50,7 @@ class AuctionSniperTest {
 
     @Test
     internal fun reportsWon_ifAuctionClosesWhenWinning() {
-        every { sniperListener.sniperWinning() } answers {
+        every { sniperListener.sniperStateChanged(any()) } answers {
             sniperState = winning
         }
         sniper.currentPrice(123, 45, FromSniper)
@@ -77,7 +78,7 @@ class AuctionSniperTest {
 
         verify {
             sniperListener.sniperStateChanged(SniperSnapshot(itemId, 123, 135, BIDDING))
-            sniperListener.sniperStateChanged(SniperSnapshot(itemId, 135, 135, BIDDING))
+            sniperListener.sniperStateChanged(SniperSnapshot(itemId, 135, 135, WINNING))
         }
     }
 
