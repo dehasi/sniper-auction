@@ -7,7 +7,9 @@ import sniper.app.SniperListener.SniperSnapshot
 import sniper.app.SniperState.JOINING
 import sniper.view.MainView.Companion.STATUS_BIDDING
 import sniper.view.MainView.Companion.STATUS_JOINING
+import sniper.view.MainView.Companion.STATUS_LOST
 import sniper.view.MainView.Companion.STATUS_WINNING
+import sniper.view.MainView.Companion.STATUS_WON
 import tornadofx.*
 
 class SnipersTableModel : View() {
@@ -39,6 +41,6 @@ class SniperStateData(snapshot: SniperSnapshot) {
     val status = SimpleStringProperty(STATUS_TEXT[snapshot.state.ordinal])
 
     companion object {
-        private val STATUS_TEXT = listOf(STATUS_JOINING, STATUS_BIDDING, STATUS_WINNING)
+        private val STATUS_TEXT = listOf(STATUS_JOINING, STATUS_BIDDING, STATUS_WINNING, STATUS_LOST, STATUS_WON)
     }
 }
