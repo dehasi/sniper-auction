@@ -3,6 +3,7 @@ package sniper.view
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections.observableArrayList
+import sniper.app.SniperListener
 import sniper.app.SniperListener.SniperSnapshot
 import sniper.app.SniperState
 import sniper.app.SniperState.JOINING
@@ -13,14 +14,14 @@ import sniper.view.MainView.Companion.STATUS_WINNING
 import sniper.view.MainView.Companion.STATUS_WON
 import tornadofx.*
 
-class SnipersTableModel : View() {
+class SnipersTableModel : View(), SniperListener {
     companion object {
         private val STARTING_UP = SniperSnapshot("", 0, 0, JOINING)
     }
 
     private val snipers = observableArrayList(SniperStateData(STARTING_UP))
 
-    fun sniperStatusChanged(newSniperSnapshot: SniperSnapshot) {
+    override fun sniperStateChanged(newSniperSnapshot: SniperSnapshot) {
         snipers[0] = SniperStateData(newSniperSnapshot)
     }
 
@@ -33,6 +34,10 @@ class SnipersTableModel : View() {
             column("Status", SniperStateData::status)
         }
     }
+//
+//    override fun sniperStateChanged(snapshot: SniperSnapshot) {
+//        TODO("Not yet implemented")
+//    }
 }
 
 class SniperStateData(snapshot: SniperSnapshot) {

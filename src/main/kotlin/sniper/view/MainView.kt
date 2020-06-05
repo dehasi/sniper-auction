@@ -50,7 +50,7 @@ class MainView : View("Auction Sniper") {
 
     inner class SniperStateDisplayer(private val snipers: SnipersTableModel) : SniperListener {
         override fun sniperStateChanged(snapshot: SniperSnapshot) {
-            snipers.sniperStatusChanged(snapshot)
+            snipers.sniperStateChanged(snapshot)
         }
     }
 

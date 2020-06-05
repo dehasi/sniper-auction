@@ -46,9 +46,9 @@ class SnipersTableModelTest {
     }
 
     @Test fun setSniperValuesInColumns() {
-        model.sniperStatusChanged(sniperState)
+        model.sniperStateChanged(sniperState)
         verifyThat("#snipers-table", containsRow(sniperState.itemId, sniperState.lastPrice, sniperState.lastBid, STATUS_JOINING))
-        model.sniperStatusChanged(sniperState2)
+        model.sniperStateChanged(sniperState2)
         verifyThat("#snipers-table", containsRow(sniperState2.itemId, sniperState2.lastPrice, sniperState2.lastBid, STATUS_BIDDING))
     }
 
