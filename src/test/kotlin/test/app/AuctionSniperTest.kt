@@ -1,5 +1,6 @@
 package test.app
 
+import io.mockk.MockKVerificationScope
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -11,6 +12,7 @@ import sniper.app.AuctionEventListener.PriceSource.FromSniper
 import sniper.app.AuctionSniper
 import sniper.app.SniperListener
 import sniper.app.SniperListener.SniperSnapshot
+import sniper.app.SniperState
 import sniper.app.SniperState.*
 import test.app.AuctionSniperTest.SniperTestState.*
 
@@ -28,7 +30,7 @@ class AuctionSniperTest {
     @Test fun returnsLostWhenAuctionClosesImmediately() {
         sniper.auctionClosed()
 
-        verify { sniperListener.sniperStateChanged(SniperSnapshot(itemId, 0, 0, LOST)) }
+        verify { sniperListener.sniperStateChanged(aSniperTharIs(LOST)) }
     }
 
     @Test fun returnsLostWhenAuctionClosesWhenBidding() {
@@ -50,7 +52,7 @@ class AuctionSniperTest {
         sniper.currentPrice(123, 45, FromSniper)
         sniper.auctionClosed()
 
-        verify { sniperListener.sniperStateChanged(SniperSnapshot(eq(itemId), any(), any(), eq(WON))) }
+        verify { sniperListener.sniperStateChanged(aSniperTharIs(WON)) }
         assertThat(sniperState).isEqualTo(winning)
     }
 
@@ -79,4 +81,8 @@ class AuctionSniperTest {
     private enum class SniperTestState {
         idle, winning, bidding
     }
+}
+
+fun MockKVerificationScope.aSniperTharIs(state: SniperState) = match<SniperSnapshot> {
+    it.state == state
 }
