@@ -109,7 +109,7 @@ class MainViewE2ETest {
     // [x] Single item - join, lose without bidding
     // [x] Single item - join, bid & lose
     // [x] Single item - join, bid & win
-    // [_] Single item - show price details
+    // [x] Single item - show price details
     // [_] Multiple items
     // [_] Add new items through the GUI
     // [_] Stop bidding at stop price
