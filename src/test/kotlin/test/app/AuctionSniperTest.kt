@@ -40,8 +40,6 @@ class AuctionSniperTest {
         every { sniperListener.sniperStateChanged(any()) } answers {
             sniperState = bidding
         }
-
-
         sniper.currentPrice(123, 45, FromOtherBidder)
         sniper.auctionClosed()
 

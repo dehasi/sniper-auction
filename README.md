@@ -13,11 +13,12 @@ The replacements are listed below
 | Original    | Replacement    | Comment    |
 |:---:|:---:|:---:|
 | Java    | Kotlin    | Runs on JVM 14    |
-| Ant   | Gradle    | A build tool  |
-| Swing    | [TornadoFx](https://github.com/edvin/tornadofx)    | GUI framework    |
+| Ant   | Gradle    | Build tool  |
+| Swing    | [TornadoFX](https://github.com/edvin/tornadofx)    | GUI framework    |
 | [WindowLicker](https://wiki.c2.com/?WindowLicker)    | [TestFX](https://github.com/TestFX/TestFX)    | GUI test framework     |
-| JUnit 4     | JUnit 5    | Unit-testing framework    |
-| Hamcrest     | AssertJ    | An assertions library    |
+| [JUnit 4](https://junit.org/junit4/)     | [JUnit 5](https://junit.org/junit5/)    | Unit-testing framework    |
+| Hamcrest     | AssertJ    | Assertions library    |
+| [jMock](http://jmock.org/)     | [MockK](https://mockk.io/)    | Mocking library    |
 | [Smack](https://www.igniterealtime.org/projects/smack/)    |     | XMPP Client   |
 | [Openfire](https://www.igniterealtime.org/projects/openfire/)    |     | XMPP Server   |
 | Local Openfire setup   | Docker compose    |   |
