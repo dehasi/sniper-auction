@@ -42,7 +42,7 @@ class SnipersTableModelTest {
 
     @Test fun hasEnoughColumns(robot: FxRobot) {
         val table = robot.lookup("#snipers-table").query<TableView<SniperStateData>>()
-        assertThat(table.columns).hasSameSizeAs(Column.values())
+
         assertThat(table.columns.map { c -> c.text }).containsExactly("Item", "Last Price", "Last Bid", "State")
     }
 
