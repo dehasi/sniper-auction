@@ -1,6 +1,7 @@
 package test.app
 
 import com.danhaywood.java.assertjext.Conditions.matchedBy
+import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
@@ -36,20 +37,28 @@ class AuctionSniperTest {
     }
 
     @Test fun returnsLostWhenAuctionClosesWhenBidding() {
+        every { sniperListener.sniperStateChanged(any()) } answers {
+            sniperState = bidding
+        }
+
+
         sniper.currentPrice(123, 45, FromOtherBidder)
         sniper.auctionClosed()
 
         verify { sniperListener.sniperLost() }
-//        assertThat(sniperState).isEqualTo(bidding)
+        assertThat(sniperState).isEqualTo(bidding)
     }
 
     @Test
     internal fun reportsWon_ifAuctionClosesWhenWinning() {
+        every { sniperListener.sniperWinning() } answers {
+            sniperState = winning
+        }
         sniper.currentPrice(123, 45, FromSniper)
         sniper.auctionClosed()
 
         verify { sniperListener.sniperWon() }
-//        assertThat(sniperState).isEqualTo(winning)
+        assertThat(sniperState).isEqualTo(winning)
     }
 
     @Test internal fun bidsHigherAndReportsBiddingWhenNewPriceArrives() {
