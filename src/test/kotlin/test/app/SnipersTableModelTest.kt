@@ -7,7 +7,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.testfx.api.FxAssert.verifyThat
-import org.testfx.api.FxRobot
 import org.testfx.framework.junit5.ApplicationExtension
 import org.testfx.framework.junit5.Start
 import org.testfx.matcher.control.TableViewMatchers.containsRowAtIndex
@@ -30,24 +29,11 @@ class SnipersTableModelTest {
         stage.show()
     }
 
-    @Test fun hasEnoughColumns(robot: FxRobot) {
-        val table = robot.lookup("#snipers-table").query<TableView<SniperStateData>>()
-
+    @Test fun hasEnoughColumns() {
         verifyThat("#snipers-table", containsColumns("Item", "Last Price", "Last Bid", "State"))
-        assertThat(table.columns.map { c -> c.text }).containsExactly("Item", "Last Price", "Last Bid", "State")
     }
 
-    fun containsColumns(vararg columns: String): Predicate<TableView<SniperStateData>> {
-        return object : Predicate<TableView<SniperStateData>> {
-            override fun test(table: TableView<SniperStateData>): Boolean {
-                assertThat(table.columns.map { c -> c.text }).containsExactly("Item", "Last Price", "Last Bid", "State")
-                return true
-            }
-
-        }
-    }
-
-    @Test fun `notifies listener when adding sniper`(robot: FxRobot) {
+    @Test fun `notifies listener when adding sniper`() {
         val joining = SniperSnapshot.joining("item123")
         verifyThat("#snipers-table", hasNumRows(0))
 
@@ -78,7 +64,6 @@ class SnipersTableModelTest {
         verifyThat("#snipers-table", containsRow(1, joining1))
     }
 
-
     @Test fun `updates correct row for snipers`() {
         val joining0 = SniperSnapshot.joining("item 0")
         val joining1 = SniperSnapshot.joining("item 1")
@@ -94,6 +79,13 @@ class SnipersTableModelTest {
         verifyThat("#snipers-table", containsRow(1, bidding1))
     }
 
+
+    private fun containsColumns(vararg columns: String): Predicate<TableView<SniperStateData>> {
+        return Predicate<TableView<SniperStateData>> { table ->
+            assertThat(table.columns.map { c -> c.text }).containsExactly(*columns)
+            true
+        }
+    }
 
     private fun containsRow(snapshot: SniperSnapshot) = containsRow(0, snapshot)
 
