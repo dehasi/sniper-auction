@@ -65,6 +65,6 @@ class SnipersTableModelTest {
         model.addSniper(joining)
 
         verifyThat("#snipers-table", hasNumRows(1))
-        verifyThat("#snipers-table", containsRow("item123", 0, 0, STATUS_JOINING))
+        verifyThat("#snipers-table", containsRow(joining.itemId, joining.lastPrice, joining.lastBid, STATUS_JOINING))
     }
 }
