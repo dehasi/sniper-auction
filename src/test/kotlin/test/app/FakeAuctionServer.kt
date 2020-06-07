@@ -44,7 +44,7 @@ class FakeAuctionServer(val itemId: String) {
     }
 
     fun announceClosed() {
-        currentChat.sendMessage("SQLVersion: 1.1; Event: CLOSE")
+        currentChat.sendMessage("SOLVersion: 1.1; Event: CLOSE")
     }
 
     fun stop() {
@@ -52,7 +52,7 @@ class FakeAuctionServer(val itemId: String) {
     }
 
     fun reportPrice(price: Int, increment: Int, bidder: String) {
-        currentChat.sendMessage("SQLVersion: 1.1; Event: PRICE; " +
+        currentChat.sendMessage("SOLVersion: 1.1; Event: PRICE; " +
                 "CurrentPrice: $price; Increment: $increment; Bidder: $bidder")
     }
 

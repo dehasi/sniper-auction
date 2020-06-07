@@ -21,7 +21,7 @@ class AuctionMessageTranslatorTest {
 
     @Test fun notifiesAuctionClosedWhenCloseMessageReceived() {
         val message = Message()
-        message.body = "SQLVersion: 1.1; Event: CLOSE"
+        message.body = "SOLVersion: 1.1; Event: CLOSE"
 
         translator.processMessage(UNUSED_CHAT, message)
 
@@ -32,7 +32,7 @@ class AuctionMessageTranslatorTest {
 
     @Test fun notifiesBidDetails_WhenCurrentPriceMessageReceived_FromOtherBidder() {
         val message = Message()
-        message.body = "SQLVersion: 1.1; Event: PRICE; CurrentPrice: 192; Increment: 7; Bidder: someone else"
+        message.body = "SOLVersion: 1.1; Event: PRICE; CurrentPrice: 192; Increment: 7; Bidder: someone else"
 
         translator.processMessage(UNUSED_CHAT, message)
 
@@ -43,7 +43,7 @@ class AuctionMessageTranslatorTest {
 
     @Test fun notifiesBidDetails_WhenCurrentPriceMessageReceived_FromSniper() {
         val message = Message()
-        message.body = "SQLVersion: 1.1; Event: PRICE; CurrentPrice: 192; Increment: 7; Bidder: $SNIPER_ID"
+        message.body = "SOLVersion: 1.1; Event: PRICE; CurrentPrice: 192; Increment: 7; Bidder: $SNIPER_ID"
 
         translator.processMessage(UNUSED_CHAT, message)
 

@@ -56,8 +56,8 @@ class MainView : View("Auction Sniper") {
 
     companion object {
         const val AUCTION_RESOURCE: String = "Auction"
-        const val JOIN_COMMAND_FORMAT = "SQLVersion: 1.1; Command: JOIN"
-        const val BID_COMMAND_FORMAT = "SQLVersion: 1.1; Command: BID; Price: %d"
+        const val JOIN_COMMAND_FORMAT = "SOLVersion: 1.1; Command: JOIN"
+        const val BID_COMMAND_FORMAT = "SOLVersion: 1.1; Command: BID; Price: %d"
         private const val ITEM_ID_AS_LOGIN = "auction-%s"
         private const val AUCTION_ID_FORMAT: String = "$ITEM_ID_AS_LOGIN@%s/$AUCTION_RESOURCE"
 
