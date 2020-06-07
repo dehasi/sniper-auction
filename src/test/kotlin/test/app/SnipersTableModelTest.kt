@@ -16,10 +16,10 @@ import org.testfx.matcher.control.TableViewMatchers.*
 import sniper.app.SniperListener.SniperSnapshot
 import sniper.app.SniperState.BIDDING
 import sniper.app.SniperState.JOINING
-import sniper.view.MainView.Companion.STATUS_BIDDING
 import sniper.view.MainView.Companion.STATUS_JOINING
 import sniper.view.MainView.Companion.STATUS_WINNING
 import sniper.view.SniperStateData
+import sniper.view.SniperStateData.Companion.textFor
 import sniper.view.SnipersTableModel
 
 @ExtendWith(ApplicationExtension::class)
@@ -51,7 +51,7 @@ class SnipersTableModelTest {
         model.addSniper(joining)
         model.sniperStateChanged(bidding)
 
-        verifyThat("#snipers-table", containsRow(bidding.itemId, bidding.lastPrice, bidding.lastBid, STATUS_BIDDING))
+        verifyThat("#snipers-table", containsRow(bidding))
     }
 
     @Test @Disabled("Will be in the future chapters") fun table_reacts_on_value_adding() {
@@ -67,6 +67,9 @@ class SnipersTableModelTest {
         model.addSniper(joining)
 
         verifyThat("#snipers-table", hasNumRows(1))
-        verifyThat("#snipers-table", containsRow(joining.itemId, joining.lastPrice, joining.lastBid, STATUS_JOINING))
+        verifyThat("#snipers-table", containsRow(joining))
     }
+
+    private fun containsRow(snapshot: SniperSnapshot) =
+            containsRow(snapshot.itemId, snapshot.lastPrice, snapshot.lastBid, textFor(snapshot.state))
 }

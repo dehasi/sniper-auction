@@ -46,9 +46,8 @@ class SniperStateData(snapshot: SniperSnapshot) {
     val lastBid = SimpleIntegerProperty(snapshot.lastBid)
     val status = SimpleStringProperty(textFor(snapshot.state))
 
-    private fun textFor(state: SniperState) = STATUS_TEXT[state.ordinal]
-
     companion object {
         private val STATUS_TEXT = listOf(STATUS_JOINING, STATUS_BIDDING, STATUS_WINNING, STATUS_LOST, STATUS_WON)
+        internal fun textFor(state: SniperState) = STATUS_TEXT[state.ordinal]
     }
 }
