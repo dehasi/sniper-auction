@@ -40,10 +40,6 @@ class MainView : View("Auction Sniper") {
         snipers.addSniper(SniperSnapshot.joining(itemId))
     }
 
-    private fun disconnectWhenUICloses(connection: XMPPConnection) {
-        // TODO implement connection.disconnect()
-    }
-
     private fun connection(hostname: String, username: String, password: String): XMPPConnection {
         val connection = XMPPConnection(hostname)
         connection.connect()
@@ -53,6 +49,10 @@ class MainView : View("Auction Sniper") {
 
     private fun auctionId(itemId: String, connection: XMPPConnection): String {
         return String.format(AUCTION_ID_FORMAT, itemId, connection.serviceName)
+    }
+
+    private fun disconnectWhenUICloses(connection: XMPPConnection) {
+        // TODO implement connection.disconnect()
     }
 
 

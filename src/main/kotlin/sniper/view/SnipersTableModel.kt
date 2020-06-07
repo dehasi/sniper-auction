@@ -6,7 +6,6 @@ import javafx.collections.FXCollections.observableArrayList
 import sniper.app.SniperListener
 import sniper.app.SniperListener.SniperSnapshot
 import sniper.app.SniperState
-import sniper.app.SniperState.JOINING
 import sniper.view.MainView.Companion.STATUS_BIDDING
 import sniper.view.MainView.Companion.STATUS_JOINING
 import sniper.view.MainView.Companion.STATUS_LOST
@@ -15,9 +14,6 @@ import sniper.view.MainView.Companion.STATUS_WON
 import tornadofx.*
 
 class SnipersTableModel : View(), SniperListener {
-    companion object {
-        private val STARTING_UP = SniperSnapshot("", 0, 0, JOINING)
-    }
 
     private val snipers = observableArrayList<SniperStateData>()
 
