@@ -5,4 +5,4 @@ import tornadofx.*
 data class Data(val hostname: String,
                 val username: String,
                 val password: String,
-                val itemId: String) : Controller()
+                val items: List<String>) : Controller()

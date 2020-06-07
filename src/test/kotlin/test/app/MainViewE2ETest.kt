@@ -3,6 +3,7 @@ package test.app
 import javafx.scene.Scene
 import javafx.stage.Stage
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.testfx.api.FxAssert.verifyThat
@@ -30,12 +31,15 @@ class MainViewE2ETest {
     }
 
     private val auction: FakeAuctionServer = FakeAuctionServer("item-54321")
+    private val auction2: FakeAuctionServer = FakeAuctionServer("item-65432")
 
     @Start fun biddingIn(stage: Stage) {
         auction.startSailingItem()
-        startBiddingIn(stage, auction)
+        auction2.startSailingItem()
+        startBiddingIn(stage, auction, auction2)
     }
 
+    @Disabled
     @Test fun `sniper makes a highest bid but loses`() {
         auction.hasReceivedJoinRequestFrom(SNIPER_XMPP_ID)
 
@@ -63,8 +67,8 @@ class MainViewE2ETest {
         showsSniperHasWonAuction(auction, 1098)
     }
 
-    private fun startBiddingIn(stage: Stage, auction: FakeAuctionServer) {
-        val data = Data(HOST_NAME, SNIPER_ID, SNIPER_PASSWORD, auction.itemId)
+    private fun startBiddingIn(stage: Stage, vararg auctions: FakeAuctionServer) {
+        val data = Data(HOST_NAME, SNIPER_ID, SNIPER_PASSWORD, auctions.map { it.itemId })
         setInScope(data, kclass = Data::class)
 
         val view = MainView()

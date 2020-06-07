@@ -18,7 +18,7 @@ class MainView : View("Auction Sniper") {
     }
 
     init {
-        joinAuction(connection(data.hostname, data.username, data.password), data.itemId)
+        joinAuction(connection(data.hostname, data.username, data.password), data.items[0])
     }
 
     private fun joinAuction(connection: XMPPConnection, itemId: String) {
