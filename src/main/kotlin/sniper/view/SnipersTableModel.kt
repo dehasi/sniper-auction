@@ -27,7 +27,7 @@ class SnipersTableModel : View(), SniperListener {
     }
 
     private fun rowMatching(snapshot: SniperSnapshot): Int {
-        for (i in 0..snipers.size){
+        for (i in snipers.indices) {
             if (snipers[i].isForSameItemAs(snapshot)) {
                 return i
             }
@@ -52,7 +52,7 @@ class SnipersTableModel : View(), SniperListener {
 
 class SniperStateData(snapshot: SniperSnapshot) {
     fun isForSameItemAs(snapshot: SniperSnapshot): Boolean {
-       return itemId.value == snapshot.itemId
+        return itemId.value == snapshot.itemId
     }
 
     val itemId = SimpleStringProperty(snapshot.itemId)

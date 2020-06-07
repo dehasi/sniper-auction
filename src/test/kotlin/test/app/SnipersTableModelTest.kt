@@ -1,6 +1,5 @@
 package test.app
 
-import javafx.collections.FXCollections.observableArrayList
 import javafx.scene.Scene
 import javafx.scene.control.TableView
 import javafx.stage.Stage
@@ -14,18 +13,12 @@ import org.testfx.framework.junit5.Start
 import org.testfx.matcher.control.TableViewMatchers.containsRowAtIndex
 import org.testfx.matcher.control.TableViewMatchers.hasNumRows
 import sniper.app.SniperListener.SniperSnapshot
-import sniper.app.SniperState.BIDDING
-import sniper.app.SniperState.JOINING
 import sniper.view.SniperStateData
 import sniper.view.SniperStateData.Companion.textFor
 import sniper.view.SnipersTableModel
 
 @ExtendWith(ApplicationExtension::class)
 class SnipersTableModelTest {
-
-    private val sniperState = SniperSnapshot("item-xxxxx", 1000, 1002, JOINING)
-    private val sniperState2 = SniperSnapshot("item-yyyy", 8888, 9999, BIDDING)
-    private val row = observableArrayList(SniperStateData(sniperState))
 
     private lateinit var model: SnipersTableModel
 
@@ -91,7 +84,6 @@ class SnipersTableModelTest {
 
 
     private fun containsRow(snapshot: SniperSnapshot) = containsRow(0, snapshot)
-
 
     private fun containsRow(rowIndex: Int, snapshot: SniperSnapshot) =
             containsRowAtIndex(rowIndex, snapshot.itemId, snapshot.lastPrice, snapshot.lastBid, textFor(snapshot.state))
