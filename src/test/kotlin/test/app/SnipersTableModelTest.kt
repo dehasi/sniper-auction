@@ -5,19 +5,17 @@ import javafx.scene.Scene
 import javafx.scene.control.TableView
 import javafx.stage.Stage
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.testfx.api.FxAssert.verifyThat
 import org.testfx.api.FxRobot
 import org.testfx.framework.junit5.ApplicationExtension
 import org.testfx.framework.junit5.Start
-import org.testfx.matcher.control.TableViewMatchers.*
+import org.testfx.matcher.control.TableViewMatchers.containsRowAtIndex
+import org.testfx.matcher.control.TableViewMatchers.hasNumRows
 import sniper.app.SniperListener.SniperSnapshot
 import sniper.app.SniperState.BIDDING
 import sniper.app.SniperState.JOINING
-import sniper.view.MainView.Companion.STATUS_JOINING
-import sniper.view.MainView.Companion.STATUS_WINNING
 import sniper.view.SniperStateData
 import sniper.view.SniperStateData.Companion.textFor
 import sniper.view.SnipersTableModel
@@ -54,10 +52,15 @@ class SnipersTableModelTest {
         verifyThat("#snipers-table", containsRow(bidding))
     }
 
-    @Test @Disabled("Will be in the future chapters") fun table_reacts_on_value_adding() {
-        row.add(SniperStateData(sniperState2))
-        verifyThat("#snipers-table", containsRowAtIndex(0, sniperState.itemId, sniperState.lastPrice, sniperState.lastBid, STATUS_JOINING))
-        verifyThat("#snipers-table", containsRowAtIndex(1, sniperState2.itemId, sniperState2.lastPrice, sniperState2.lastBid, STATUS_WINNING))
+    @Test fun `holds snipers in addition order`() {
+        val joining0 = SniperSnapshot.joining("item 0")
+        val joining1 = SniperSnapshot.joining("item 1")
+
+        model.addSniper(joining0)
+        model.addSniper(joining1)
+
+        verifyThat("#snipers-table", containsRow(0, joining0))
+        verifyThat("#snipers-table", containsRow(1, joining1))
     }
 
     @Test fun `notifies listener when adding sniper`(robot: FxRobot) {
@@ -70,6 +73,9 @@ class SnipersTableModelTest {
         verifyThat("#snipers-table", containsRow(joining))
     }
 
-    private fun containsRow(snapshot: SniperSnapshot) =
-            containsRow(snapshot.itemId, snapshot.lastPrice, snapshot.lastBid, textFor(snapshot.state))
+    private fun containsRow(snapshot: SniperSnapshot) = containsRow(0, snapshot)
+
+
+    private fun containsRow(rowIndex: Int, snapshot: SniperSnapshot) =
+            containsRowAtIndex(rowIndex, snapshot.itemId, snapshot.lastPrice, snapshot.lastBid, textFor(snapshot.state))
 }
