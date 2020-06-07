@@ -52,6 +52,7 @@ class MainViewE2ETest {
         showsSniperHasLostAuction(auction, 1000, 1098)
     }
 
+    @Disabled
     @Test fun `sniper wins an auction by bidding higher`() {
         auction.hasReceivedJoinRequestFrom(SNIPER_XMPP_ID)
 
@@ -65,6 +66,32 @@ class MainViewE2ETest {
 
         auction.announceClosed()
         showsSniperHasWonAuction(auction, 1098)
+    }
+
+    @Test fun `sniper bids for multiple items`() {
+        auction.hasReceivedJoinRequestFrom(SNIPER_XMPP_ID)
+        auction2.hasReceivedJoinRequestFrom(SNIPER_XMPP_ID)
+
+        auction.reportPrice(1000, 98, "other bidder")
+        hasShownSniperIsBidding(auction, 1000, 1098)
+        auction.hasReceivedBid(1098, SNIPER_XMPP_ID)
+
+
+        auction2.reportPrice(500, 21, "other bidder")
+        hasShownSniperIsBidding(auction2, 1000, 1098)
+        auction2.hasReceivedBid(521, SNIPER_XMPP_ID)
+
+        auction.reportPrice(1098, 97, SNIPER_XMPP_ID)
+        hasShownSniperIsWinning(auction, 1098)
+
+        auction.reportPrice(521, 22, SNIPER_XMPP_ID)
+        hasShownSniperIsWinning(auction2, 521)
+
+        auction.announceClosed()
+        auction2.announceClosed()
+
+        showsSniperHasWonAuction(auction, 1098)
+        showsSniperHasWonAuction(auction2, 1098)
     }
 
     private fun startBiddingIn(stage: Stage, vararg auctions: FakeAuctionServer) {
