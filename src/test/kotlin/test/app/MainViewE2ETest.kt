@@ -91,12 +91,15 @@ class MainViewE2ETest {
         auction2.announceClosed()
 
         showsSniperHasWonAuction(auction, 1098)
-        showsSniperHasWonAuction(auction2, 1098)
+        showsSniperHasWonAuction(auction2, 521)
     }
 
     private val itemRow = mutableMapOf<String, Int>();
     private fun startBiddingIn(stage: Stage, vararg auctions: FakeAuctionServer) {
         val items = auctions.map { it.itemId }
+        for (i in items.indices) {
+            itemRow[items[i]] = i
+        }
 
         val data = Data(HOST_NAME, SNIPER_ID, SNIPER_PASSWORD, items)
         setInScope(data, kclass = Data::class)
@@ -106,9 +109,8 @@ class MainViewE2ETest {
         stage.scene = Scene(view.root)
         stage.show()
 
-        for (i in items.indices) {
-            itemRow[items[i]] = i
-            showsSniperStatus(items[i], 0, 0, STATUS_JOINING)
+        items.forEach {
+            showsSniperStatus(it, 0, 0, STATUS_JOINING)
         }
     }
 
