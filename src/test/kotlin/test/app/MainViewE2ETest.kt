@@ -33,6 +33,8 @@ class MainViewE2ETest {
     private val auction: FakeAuctionServer = FakeAuctionServer("item-54321")
     private val auction2: FakeAuctionServer = FakeAuctionServer("item-65432")
 
+    private val itemRow = mutableMapOf<String, Int>()
+
     @Start fun biddingIn(stage: Stage) {
         auction.startSailingItem()
         auction2.startSailingItem()
@@ -94,11 +96,10 @@ class MainViewE2ETest {
         showsSniperHasWonAuction(auction2, 521)
     }
 
-    private val itemRow = mutableMapOf<String, Int>();
     private fun startBiddingIn(stage: Stage, vararg auctions: FakeAuctionServer) {
         val items = auctions.map { it.itemId }
-        for (i in items.indices) {
-            itemRow[items[i]] = i
+        for (index in items.indices) {
+            itemRow[items[index]] = index
         }
 
         val data = Data(HOST_NAME, SNIPER_ID, SNIPER_PASSWORD, items)
@@ -138,10 +139,6 @@ class MainViewE2ETest {
         verifyThat("#snipers-table", containsRowAtIndex(itemRow[itemId]!!, itemId, lastPrice, lastBid, status))
     }
 
-    private fun showsSniperStatus(row: Int, itemId: String, lastPrice: Int, lastBid: Int, status: String) {
-        verifyThat("#snipers-table", containsRowAtIndex(row, itemId, lastPrice, lastBid, status))
-    }
-
     @AfterEach fun stopAuction() {
         auction.stop()
     }
@@ -149,7 +146,7 @@ class MainViewE2ETest {
     // [x] Single item - join, bid & lose
     // [x] Single item - join, bid & win
     // [x] Single item - show price details
-    // [_] Multiple items
+    // [x] Multiple items
     // [_] Add new items through the GUI
     // [_] Stop bidding at stop price
     // [_] Translator - invalid message from Auction
