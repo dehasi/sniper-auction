@@ -19,10 +19,14 @@ class SnipersTableModel : View(), SniperListener {
         private val STARTING_UP = SniperSnapshot("", 0, 0, JOINING)
     }
 
-    private val snipers = observableArrayList(SniperStateData(STARTING_UP))
+    private val snipers = observableArrayList<SniperStateData>()
 
     override fun sniperStateChanged(newSniperSnapshot: SniperSnapshot) {
         snipers[0] = SniperStateData(newSniperSnapshot)
+    }
+
+    fun addSniper(snapshot: SniperSnapshot) {
+        snipers.add(SniperStateData(snapshot))
     }
 
     override val root = hbox {

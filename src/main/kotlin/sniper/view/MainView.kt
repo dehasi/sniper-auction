@@ -26,6 +26,7 @@ class MainView : View("Auction Sniper") {
     }
 
     private fun joinAuction(connection: XMPPConnection, itemId: String) {
+        safelyAddSniper(itemId)
         val chat = connection.chatManager.createChat(auctionId(itemId, connection), null)
         notToBeGCd.add(chat)
 
@@ -33,6 +34,10 @@ class MainView : View("Auction Sniper") {
         chat.addMessageListener(AuctionMessageTranslator(
                 connection.user, AuctionSniper(itemId, auction, SwingThreadSniperListener(snipers))))
         auction.join()
+    }
+
+    private fun safelyAddSniper(itemId: String) {
+        snipers.addSniper(SniperSnapshot.joining(itemId))
     }
 
     private fun disconnectWhenUICloses(connection: XMPPConnection) {

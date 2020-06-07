@@ -12,8 +12,7 @@ import org.testfx.api.FxAssert.verifyThat
 import org.testfx.api.FxRobot
 import org.testfx.framework.junit5.ApplicationExtension
 import org.testfx.framework.junit5.Start
-import org.testfx.matcher.control.TableViewMatchers.containsRow
-import org.testfx.matcher.control.TableViewMatchers.containsRowAtIndex
+import org.testfx.matcher.control.TableViewMatchers.*
 import sniper.app.Column
 import sniper.app.SniperListener.SniperSnapshot
 import sniper.app.SniperState.BIDDING
@@ -57,5 +56,15 @@ class SnipersTableModelTest {
         row.add(SniperStateData(sniperState2))
         verifyThat("#snipers-table", containsRowAtIndex(0, sniperState.itemId, sniperState.lastPrice, sniperState.lastBid, STATUS_JOINING))
         verifyThat("#snipers-table", containsRowAtIndex(1, sniperState2.itemId, sniperState2.lastPrice, sniperState2.lastBid, STATUS_WINNING))
+    }
+
+    @Test fun `notifies listener when adding sniper`(robot: FxRobot) {
+        val joining = SniperSnapshot.joining("item123")
+        verifyThat("#snipers-table", hasNumRows(0))
+
+        model.addSniper(joining)
+
+        verifyThat("#snipers-table", hasNumRows(1))
+        verifyThat("#snipers-table", containsRow("item123", 0, 0, STATUS_JOINING))
     }
 }
