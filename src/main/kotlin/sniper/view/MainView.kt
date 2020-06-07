@@ -9,7 +9,7 @@ import tornadofx.*
 class MainView : View("Auction Sniper") {
 
     private val data: Data by inject()
-    private lateinit var notToBeGCd: Chat
+    private val notToBeGCd = mutableListOf<Chat>()
 
     private val snipers = SnipersTableModel()
 
@@ -18,13 +18,14 @@ class MainView : View("Auction Sniper") {
     }
 
     init {
-        joinAuction(connection(data.hostname, data.username, data.password), data.items[0])
+        val connection = connection(data.hostname, data.username, data.password)
+        disconnectWhenUICloses(connection)
+        joinAuction(connection, data.items[0])
     }
 
     private fun joinAuction(connection: XMPPConnection, itemId: String) {
-        disconnectWhenUICloses(connection)
         val chat = connection.chatManager.createChat(auctionId(itemId, connection), null)
-        this.notToBeGCd = chat
+        notToBeGCd.add(chat)
 
         val auction = XMPPAuction(chat)
         chat.addMessageListener(AuctionMessageTranslator(
