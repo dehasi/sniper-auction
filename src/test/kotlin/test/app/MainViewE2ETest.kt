@@ -147,4 +147,5 @@ class MainViewE2ETest {
     // [_] Experiment with kotest
     // [x] Extract statuses to constants
     // [x] Use MockK instead of Mockito
+    // [x] Create a custom matcher to check column names for SnipersTableModelTest
 }
