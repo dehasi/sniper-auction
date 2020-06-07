@@ -16,6 +16,7 @@ import sniper.app.SniperListener.SniperSnapshot
 import sniper.view.SniperStateData
 import sniper.view.SniperStateData.Companion.textFor
 import sniper.view.SnipersTableModel
+import java.util.function.Predicate
 
 @ExtendWith(ApplicationExtension::class)
 class SnipersTableModelTest {
@@ -32,7 +33,18 @@ class SnipersTableModelTest {
     @Test fun hasEnoughColumns(robot: FxRobot) {
         val table = robot.lookup("#snipers-table").query<TableView<SniperStateData>>()
 
+        verifyThat("#snipers-table", containsColumns("Item", "Last Price", "Last Bid", "State"))
         assertThat(table.columns.map { c -> c.text }).containsExactly("Item", "Last Price", "Last Bid", "State")
+    }
+
+    fun containsColumns(vararg columns: String): Predicate<TableView<SniperStateData>> {
+        return object : Predicate<TableView<SniperStateData>> {
+            override fun test(table: TableView<SniperStateData>): Boolean {
+                assertThat(table.columns.map { c -> c.text }).containsExactly("Item", "Last Price", "Last Bid", "State")
+                return true
+            }
+
+        }
     }
 
     @Test fun `notifies listener when adding sniper`(robot: FxRobot) {
