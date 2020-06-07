@@ -13,7 +13,6 @@ import org.testfx.api.FxRobot
 import org.testfx.framework.junit5.ApplicationExtension
 import org.testfx.framework.junit5.Start
 import org.testfx.matcher.control.TableViewMatchers.*
-import sniper.app.Column
 import sniper.app.SniperListener.SniperSnapshot
 import sniper.app.SniperState.BIDDING
 import sniper.app.SniperState.JOINING
@@ -45,11 +44,14 @@ class SnipersTableModelTest {
         assertThat(table.columns.map { c -> c.text }).containsExactly("Item", "Last Price", "Last Bid", "State")
     }
 
-    @Test fun setSniperValuesInColumns() {
-        model.sniperStateChanged(sniperState)
-        verifyThat("#snipers-table", containsRow(sniperState.itemId, sniperState.lastPrice, sniperState.lastBid, STATUS_JOINING))
-        model.sniperStateChanged(sniperState2)
-        verifyThat("#snipers-table", containsRow(sniperState2.itemId, sniperState2.lastPrice, sniperState2.lastBid, STATUS_BIDDING))
+    @Test fun `sets sniper values in columns`() {
+        val joining = SniperSnapshot.joining("item id")
+        val bidding = joining.bidding(555, 666)
+
+        model.addSniper(joining)
+        model.sniperStateChanged(bidding)
+
+        verifyThat("#snipers-table", containsRow(bidding.itemId, bidding.lastPrice, bidding.lastBid, STATUS_BIDDING))
     }
 
     @Test @Disabled("Will be in the future chapters") fun table_reacts_on_value_adding() {
