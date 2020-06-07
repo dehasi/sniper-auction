@@ -31,11 +31,7 @@ class MainViewE2ETest {
 
     private val auction: FakeAuctionServer = FakeAuctionServer("item-54321")
 
-    private lateinit var itemId: String
-
     @Start fun biddingIn(stage: Stage) {
-        itemId = auction.itemId
-
         auction.startSailingItem()
         startBiddingIn(stage, auction)
     }
@@ -44,27 +40,27 @@ class MainViewE2ETest {
         auction.hasReceivedJoinRequestFrom(SNIPER_XMPP_ID)
 
         auction.reportPrice(1000, 98, "other bidder")
-        hasShownSniperIsBidding(1000, 1098)
+        hasShownSniperIsBidding(auction, 1000, 1098)
 
         auction.hasReceivedBid(1098, SNIPER_XMPP_ID)
 
         auction.announceClosed()
-        showsSniperHasLostAuction(1000, 1098)
+        showsSniperHasLostAuction(auction, 1000, 1098)
     }
 
     @Test fun `sniper wins an auction by bidding higher`() {
         auction.hasReceivedJoinRequestFrom(SNIPER_XMPP_ID)
 
         auction.reportPrice(1000, 98, "other bidder")
-        hasShownSniperIsBidding(1000, 1098)
+        hasShownSniperIsBidding(auction, 1000, 1098)
 
         auction.hasReceivedBid(1098, SNIPER_XMPP_ID)
 
         auction.reportPrice(1098, 97, SNIPER_XMPP_ID)
-        hasShownSniperIsWinning(1098)
+        hasShownSniperIsWinning(auction, 1098)
 
         auction.announceClosed()
-        showsSniperHasWonAuction(1098)
+        showsSniperHasWonAuction(auction, 1098)
     }
 
     private fun startBiddingIn(stage: Stage, auction: FakeAuctionServer) {
@@ -79,24 +75,24 @@ class MainViewE2ETest {
         showsSniperStatus("", 0, 0, STATUS_JOINING)
     }
 
-    private fun hasShownSniperIsBidding(lastPrice: Int, lastBid: Int) {
+    private fun hasShownSniperIsBidding(auction: FakeAuctionServer, lastPrice: Int, lastBid: Int) {
         sleep(200, MILLISECONDS)
-        showsSniperStatus(itemId, lastPrice, lastBid, STATUS_BIDDING)
+        showsSniperStatus(auction.itemId, lastPrice, lastBid, STATUS_BIDDING)
     }
 
-    private fun showsSniperHasLostAuction(lastPrice: Int, lastBid: Int) {
+    private fun showsSniperHasLostAuction(auction: FakeAuctionServer, lastPrice: Int, lastBid: Int) {
         sleep(200, MILLISECONDS)
-        showsSniperStatus(itemId, lastPrice, lastBid, STATUS_LOST)
+        showsSniperStatus(auction.itemId, lastPrice, lastBid, STATUS_LOST)
     }
 
-    private fun hasShownSniperIsWinning(winningBid: Int) {
+    private fun hasShownSniperIsWinning(auction: FakeAuctionServer, winningBid: Int) {
         sleep(200, MILLISECONDS)
-        showsSniperStatus(itemId, winningBid, winningBid, STATUS_WINNING)
+        showsSniperStatus(auction.itemId, winningBid, winningBid, STATUS_WINNING)
     }
 
-    private fun showsSniperHasWonAuction(lastPrice: Int) {
+    private fun showsSniperHasWonAuction(auction: FakeAuctionServer, lastPrice: Int) {
         sleep(200, MILLISECONDS)
-        showsSniperStatus(itemId, lastPrice, lastPrice, STATUS_WON)
+        showsSniperStatus(auction.itemId, lastPrice, lastPrice, STATUS_WON)
     }
 
     private fun showsSniperStatus(itemId: String, lastPrice: Int, lastBid: Int, status: String) {
