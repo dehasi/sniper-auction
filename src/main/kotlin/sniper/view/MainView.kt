@@ -20,7 +20,9 @@ class MainView : View("Auction Sniper") {
     init {
         val connection = connection(data.hostname, data.username, data.password)
         disconnectWhenUICloses(connection)
-        joinAuction(connection, data.items[0])
+        data.items.forEach {
+            joinAuction(connection, it)
+        }
     }
 
     private fun joinAuction(connection: XMPPConnection, itemId: String) {
