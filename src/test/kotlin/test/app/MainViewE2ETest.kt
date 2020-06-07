@@ -9,7 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.testfx.api.FxAssert.verifyThat
 import org.testfx.framework.junit5.ApplicationExtension
 import org.testfx.framework.junit5.Start
-import org.testfx.matcher.control.TableViewMatchers.containsRow
+import org.testfx.matcher.control.TableViewMatchers.containsRowAtIndex
 import org.testfx.util.WaitForAsyncUtils.sleep
 import sniper.app.Data
 import sniper.view.MainView
@@ -78,13 +78,13 @@ class MainViewE2ETest {
 
 
         auction2.reportPrice(500, 21, "other bidder")
-        hasShownSniperIsBidding(auction2, 1000, 1098)
+        hasShownSniperIsBidding(auction2, 500, 521)
         auction2.hasReceivedBid(521, SNIPER_XMPP_ID)
 
         auction.reportPrice(1098, 97, SNIPER_XMPP_ID)
         hasShownSniperIsWinning(auction, 1098)
 
-        auction.reportPrice(521, 22, SNIPER_XMPP_ID)
+        auction2.reportPrice(521, 22, SNIPER_XMPP_ID)
         hasShownSniperIsWinning(auction2, 521)
 
         auction.announceClosed()
@@ -94,8 +94,11 @@ class MainViewE2ETest {
         showsSniperHasWonAuction(auction2, 1098)
     }
 
+    private val itemRow = mutableMapOf<String, Int>();
     private fun startBiddingIn(stage: Stage, vararg auctions: FakeAuctionServer) {
-        val data = Data(HOST_NAME, SNIPER_ID, SNIPER_PASSWORD, auctions.map { it.itemId })
+        val items = auctions.map { it.itemId }
+
+        val data = Data(HOST_NAME, SNIPER_ID, SNIPER_PASSWORD, items)
         setInScope(data, kclass = Data::class)
 
         val view = MainView()
@@ -103,7 +106,10 @@ class MainViewE2ETest {
         stage.scene = Scene(view.root)
         stage.show()
 
-        showsSniperStatus("", 0, 0, STATUS_JOINING)
+        for (i in items.indices) {
+            itemRow[items[i]] = i
+            showsSniperStatus(items[i], 0, 0, STATUS_JOINING)
+        }
     }
 
     private fun hasShownSniperIsBidding(auction: FakeAuctionServer, lastPrice: Int, lastBid: Int) {
@@ -127,7 +133,11 @@ class MainViewE2ETest {
     }
 
     private fun showsSniperStatus(itemId: String, lastPrice: Int, lastBid: Int, status: String) {
-        verifyThat("#snipers-table", containsRow(itemId, lastPrice, lastBid, status))
+        verifyThat("#snipers-table", containsRowAtIndex(itemRow[itemId]!!, itemId, lastPrice, lastBid, status))
+    }
+
+    private fun showsSniperStatus(row: Int, itemId: String, lastPrice: Int, lastBid: Int, status: String) {
+        verifyThat("#snipers-table", containsRowAtIndex(row, itemId, lastPrice, lastBid, status))
     }
 
     @AfterEach fun stopAuction() {

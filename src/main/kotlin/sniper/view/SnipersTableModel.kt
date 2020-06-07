@@ -22,7 +22,17 @@ class SnipersTableModel : View(), SniperListener {
     private val snipers = observableArrayList<SniperStateData>()
 
     override fun sniperStateChanged(newSniperSnapshot: SniperSnapshot) {
-        snipers[0] = SniperStateData(newSniperSnapshot)
+        val row = rowMatching(newSniperSnapshot)
+        snipers[row] = SniperStateData(newSniperSnapshot)
+    }
+
+    private fun rowMatching(snapshot: SniperSnapshot): Int {
+        for (i in 0..snipers.size){
+            if (snipers[i].isForSameItemAs(snapshot)) {
+                return i
+            }
+        }
+        TODO("Defect")
     }
 
     fun addSniper(snapshot: SniperSnapshot) {
@@ -41,6 +51,10 @@ class SnipersTableModel : View(), SniperListener {
 }
 
 class SniperStateData(snapshot: SniperSnapshot) {
+    fun isForSameItemAs(snapshot: SniperSnapshot): Boolean {
+       return itemId.value == snapshot.itemId
+    }
+
     val itemId = SimpleStringProperty(snapshot.itemId)
     val lastPrice = SimpleIntegerProperty(snapshot.lastPrice)
     val lastBid = SimpleIntegerProperty(snapshot.lastBid)
