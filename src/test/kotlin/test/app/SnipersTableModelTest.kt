@@ -42,6 +42,16 @@ class SnipersTableModelTest {
         assertThat(table.columns.map { c -> c.text }).containsExactly("Item", "Last Price", "Last Bid", "State")
     }
 
+    @Test fun `notifies listener when adding sniper`(robot: FxRobot) {
+        val joining = SniperSnapshot.joining("item123")
+        verifyThat("#snipers-table", hasNumRows(0))
+
+        model.addSniper(joining)
+
+        verifyThat("#snipers-table", hasNumRows(1))
+        verifyThat("#snipers-table", containsRow(joining))
+    }
+
     @Test fun `sets sniper values in columns`() {
         val joining = SniperSnapshot.joining("item id")
         val bidding = joining.bidding(555, 666)
@@ -61,16 +71,6 @@ class SnipersTableModelTest {
 
         verifyThat("#snipers-table", containsRow(0, joining0))
         verifyThat("#snipers-table", containsRow(1, joining1))
-    }
-
-    @Test fun `notifies listener when adding sniper`(robot: FxRobot) {
-        val joining = SniperSnapshot.joining("item123")
-        verifyThat("#snipers-table", hasNumRows(0))
-
-        model.addSniper(joining)
-
-        verifyThat("#snipers-table", hasNumRows(1))
-        verifyThat("#snipers-table", containsRow(joining))
     }
 
     private fun containsRow(snapshot: SniperSnapshot) = containsRow(0, snapshot)
