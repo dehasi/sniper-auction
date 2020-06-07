@@ -73,6 +73,23 @@ class SnipersTableModelTest {
         verifyThat("#snipers-table", containsRow(1, joining1))
     }
 
+
+    @Test fun `updates correct row for snipers`() {
+        val joining0 = SniperSnapshot.joining("item 0")
+        val joining1 = SniperSnapshot.joining("item 1")
+        val bidding0 = joining0.bidding(1, 2)
+        val bidding1 = joining1.bidding(3, 3)
+
+        model.addSniper(joining0)
+        model.addSniper(joining1)
+        model.sniperStateChanged(bidding0)
+        model.sniperStateChanged(bidding1)
+
+        verifyThat("#snipers-table", containsRow(0, bidding0))
+        verifyThat("#snipers-table", containsRow(1, bidding1))
+    }
+
+
     private fun containsRow(snapshot: SniperSnapshot) = containsRow(0, snapshot)
 
 
