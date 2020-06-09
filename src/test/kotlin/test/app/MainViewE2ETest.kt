@@ -1,23 +1,27 @@
 package test.app
 
 import javafx.scene.Scene
+import javafx.scene.control.TextField
 import javafx.stage.Stage
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.testfx.api.FxAssert.verifyThat
+import org.testfx.api.FxRobot
 import org.testfx.framework.junit5.ApplicationExtension
 import org.testfx.framework.junit5.Start
 import org.testfx.matcher.control.TableViewMatchers.containsRowAtIndex
 import org.testfx.util.WaitForAsyncUtils.sleep
 import sniper.app.Data
+import sniper.app.SniperState.JOINING
 import sniper.view.MainView
 import sniper.view.MainView.Companion.STATUS_BIDDING
 import sniper.view.MainView.Companion.STATUS_JOINING
 import sniper.view.MainView.Companion.STATUS_LOST
 import sniper.view.MainView.Companion.STATUS_WINNING
 import sniper.view.MainView.Companion.STATUS_WON
+import sniper.view.SniperStateData.Companion.textFor
 import tornadofx.*
 import java.util.concurrent.TimeUnit.MILLISECONDS
 
@@ -33,12 +37,13 @@ class MainViewE2ETest {
     private val auction: FakeAuctionServer = FakeAuctionServer("item-54321")
     private val auction2: FakeAuctionServer = FakeAuctionServer("item-65432")
 
+    private val auctions = listOf(auction, auction2)
     private val itemRow = mutableMapOf<String, Int>()
 
     @Start fun biddingIn(stage: Stage) {
         auction.startSailingItem()
         auction2.startSailingItem()
-        startBiddingIn(stage, auction, auction2)
+        createApp(stage, auction, auction2)
     }
 
     @Disabled
@@ -70,7 +75,9 @@ class MainViewE2ETest {
         showsSniperHasWonAuction(auction, 1098)
     }
 
-    @Test fun `sniper bids for multiple items`() {
+    @Test fun `sniper bids for multiple items`(robot: FxRobot) {
+        startBiddingIn(robot, auctions)
+
         auction.hasReceivedJoinRequestFrom(SNIPER_XMPP_ID)
         auction2.hasReceivedJoinRequestFrom(SNIPER_XMPP_ID)
 
@@ -96,7 +103,19 @@ class MainViewE2ETest {
         showsSniperHasWonAuction(auction2, 521)
     }
 
-    private fun startBiddingIn(stage: Stage, vararg auctions: FakeAuctionServer) {
+    private fun startBiddingIn(robot: FxRobot, auctions: List<FakeAuctionServer>) {
+        auctions.forEach {
+            startBiddingInFor(robot, it.itemId)
+            showsSniperStatus(it.itemId, 0, 0, textFor(JOINING))
+        }
+    }
+
+    private fun startBiddingInFor(robot: FxRobot, itemId: String) {
+        robot.lookup("#item-textbox").query<TextField>().text = itemId
+        robot.clickOn("#bid-button")
+    }
+
+    private fun createApp(stage: Stage, vararg auctions: FakeAuctionServer) {
         val items = auctions.map { it.itemId }
         for (index in items.indices) {
             itemRow[items[index]] = index
