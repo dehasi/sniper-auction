@@ -14,11 +14,11 @@ class MainView : View("Auction Sniper") {
     private val snipers = SnipersTableModel()
 
     override val root = vbox {
-        hbox{
+        hbox {
             textfield {
                 id = "item-textbox"
             }
-            button("bid") {
+            button("Join Auction") {
                 id = "bid-button"
             }
         }
