@@ -11,15 +11,21 @@ class MainView : View("Auction Sniper") {
     private val data: Data by inject()
     private val notToBeGCd = mutableListOf<Chat>()
 
+    private val userRequests = mutableListOf<UserRequestListener>()
     private val snipers = SnipersTableModel()
 
     override val root = vbox {
         hbox {
-            textfield {
+            val textfield = textfield {
                 id = "item-textbox"
             }
             button("Join Auction") {
                 id = "bid-button"
+                action {
+                    userRequests.forEach {
+                        it.joinAuction(textfield.text)
+                    }
+                }
             }
         }
         this += snipers
@@ -63,7 +69,9 @@ class MainView : View("Auction Sniper") {
         // TODO implement connection.disconnect()
     }
 
+
     fun addUserRequestListener(userRequestListener: UserRequestListener) {
+        userRequests.add(userRequestListener)
     }
 
 
