@@ -3,6 +3,7 @@ package test.app
 import javafx.scene.Scene
 import javafx.scene.control.TextField
 import javafx.stage.Stage
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.testfx.api.FxRobot
@@ -19,24 +20,29 @@ import tornadofx.*
 @ExtendWith(ApplicationExtension::class)
 class MainViewTest {
 
-    private lateinit var  view:MainView
+    private lateinit var view: MainView
     @Start fun createView(stage: Stage) {
         val data = Data(HOST_NAME, SNIPER_ID, SNIPER_PASSWORD, listOf(""))
         setInScope(data, kclass = Data::class)
 
-        view  = MainView()
+        view = MainView()
 
 
         stage.scene = Scene(view.root)
         stage.show()
     }
 
-    @Test fun `test`(robot: FxRobot) {
-        view.addUserRequestListener(object :UserRequestListener{
+    @Test fun `makes user request then join button clicked`(robot: FxRobot) {
+        val receivedValue = mutableListOf<String>()
+
+        view.addUserRequestListener(object : UserRequestListener {
             override fun joinAuction(itemId: String) {
-                TODO("Not yet implemented")
+                receivedValue.add(itemId)
             }
         })
+
+        startBiddingInFor(robot, "an item-id")
+        assertThat(receivedValue).containsExactly("an item-id")
     }
 
     private fun startBiddingInFor(robot: FxRobot, itemId: String) {
