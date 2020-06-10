@@ -28,9 +28,9 @@ import java.util.concurrent.TimeUnit.MILLISECONDS
 @ExtendWith(ApplicationExtension::class)
 class MainViewE2ETest {
     companion object {
-        private const val HOST_NAME: String = "localhost"
-        private const val SNIPER_ID: String = "sniper"
-        private const val SNIPER_PASSWORD: String = "sniper"
+        const val HOST_NAME: String = "localhost"
+        const val SNIPER_ID: String = "sniper"
+        const val SNIPER_PASSWORD: String = "sniper"
         private const val SNIPER_XMPP_ID: String = "sniper@localhost/Auction"
     }
 

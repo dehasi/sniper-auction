@@ -29,7 +29,7 @@ class MainView : View("Auction Sniper") {
         val connection = connection(data.hostname, data.username, data.password)
         disconnectWhenUICloses(connection)
         data.items.forEach {
-            joinAuction(connection, it)
+//            joinAuction(connection, it)
         }
     }
 
@@ -61,6 +61,9 @@ class MainView : View("Auction Sniper") {
 
     private fun disconnectWhenUICloses(connection: XMPPConnection) {
         // TODO implement connection.disconnect()
+    }
+
+    fun addUserRequestListener(userRequestListener: UserRequestListener) {
     }
 
 
