@@ -129,9 +129,9 @@ class MainViewE2ETest {
         stage.scene = Scene(view.root)
         stage.show()
 
-        items.forEach {
-            showsSniperStatus(it, 0, 0, STATUS_JOINING)
-        }
+//        items.forEach {
+//            showsSniperStatus(it, 0, 0, STATUS_JOINING)
+//        }
     }
 
     private fun hasShownSniperIsBidding(auction: FakeAuctionServer, lastPrice: Int, lastBid: Int) {

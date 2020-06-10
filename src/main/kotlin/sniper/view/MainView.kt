@@ -34,24 +34,22 @@ class MainView : View("Auction Sniper") {
     init {
         val connection = connection(data.hostname, data.username, data.password)
         disconnectWhenUICloses(connection)
-        data.items.forEach {
-//            joinAuction(connection, it)
-        }
+        addUserRequestListenerFor(connection)
     }
 
-    private fun joinAuction(connection: XMPPConnection, itemId: String) {
-        safelyAddSniper(itemId)
-        val chat = connection.chatManager.createChat(auctionId(itemId, connection), null)
-        notToBeGCd.add(chat)
+    private fun addUserRequestListenerFor(connection: XMPPConnection) {
+        addUserRequestListener(object :UserRequestListener{
+            override fun joinAuction(itemId: String) {
+                snipers.addSniper(SniperSnapshot.joining(itemId))
+                val chat = connection.chatManager.createChat(auctionId(itemId, connection), null)
+                notToBeGCd.add(chat)
 
-        val auction = XMPPAuction(chat)
-        chat.addMessageListener(AuctionMessageTranslator(
-                connection.user, AuctionSniper(itemId, auction, SwingThreadSniperListener(snipers))))
-        auction.join()
-    }
-
-    private fun safelyAddSniper(itemId: String) {
-        snipers.addSniper(SniperSnapshot.joining(itemId))
+                val auction = XMPPAuction(chat)
+                chat.addMessageListener(AuctionMessageTranslator(
+                        connection.user, AuctionSniper(itemId, auction, SwingThreadSniperListener(snipers))))
+                auction.join()
+            }
+        })
     }
 
     private fun connection(hostname: String, username: String, password: String): XMPPConnection {
