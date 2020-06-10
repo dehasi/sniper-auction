@@ -1,5 +1,5 @@
 package sniper.app
 
-interface UserRequexstListener {
+interface UserRequestListener {
     fun joinAuction(itemId: String)
 }
