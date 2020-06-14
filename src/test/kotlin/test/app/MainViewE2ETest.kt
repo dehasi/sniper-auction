@@ -31,7 +31,7 @@ class MainViewE2ETest {
         const val HOST_NAME: String = "localhost"
         const val SNIPER_ID: String = "sniper"
         const val SNIPER_PASSWORD: String = "sniper"
-        private const val SNIPER_XMPP_ID: String = "sniper@localhost/Auction"
+        const val SNIPER_XMPP_ID: String = "sniper@localhost/Auction"
     }
 
     private val auction: FakeAuctionServer = FakeAuctionServer("item-54321")
