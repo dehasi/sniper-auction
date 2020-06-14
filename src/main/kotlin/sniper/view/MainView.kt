@@ -4,6 +4,7 @@ import org.jivesoftware.smack.Chat
 import org.jivesoftware.smack.XMPPConnection
 import sniper.app.*
 import sniper.app.SniperListener.SniperSnapshot
+import sniper.eventhandling.Announcer
 import tornadofx.*
 
 class MainView : View("Auction Sniper") {
@@ -11,7 +12,7 @@ class MainView : View("Auction Sniper") {
     private val data: Data by inject()
     private val notToBeGCd = mutableListOf<Chat>()
 
-    private val userRequests = mutableListOf<UserRequestListener>()
+    private val userRequests = Announcer.`for`(UserRequestListener::class.java)
     private val snipers = SnipersTableModel()
 
     override val root = vbox {
@@ -22,9 +23,7 @@ class MainView : View("Auction Sniper") {
             button("Join Auction") {
                 id = "bid-button"
                 action {
-                    userRequests.forEach {
-                        it.joinAuction(textfield.text)
-                    }
+                    userRequests.announce().joinAuction(textfield.text)
                 }
             }
         }
@@ -69,7 +68,7 @@ class MainView : View("Auction Sniper") {
 
 
     fun addUserRequestListener(userRequestListener: UserRequestListener) {
-        userRequests.add(userRequestListener)
+        userRequests.addListener(userRequestListener)
     }
 
 
