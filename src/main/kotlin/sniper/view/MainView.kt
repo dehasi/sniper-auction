@@ -3,7 +3,7 @@ package sniper.view
 import sniper.app.*
 import sniper.app.SniperListener.SniperSnapshot
 import sniper.eventhandling.Announcer
-import sniper.xmpp.XMPPAuctionHouse
+import sniper.app.XMPPAuctionHouse
 import tornadofx.*
 
 class MainView : View("Auction Sniper") {

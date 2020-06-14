@@ -1,7 +1,7 @@
-package sniper.xmpp
+package sniper.app
 
 import org.jivesoftware.smack.XMPPConnection
-import sniper.app.AuctionHouse
+import sniper.xmpp.XMPPAuction
 
 class XMPPAuctionHouse(private val connection: XMPPConnection) : AuctionHouse {
 

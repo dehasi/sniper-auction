@@ -6,8 +6,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import sniper.app.AuctionEventListener
 import sniper.app.AuctionEventListener.PriceSource
-import sniper.view.MainView
-import sniper.xmpp.XMPPAuctionHouse.Companion.AUCTION_RESOURCE
+import sniper.app.XMPPAuctionHouse.Companion.AUCTION_RESOURCE
 import test.app.FakeAuctionServer
 import test.app.MainViewE2ETest.Companion.HOST_NAME
 import test.app.MainViewE2ETest.Companion.SNIPER_ID
