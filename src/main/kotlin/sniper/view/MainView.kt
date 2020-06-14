@@ -51,7 +51,7 @@ class MainView : View("Auction Sniper") {
     }
 
     private fun disconnectWhenUICloses(auctionHouse: AuctionHouse) {
-        // TODO implement connection.disconnect()
+        // TODO call auctionHouse.disconnect()
     }
 
     fun addUserRequestListener(userRequestListener: UserRequestListener) {
@@ -65,8 +65,6 @@ class MainView : View("Auction Sniper") {
     }
 
     companion object {
-
-
         const val STATUS_JOINING = "Joining"
         const val STATUS_BIDDING = "Bidding"
         const val STATUS_WINNING = "Winning"
