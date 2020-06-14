@@ -65,7 +65,7 @@ class MainView : View("Auction Sniper") {
     }
 
     companion object {
-        const val AUCTION_RESOURCE: String = "Auction"
+
 
         const val STATUS_JOINING = "Joining"
         const val STATUS_BIDDING = "Bidding"

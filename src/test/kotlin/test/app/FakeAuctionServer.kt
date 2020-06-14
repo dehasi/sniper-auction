@@ -7,7 +7,7 @@ import org.jivesoftware.smack.XMPPConnection
 import org.jivesoftware.smack.packet.Message
 import sniper.xmpp.XMPPAuction.Companion.BID_COMMAND_FORMAT
 import sniper.xmpp.XMPPAuction.Companion.JOIN_COMMAND_FORMAT
-import sniper.view.MainView.Companion.AUCTION_RESOURCE
+import sniper.xmpp.XMPPAuctionHouse.Companion.AUCTION_RESOURCE
 import java.lang.String.format
 import java.util.concurrent.ArrayBlockingQueue
 import java.util.concurrent.TimeUnit.SECONDS

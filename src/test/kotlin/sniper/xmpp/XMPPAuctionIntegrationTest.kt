@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test
 import sniper.app.AuctionEventListener
 import sniper.app.AuctionEventListener.PriceSource
 import sniper.view.MainView
+import sniper.xmpp.XMPPAuctionHouse.Companion.AUCTION_RESOURCE
 import test.app.FakeAuctionServer
 import test.app.MainViewE2ETest.Companion.HOST_NAME
 import test.app.MainViewE2ETest.Companion.SNIPER_ID
@@ -50,7 +51,7 @@ internal class XMPPAuctionIntegrationTest {
     private fun connection(hostname: String, username: String, password: String): XMPPConnection {
         val connection = XMPPConnection(hostname)
         connection.connect()
-        connection.login(username, password, MainView.AUCTION_RESOURCE)
+        connection.login(username, password, AUCTION_RESOURCE)
         return connection
     }
 }
