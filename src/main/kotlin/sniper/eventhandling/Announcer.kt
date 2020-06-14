@@ -1,6 +1,7 @@
 package sniper.eventhandling
 
-import java.lang.reflect.Proxy
+import java.lang.reflect.Method
+import java.lang.reflect.Proxy.newProxyInstance
 import java.util.*
 
 class Announcer<LISTENER : EventListener>(type: Class<out LISTENER>) {
@@ -9,20 +10,19 @@ class Announcer<LISTENER : EventListener>(type: Class<out LISTENER>) {
     private val proxy: LISTENER
 
     init {
-        proxy = type.cast(Proxy.newProxyInstance(
-                type.classLoader, arrayOf<Class<*>>(type)
-
-        ){any, method, arrayOfAnys ->null
-
+        proxy = type.cast(newProxyInstance(type.classLoader, arrayOf<Class<*>>(type))
+        { _, method, args ->
+            announce(method, args ?: emptyArray())
+            null
         })
     }
 
-    fun announce(): LISTENER {
-        return proxy
-    }
+    fun addListener(listener: LISTENER) = listeners.add(listener)
 
-    fun addListener(listener: LISTENER) {
-        listeners.add(listener)
+    fun announce(): LISTENER = proxy
+
+    private fun announce(method: Method, args: Array<Any>) {
+
     }
 
     companion object {
