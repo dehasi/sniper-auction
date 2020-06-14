@@ -38,7 +38,7 @@ class MainView : View("Auction Sniper") {
     }
 
     private fun addUserRequestListenerFor(connection: XMPPConnection) {
-        addUserRequestListener(object :UserRequestListener{
+        addUserRequestListener(object : UserRequestListener {
             override fun joinAuction(itemId: String) {
                 snipers.addSniper(SniperSnapshot.joining(itemId))
                 val chat = connection.chatManager.createChat(auctionId(itemId, connection), null)
