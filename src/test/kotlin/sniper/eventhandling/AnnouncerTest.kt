@@ -6,18 +6,24 @@ import sniper.app.UserRequestListener
 
 internal class AnnouncerTest {
 
-    @Test fun announce() {
+    @Test fun `announce calls all listeners`() {
         val receivedValue = mutableListOf<String>()
-        val announcer = Announcer.`for`(UserRequestListener::class.java)
+        val announcer = Announcer.to(UserRequestListener::class.java)
 
         announcer.addListener(object : UserRequestListener {
             override fun joinAuction(itemId: String) {
-                receivedValue.add(itemId)
+                receivedValue.add("$itemId-1")
             }
         })
 
-        announcer.announce().joinAuction("an item-id")
+        announcer.addListener(object : UserRequestListener {
+            override fun joinAuction(itemId: String) {
+                receivedValue.add("$itemId-2")
+            }
+        })
 
-        assertThat(receivedValue).containsExactly("an item-id")
+        announcer.announce().joinAuction("item-id")
+
+        assertThat(receivedValue).containsExactly("item-id-1", "item-id-2")
     }
 }

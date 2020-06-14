@@ -12,7 +12,7 @@ class MainView : View("Auction Sniper") {
     private val data: Data by inject()
     private val notToBeGCd = mutableListOf<Chat>()
 
-    private val userRequests = Announcer.`for`(UserRequestListener::class.java)
+    private val userRequests = Announcer.to(UserRequestListener::class.java)
     private val snipers = SnipersTableModel()
 
     override val root = vbox {

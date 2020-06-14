@@ -28,6 +28,6 @@ class Announcer<LISTENER : EventListener>(type: Class<out LISTENER>) {
     }
 
     companion object {
-        fun <LISTENER : EventListener> `for`(type: Class<out LISTENER>): Announcer<LISTENER> = Announcer(type)
+        fun <LISTENER : EventListener> `to`(type: Class<out LISTENER>): Announcer<LISTENER> = Announcer(type)
     }
 }
