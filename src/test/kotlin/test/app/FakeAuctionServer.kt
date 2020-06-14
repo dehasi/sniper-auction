@@ -5,13 +5,11 @@ import org.jivesoftware.smack.Chat
 import org.jivesoftware.smack.MessageListener
 import org.jivesoftware.smack.XMPPConnection
 import org.jivesoftware.smack.packet.Message
-import org.testfx.util.WaitForAsyncUtils
+import sniper.app.XMPPAuction.Companion.BID_COMMAND_FORMAT
+import sniper.app.XMPPAuction.Companion.JOIN_COMMAND_FORMAT
 import sniper.view.MainView.Companion.AUCTION_RESOURCE
-import sniper.view.MainView.Companion.BID_COMMAND_FORMAT
-import sniper.view.MainView.Companion.JOIN_COMMAND_FORMAT
 import java.lang.String.format
 import java.util.concurrent.ArrayBlockingQueue
-import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeUnit.SECONDS
 
 class FakeAuctionServer(val itemId: String) {

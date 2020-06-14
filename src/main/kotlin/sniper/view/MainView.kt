@@ -62,9 +62,7 @@ class MainView : View("Auction Sniper") {
         return connection
     }
 
-    private fun auctionId(itemId: String, connection: XMPPConnection): String {
-        return String.format(AUCTION_ID_FORMAT, itemId, connection.serviceName)
-    }
+
 
     private fun disconnectWhenUICloses(connection: XMPPConnection) {
         // TODO implement connection.disconnect()
@@ -84,46 +82,11 @@ class MainView : View("Auction Sniper") {
 
     companion object {
         const val AUCTION_RESOURCE: String = "Auction"
-        const val JOIN_COMMAND_FORMAT = "SOLVersion: 1.1; Command: JOIN"
-        const val BID_COMMAND_FORMAT = "SOLVersion: 1.1; Command: BID; Price: %d"
-        private const val ITEM_ID_AS_LOGIN = "auction-%s"
-        private const val AUCTION_ID_FORMAT: String = "$ITEM_ID_AS_LOGIN@%s/$AUCTION_RESOURCE"
 
         const val STATUS_JOINING = "Joining"
         const val STATUS_BIDDING = "Bidding"
         const val STATUS_WINNING = "Winning"
         const val STATUS_LOST = "Lost"
         const val STATUS_WON = "Won"
-    }
-
-    class XMPPAuction(connection: XMPPConnection, itemId: String) : Auction {
-        private val auctionEventListeners = Announcer.to(AuctionEventListener::class.java)
-
-        private val chat: Chat
-
-        init {
-            chat = connection.chatManager.createChat(auctionId(itemId, connection),
-                    AuctionMessageTranslator(connection.user, auctionEventListeners.announce()))
-        }
-
-        override fun bid(amount: Int) {
-            sendMessage(BID_COMMAND_FORMAT.format(amount))
-        }
-
-        override fun join() {
-            sendMessage(JOIN_COMMAND_FORMAT)
-        }
-
-        private fun sendMessage(message: String) {
-            chat.sendMessage(message)
-        }
-
-        fun addAuctionEventListener(listener: AuctionEventListener) {
-            auctionEventListeners.addListener(listener)
-        }
-
-        private fun auctionId(itemId: String, connection: XMPPConnection): String {
-            return String.format(AUCTION_ID_FORMAT, itemId, connection.serviceName)
-        }
     }
 }
