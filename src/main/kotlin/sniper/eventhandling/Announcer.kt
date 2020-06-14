@@ -22,7 +22,9 @@ class Announcer<LISTENER : EventListener>(type: Class<out LISTENER>) {
     fun announce(): LISTENER = proxy
 
     private fun announce(method: Method, args: Array<Any>) {
-
+        listeners.forEach {
+            method.invoke(it, *args)
+        }
     }
 
     companion object {
