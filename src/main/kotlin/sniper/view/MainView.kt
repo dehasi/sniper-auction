@@ -10,7 +10,7 @@ import tornadofx.*
 class MainView : View("Auction Sniper") {
 
     private val data: Data by inject()
-    private val notToBeGCd = mutableListOf<Chat>()
+    private val notToBeGCd = mutableListOf<XMPPAuction>()
 
     private val userRequests = Announcer.to(UserRequestListener::class.java)
     private val snipers = SnipersTableModel()
@@ -41,14 +41,14 @@ class MainView : View("Auction Sniper") {
             override fun joinAuction(itemId: String) {
                 snipers.addSniper(SniperSnapshot.joining(itemId))
 
-                val chat = connection.chatManager.createChat(auctionId(itemId, connection), null)
-                val auctionEventListeners = Announcer.to(AuctionEventListener::class.java)
-                chat.addMessageListener(AuctionMessageTranslator(connection.user, auctionEventListeners.announce()))
+//                val chat = connection.chatManager.createChat(auctionId(itemId, connection), null)
+//                val auctionEventListeners = Announcer.to(AuctionEventListener::class.java)
+//                chat.addMessageListener(AuctionMessageTranslator(connection.user, auctionEventListeners.announce()))
 
-                notToBeGCd.add(chat)
 
-                val auction = XMPPAuction(chat)
-                auctionEventListeners.addListener(
+                val auction = XMPPAuction(connection, itemId)
+                notToBeGCd.add(auction)
+                auction.addAuctionEventListener(
                         AuctionSniper(itemId, auction, SwingThreadSniperListener(snipers)))
                 auction.join()
             }
@@ -96,7 +96,16 @@ class MainView : View("Auction Sniper") {
         const val STATUS_WON = "Won"
     }
 
-    class XMPPAuction(private val chat: Chat) : Auction {
+    class XMPPAuction(connection: XMPPConnection, itemId: String) : Auction {
+        private val auctionEventListeners = Announcer.to(AuctionEventListener::class.java)
+
+        private val chat: Chat
+
+        init {
+            chat = connection.chatManager.createChat(auctionId(itemId, connection),
+                    AuctionMessageTranslator(connection.user, auctionEventListeners.announce()))
+        }
+
         override fun bid(amount: Int) {
             sendMessage(BID_COMMAND_FORMAT.format(amount))
         }
@@ -107,6 +116,14 @@ class MainView : View("Auction Sniper") {
 
         private fun sendMessage(message: String) {
             chat.sendMessage(message)
+        }
+
+        fun addAuctionEventListener(listener: AuctionEventListener) {
+            auctionEventListeners.addListener(listener)
+        }
+
+        private fun auctionId(itemId: String, connection: XMPPConnection): String {
+            return String.format(AUCTION_ID_FORMAT, itemId, connection.serviceName)
         }
     }
 }
