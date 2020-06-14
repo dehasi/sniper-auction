@@ -1,4 +1,4 @@
-package test.app
+package sniper.xmpp
 
 import io.mockk.mockk
 import io.mockk.verify
@@ -8,9 +8,8 @@ import org.junit.jupiter.api.Test
 import sniper.app.AuctionEventListener
 import sniper.app.AuctionEventListener.PriceSource.FromOtherBidder
 import sniper.app.AuctionEventListener.PriceSource.FromSniper
-import sniper.app.AuctionMessageTranslator
 
-class AuctionMessageTranslatorTest {
+internal class AuctionMessageTranslatorTest {
     companion object {
         val UNUSED_CHAT: Chat? = null
         val SNIPER_ID = "42"

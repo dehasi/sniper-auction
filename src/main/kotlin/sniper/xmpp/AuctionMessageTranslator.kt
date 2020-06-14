@@ -1,12 +1,13 @@
-package sniper.app
+package sniper.xmpp
 
 import org.jivesoftware.smack.Chat
 import org.jivesoftware.smack.MessageListener
 import org.jivesoftware.smack.packet.Message
+import sniper.app.AuctionEventListener
 import sniper.app.AuctionEventListener.PriceSource.FromOtherBidder
 import sniper.app.AuctionEventListener.PriceSource.FromSniper
 
-open class AuctionMessageTranslator(
+internal class AuctionMessageTranslator(
         private val sniperId: String,
         private val listener: AuctionEventListener) : MessageListener {
 

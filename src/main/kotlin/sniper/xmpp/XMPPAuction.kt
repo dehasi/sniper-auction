@@ -4,7 +4,6 @@ import org.jivesoftware.smack.Chat
 import org.jivesoftware.smack.XMPPConnection
 import sniper.app.Auction
 import sniper.app.AuctionEventListener
-import sniper.app.AuctionMessageTranslator
 import sniper.eventhandling.Announcer
 
 class XMPPAuction(connection: XMPPConnection, itemId: String) : Auction {
