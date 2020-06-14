@@ -2,7 +2,7 @@ package sniper.app
 
 import java.util.*
 
-interface AuctionEventListener:EventListener {
+interface AuctionEventListener : EventListener {
 
     enum class PriceSource {
         FromSniper, FromOtherBidder

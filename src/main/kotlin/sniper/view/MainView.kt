@@ -40,12 +40,16 @@ class MainView : View("Auction Sniper") {
         addUserRequestListener(object : UserRequestListener {
             override fun joinAuction(itemId: String) {
                 snipers.addSniper(SniperSnapshot.joining(itemId))
+
                 val chat = connection.chatManager.createChat(auctionId(itemId, connection), null)
+                val auctionEventListeners = Announcer.to(AuctionEventListener::class.java)
+                chat.addMessageListener(AuctionMessageTranslator(connection.user, auctionEventListeners.announce()))
+
                 notToBeGCd.add(chat)
 
                 val auction = XMPPAuction(chat)
-                chat.addMessageListener(AuctionMessageTranslator(
-                        connection.user, AuctionSniper(itemId, auction, SwingThreadSniperListener(snipers))))
+                auctionEventListeners.addListener(
+                        AuctionSniper(itemId, auction, SwingThreadSniperListener(snipers)))
                 auction.join()
             }
         })
