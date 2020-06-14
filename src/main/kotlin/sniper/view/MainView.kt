@@ -1,10 +1,10 @@
 package sniper.view
 
-import org.jivesoftware.smack.Chat
 import org.jivesoftware.smack.XMPPConnection
 import sniper.app.*
 import sniper.app.SniperListener.SniperSnapshot
 import sniper.eventhandling.Announcer
+import sniper.xmpp.XMPPAuction
 import tornadofx.*
 
 class MainView : View("Auction Sniper") {
