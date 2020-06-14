@@ -32,7 +32,7 @@ internal class XMPPAuctionIntegrationTest {
         server.hasReceivedJoinRequestFrom(SNIPER_XMPP_ID)
         server.announceClosed()
 
-        assertThat(auctionWasClosed.await(2, SECONDS)).isTrue
+        assertThat(auctionWasClosed.await(2, SECONDS)).isTrue()
     }
 
     private fun auctionClosedListener(auctionWasClosed: CountDownLatch): AuctionEventListener {

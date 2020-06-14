@@ -1,8 +1,11 @@
 package sniper.view
 
 import org.jivesoftware.smack.XMPPConnection
-import sniper.app.*
+import sniper.app.AuctionSniper
+import sniper.app.Data
+import sniper.app.SniperListener
 import sniper.app.SniperListener.SniperSnapshot
+import sniper.app.UserRequestListener
 import sniper.eventhandling.Announcer
 import sniper.xmpp.XMPPAuction
 import tornadofx.*
@@ -40,16 +43,11 @@ class MainView : View("Auction Sniper") {
         addUserRequestListener(object : UserRequestListener {
             override fun joinAuction(itemId: String) {
                 snipers.addSniper(SniperSnapshot.joining(itemId))
-
-//                val chat = connection.chatManager.createChat(auctionId(itemId, connection), null)
-//                val auctionEventListeners = Announcer.to(AuctionEventListener::class.java)
-//                chat.addMessageListener(AuctionMessageTranslator(connection.user, auctionEventListeners.announce()))
-
-
                 val auction = XMPPAuction(connection, itemId)
+
                 notToBeGCd.add(auction)
-                auction.addAuctionEventListener(
-                        AuctionSniper(itemId, auction, SwingThreadSniperListener(snipers)))
+
+                auction.addAuctionEventListener(AuctionSniper(itemId, auction, SwingThreadSniperListener(snipers)))
                 auction.join()
             }
         })
@@ -61,7 +59,6 @@ class MainView : View("Auction Sniper") {
         connection.login(username, password, AUCTION_RESOURCE)
         return connection
     }
-
 
 
     private fun disconnectWhenUICloses(connection: XMPPConnection) {
