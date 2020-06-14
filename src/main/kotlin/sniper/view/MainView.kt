@@ -1,10 +1,9 @@
 package sniper.view
 
-import org.jivesoftware.smack.XMPPConnection
 import sniper.app.*
 import sniper.app.SniperListener.SniperSnapshot
 import sniper.eventhandling.Announcer
-import sniper.xmpp.XMPPAuction
+import sniper.xmpp.XMPPAuctionHouse
 import tornadofx.*
 
 class MainView : View("Auction Sniper") {
@@ -14,6 +13,7 @@ class MainView : View("Auction Sniper") {
 
     private val userRequests = Announcer.to(UserRequestListener::class.java)
     private val snipers = SnipersTableModel()
+    private val auctionHouse: AuctionHouse
 
     override val root = vbox {
         hbox {
@@ -31,16 +31,16 @@ class MainView : View("Auction Sniper") {
     }
 
     init {
-        val connection = connection(data.hostname, data.username, data.password)
-        disconnectWhenUICloses(connection)
-        addUserRequestListenerFor(connection)
+        auctionHouse = XMPPAuctionHouse.connect(data.hostname, data.username, data.password)
+        disconnectWhenUICloses(auctionHouse)
+        addUserRequestListenerFor(auctionHouse)
     }
 
-    private fun addUserRequestListenerFor(connection: XMPPConnection) {
+    private fun addUserRequestListenerFor(auctionHouse: AuctionHouse) {
         addUserRequestListener(object : UserRequestListener {
             override fun joinAuction(itemId: String) {
                 snipers.addSniper(SniperSnapshot.joining(itemId))
-                val auction = XMPPAuction(connection, itemId)
+                val auction = auctionHouse.auctionFor(itemId)
 
                 notToBeGCd.add(auction)
 
@@ -50,14 +50,7 @@ class MainView : View("Auction Sniper") {
         })
     }
 
-    private fun connection(hostname: String, username: String, password: String): XMPPConnection {
-        val connection = XMPPConnection(hostname)
-        connection.connect()
-        connection.login(username, password, AUCTION_RESOURCE)
-        return connection
-    }
-
-    private fun disconnectWhenUICloses(connection: XMPPConnection) {
+    private fun disconnectWhenUICloses(auctionHouse: AuctionHouse) {
         // TODO implement connection.disconnect()
     }
 

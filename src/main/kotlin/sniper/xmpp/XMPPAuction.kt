@@ -24,12 +24,12 @@ class XMPPAuction(connection: XMPPConnection, itemId: String) : Auction {
         sendMessage(JOIN_COMMAND_FORMAT)
     }
 
-    private fun sendMessage(message: String) {
-        chat.sendMessage(message)
+    override fun addAuctionEventListener(listener: AuctionEventListener) {
+        auctionEventListeners.addListener(listener)
     }
 
-    fun addAuctionEventListener(listener: AuctionEventListener) {
-        auctionEventListeners.addListener(listener)
+    private fun sendMessage(message: String) {
+        chat.sendMessage(message)
     }
 
     private fun auctionId(itemId: String, connection: XMPPConnection): String {
