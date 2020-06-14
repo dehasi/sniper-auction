@@ -1,11 +1,8 @@
 package sniper.view
 
 import org.jivesoftware.smack.XMPPConnection
-import sniper.app.AuctionSniper
-import sniper.app.Data
-import sniper.app.SniperListener
+import sniper.app.*
 import sniper.app.SniperListener.SniperSnapshot
-import sniper.app.UserRequestListener
 import sniper.eventhandling.Announcer
 import sniper.xmpp.XMPPAuction
 import tornadofx.*
@@ -13,7 +10,7 @@ import tornadofx.*
 class MainView : View("Auction Sniper") {
 
     private val data: Data by inject()
-    private val notToBeGCd = mutableListOf<XMPPAuction>()
+    private val notToBeGCd = mutableListOf<Auction>()
 
     private val userRequests = Announcer.to(UserRequestListener::class.java)
     private val snipers = SnipersTableModel()
@@ -60,16 +57,13 @@ class MainView : View("Auction Sniper") {
         return connection
     }
 
-
     private fun disconnectWhenUICloses(connection: XMPPConnection) {
         // TODO implement connection.disconnect()
     }
 
-
     fun addUserRequestListener(userRequestListener: UserRequestListener) {
         userRequests.addListener(userRequestListener)
     }
-
 
     inner class SwingThreadSniperListener(private val snipers: SnipersTableModel) : SniperListener {
         override fun sniperStateChanged(snapshot: SniperSnapshot) {
