@@ -3,11 +3,8 @@ package sniper.view
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections.observableArrayList
-import sniper.app.AuctionSniper
-import sniper.app.SniperCollector
-import sniper.app.SniperListener
+import sniper.app.*
 import sniper.app.SniperListener.SniperSnapshot
-import sniper.app.SniperState
 import sniper.view.MainView.Companion.STATUS_BIDDING
 import sniper.view.MainView.Companion.STATUS_JOINING
 import sniper.view.MainView.Companion.STATUS_LOST
@@ -15,7 +12,7 @@ import sniper.view.MainView.Companion.STATUS_WINNING
 import sniper.view.MainView.Companion.STATUS_WON
 import tornadofx.*
 
-class SnipersTableModel : View(), SniperListener, SniperCollector {
+class SnipersTableModel : View(), SniperListener, SniperCollector, SniperPortfolio.PortfolioListener {
 
     private val snipers = observableArrayList<SniperStateData>()
     private val notToBeGCd = mutableListOf<AuctionSniper>()
@@ -58,6 +55,10 @@ class SnipersTableModel : View(), SniperListener, SniperCollector {
         override fun sniperStateChanged(snapshot: SniperSnapshot) {
             snipers.sniperStateChanged(snapshot)
         }
+    }
+
+    override fun sniperAdded(sniper: AuctionSniper) {
+        addSniper(sniper)
     }
 }
 

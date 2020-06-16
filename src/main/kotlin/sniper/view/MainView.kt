@@ -11,10 +11,12 @@ class MainView : View("Auction Sniper") {
     private val portfolio = SniperPortfolio()
 
     private val userRequests = Announcer.to(UserRequestListener::class.java)
-    private val model = makeSnipersTable()
+    private val model = makeSnipersTable(portfolio)
 
-    private fun makeSnipersTable(): SnipersTableModel {
-        return SnipersTableModel()
+    private fun makeSnipersTable(portfolio: SniperPortfolio): SnipersTableModel {
+        val model = SnipersTableModel()
+        portfolio.addPortfolioListener(model)
+        return model
     }
 
     private val auctionHouse: AuctionHouse
@@ -41,7 +43,7 @@ class MainView : View("Auction Sniper") {
     }
 
     private fun addUserRequestListenerFor(auctionHouse: AuctionHouse) {
-        addUserRequestListener(SniperLauncher(auctionHouse, model))
+        addUserRequestListener(SniperLauncher(auctionHouse, portfolio))
     }
 
     private fun disconnectWhenUICloses(auctionHouse: AuctionHouse) {
