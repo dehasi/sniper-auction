@@ -58,7 +58,7 @@ class MainView : View("Auction Sniper") {
         userRequests.addListener(userRequestListener)
     }
 
-    inner class SwingThreadSniperListener(private val snipers: SnipersTableModel) : SniperListener {
+    class SwingThreadSniperListener(private val snipers: SnipersTableModel) : SniperListener {
         override fun sniperStateChanged(snapshot: SniperSnapshot) {
             snipers.sniperStateChanged(snapshot)
         }
