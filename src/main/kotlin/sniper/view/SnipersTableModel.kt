@@ -3,6 +3,8 @@ package sniper.view
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections.observableArrayList
+import sniper.app.AuctionSniper
+import sniper.app.SniperCollector
 import sniper.app.SniperListener
 import sniper.app.SniperListener.SniperSnapshot
 import sniper.app.SniperState
@@ -13,7 +15,7 @@ import sniper.view.MainView.Companion.STATUS_WINNING
 import sniper.view.MainView.Companion.STATUS_WON
 import tornadofx.*
 
-class SnipersTableModel : View(), SniperListener {
+class SnipersTableModel : View(), SniperListener, SniperCollector {
 
     private val snipers = observableArrayList<SniperStateData>()
 
@@ -29,6 +31,10 @@ class SnipersTableModel : View(), SniperListener {
             }
         }
         TODO("Defect")
+    }
+
+    override fun addSniper(sniper: AuctionSniper) {
+        sniper
     }
 
     fun addSniper(snapshot: SniperSnapshot) {

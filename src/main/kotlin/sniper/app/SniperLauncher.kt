@@ -4,16 +4,15 @@ import sniper.view.MainView.SwingThreadSniperListener
 import sniper.view.SnipersTableModel
 
 class SniperLauncher(private val auctionHouse: AuctionHouse,
-                     private val snipers: SnipersTableModel)
+                     private val collector: SniperCollector)
     : UserRequestListener {
     private val notToBeGCd = mutableListOf<Auction>()
-    private val collector = SniperCollector()
 
 
     override fun joinAuction(itemId: String) {
 //        snipers.addSniper(SniperListener.SniperSnapshot.joining(itemId))
         val auction = auctionHouse.auctionFor(itemId)
-        val sniper = AuctionSniper(itemId, auction, SwingThreadSniperListener(snipers))
+        val sniper = AuctionSniper(itemId, auction)
         auction.addAuctionEventListener(sniper)
         collector.addSniper(sniper)
         auction.join()

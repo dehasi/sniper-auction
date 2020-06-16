@@ -6,8 +6,7 @@ import sniper.app.AuctionEventListener.PriceSource.FromSniper
 import sniper.app.SniperListener.SniperSnapshot
 
 class AuctionSniper(private val itemId: String,
-                    private val auction: Auction,
-                    private val sniperListener: SniperListener)
+                    private val auction: Auction)
     : AuctionEventListener {
 
     private var snapshot = SniperSnapshot.joining(itemId)
@@ -31,7 +30,7 @@ class AuctionSniper(private val itemId: String,
     }
 
     private fun notifyChange() {
-        sniperListener.sniperStateChanged(snapshot)
+//        sniperListener.sniperStateChanged(snapshot)
     }
 }
 

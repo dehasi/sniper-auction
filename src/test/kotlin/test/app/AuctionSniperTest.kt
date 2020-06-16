@@ -25,7 +25,7 @@ class AuctionSniperTest {
     private var sniperState = idle;
     private val itemId = "item-xxxx"
 
-    private var sniper = AuctionSniper(itemId, auction, sniperListener)
+    private var sniper = AuctionSniper(itemId, auction)
 
     @Test fun returnsLostWhenAuctionClosesImmediately() {
         sniper.auctionClosed()

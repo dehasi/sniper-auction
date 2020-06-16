@@ -44,7 +44,7 @@ class MainView : View("Auction Sniper") {
 
                 notToBeGCd.add(auction)
 
-                auction.addAuctionEventListener(AuctionSniper(itemId, auction, SwingThreadSniperListener(snipers)))
+                auction.addAuctionEventListener(AuctionSniper(itemId, auction))//, SwingThreadSniperListener(snipers)
                 auction.join()
             }
         })
