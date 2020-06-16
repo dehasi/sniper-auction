@@ -1,7 +1,6 @@
 package sniper.view
 
 import sniper.app.*
-import sniper.app.SniperListener.SniperSnapshot
 import sniper.eventhandling.Announcer
 import tornadofx.*
 
@@ -9,9 +8,15 @@ class MainView : View("Auction Sniper") {
 
     private val data: Data by inject()
     private val notToBeGCd = mutableListOf<Auction>()
+    private val portfolio = SniperPortfolio()
 
     private val userRequests = Announcer.to(UserRequestListener::class.java)
-    private val snipers = SnipersTableModel()
+    private val model = makeSnipersTable()
+
+    private fun makeSnipersTable(): SnipersTableModel {
+        return SnipersTableModel()
+    }
+
     private val auctionHouse: AuctionHouse
 
     override val root = vbox {
@@ -26,7 +31,7 @@ class MainView : View("Auction Sniper") {
                 }
             }
         }
-        this += snipers
+        this += model
     }
 
     init {
@@ -36,16 +41,7 @@ class MainView : View("Auction Sniper") {
     }
 
     private fun addUserRequestListenerFor(auctionHouse: AuctionHouse) {
-        addUserRequestListener(object : UserRequestListener {
-            override fun joinAuction(itemId: String) {
-                val auction = auctionHouse.auctionFor(itemId)
-
-                notToBeGCd.add(auction)
-
-                auction.addAuctionEventListener(AuctionSniper(itemId, auction))
-                auction.join()
-            }
-        })
+        addUserRequestListener(SniperLauncher(auctionHouse, model))
     }
 
     private fun disconnectWhenUICloses(auctionHouse: AuctionHouse) {
@@ -64,3 +60,4 @@ class MainView : View("Auction Sniper") {
         const val STATUS_WON = "Won"
     }
 }
+
