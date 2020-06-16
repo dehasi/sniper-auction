@@ -11,12 +11,6 @@ class MainView : View("Auction Sniper") {
 
     private val userRequests = Announcer.to(UserRequestListener::class.java)
 
-    private fun makeSnipersTable(portfolio: SniperPortfolio): SnipersTableModel {
-        val model = SnipersTableModel()
-        portfolio.addPortfolioListener(model)
-        return model
-    }
-
     private val auctionHouse: AuctionHouse
 
     override val root = vbox {
@@ -38,6 +32,12 @@ class MainView : View("Auction Sniper") {
         auctionHouse = XMPPAuctionHouse.connect(data.hostname, data.username, data.password)
         disconnectWhenUICloses(auctionHouse)
         addUserRequestListenerFor(auctionHouse)
+    }
+
+    private fun makeSnipersTable(portfolio: SniperPortfolio): SnipersTableModel {
+        val model = SnipersTableModel()
+        portfolio.addPortfolioListener(model)
+        return model
     }
 
     private fun addUserRequestListenerFor(auctionHouse: AuctionHouse) {
