@@ -3,7 +3,6 @@ package sniper.view
 import sniper.app.*
 import sniper.app.SniperListener.SniperSnapshot
 import sniper.eventhandling.Announcer
-import sniper.app.XMPPAuctionHouse
 import tornadofx.*
 
 class MainView : View("Auction Sniper") {
@@ -39,12 +38,11 @@ class MainView : View("Auction Sniper") {
     private fun addUserRequestListenerFor(auctionHouse: AuctionHouse) {
         addUserRequestListener(object : UserRequestListener {
             override fun joinAuction(itemId: String) {
-                snipers.addSniper(SniperSnapshot.joining(itemId))
                 val auction = auctionHouse.auctionFor(itemId)
 
                 notToBeGCd.add(auction)
 
-                auction.addAuctionEventListener(AuctionSniper(itemId, auction))//, SwingThreadSniperListener(snipers)
+                auction.addAuctionEventListener(AuctionSniper(itemId, auction))
                 auction.join()
             }
         })
@@ -56,12 +54,6 @@ class MainView : View("Auction Sniper") {
 
     fun addUserRequestListener(userRequestListener: UserRequestListener) {
         userRequests.addListener(userRequestListener)
-    }
-
-    class SwingThreadSniperListener(private val snipers: SnipersTableModel) : SniperListener {
-        override fun sniperStateChanged(snapshot: SniperSnapshot) {
-            snipers.sniperStateChanged(snapshot)
-        }
     }
 
     companion object {

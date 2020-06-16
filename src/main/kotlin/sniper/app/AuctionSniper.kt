@@ -9,7 +9,11 @@ class AuctionSniper(private val itemId: String,
                     private val auction: Auction)
     : AuctionEventListener {
 
+
     private var snapshot = SniperSnapshot.joining(itemId)
+    private lateinit var sniperListener: SniperListener
+
+    fun getSnapshot() = snapshot
 
     override fun auctionClosed() {
         snapshot = snapshot.closed()
@@ -30,7 +34,11 @@ class AuctionSniper(private val itemId: String,
     }
 
     private fun notifyChange() {
-//        sniperListener.sniperStateChanged(snapshot)
+        sniperListener.sniperStateChanged(snapshot)
+    }
+
+    fun addSniperLister(sniperListener: SniperListener) {
+        this.sniperListener = sniperListener
     }
 }
 

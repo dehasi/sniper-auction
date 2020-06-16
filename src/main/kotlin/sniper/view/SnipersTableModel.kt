@@ -18,6 +18,7 @@ import tornadofx.*
 class SnipersTableModel : View(), SniperListener, SniperCollector {
 
     private val snipers = observableArrayList<SniperStateData>()
+    private val notToBeGCd = mutableListOf<AuctionSniper>()
 
     override fun sniperStateChanged(newSniperSnapshot: SniperSnapshot) {
         val row = rowMatching(newSniperSnapshot)
@@ -34,7 +35,9 @@ class SnipersTableModel : View(), SniperListener, SniperCollector {
     }
 
     override fun addSniper(sniper: AuctionSniper) {
-        sniper
+        notToBeGCd.add(sniper)
+        addSniper(sniper.getSnapshot())
+        sniper.addSniperLister(SwingThreadSniperListener(this))
     }
 
     fun addSniper(snapshot: SniperSnapshot) {
@@ -48,6 +51,12 @@ class SnipersTableModel : View(), SniperListener, SniperCollector {
             column("Last Price", SniperStateData::lastPrice)
             column("Last Bid", SniperStateData::lastBid)
             column("State", SniperStateData::status)
+        }
+    }
+
+    class SwingThreadSniperListener(private val snipers: SnipersTableModel) : SniperListener {
+        override fun sniperStateChanged(snapshot: SniperSnapshot) {
+            snipers.sniperStateChanged(snapshot)
         }
     }
 }
