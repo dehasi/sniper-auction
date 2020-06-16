@@ -7,11 +7,9 @@ import tornadofx.*
 class MainView : View("Auction Sniper") {
 
     private val data: Data by inject()
-    private val notToBeGCd = mutableListOf<Auction>()
     private val portfolio = SniperPortfolio()
 
     private val userRequests = Announcer.to(UserRequestListener::class.java)
-    private val model = makeSnipersTable(portfolio)
 
     private fun makeSnipersTable(portfolio: SniperPortfolio): SnipersTableModel {
         val model = SnipersTableModel()
@@ -33,7 +31,7 @@ class MainView : View("Auction Sniper") {
                 }
             }
         }
-        this += model
+        this += makeSnipersTable(portfolio)
     }
 
     init {
