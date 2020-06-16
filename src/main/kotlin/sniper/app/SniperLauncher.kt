@@ -7,14 +7,15 @@ class SniperLauncher(private val auctionHouse: AuctionHouse,
                      private val snipers: SnipersTableModel)
     : UserRequestListener {
     private val notToBeGCd = mutableListOf<Auction>()
+    private val collector = SniperCollector()
+
 
     override fun joinAuction(itemId: String) {
-        snipers.addSniper(SniperListener.SniperSnapshot.joining(itemId))
+//        snipers.addSniper(SniperListener.SniperSnapshot.joining(itemId))
         val auction = auctionHouse.auctionFor(itemId)
-
-        notToBeGCd.add(auction)
-
-        auction.addAuctionEventListener(AuctionSniper(itemId, auction, SwingThreadSniperListener(snipers)))
+        val sniper = AuctionSniper(itemId, auction, SwingThreadSniperListener(snipers))
+        auction.addAuctionEventListener(sniper)
+        collector.addSniper(sniper)
         auction.join()
     }
 }
