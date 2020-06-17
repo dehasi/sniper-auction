@@ -115,7 +115,7 @@ class MainViewE2ETest {
         auction.reportPrice(1197, 10, "third party")
         hasShownSniperIsLosing(auction, 1197, 1098)
 
-        auction.reportPrice(1197, 10, "fourth party")
+        auction.reportPrice(1207, 10, "fourth party")
         hasShownSniperIsLosing(auction, 1207, 1098)
 
         auction.announceClosed()
