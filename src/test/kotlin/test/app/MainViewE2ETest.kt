@@ -130,6 +130,7 @@ class MainViewE2ETest {
 
     private fun startBiddingInFor(robot: FxRobot, itemId: String, stopPrice: Int) {
         robot.lookup("#item-textbox").query<TextField>().text = itemId
+        robot.lookup("#stop-price-textbox").query<TextField>().text = stopPrice
         robot.clickOn("#bid-button")
     }
 
