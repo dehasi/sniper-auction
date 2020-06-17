@@ -5,12 +5,12 @@ import sniper.app.AuctionEventListener.PriceSource.FromOtherBidder
 import sniper.app.AuctionEventListener.PriceSource.FromSniper
 import sniper.app.SniperListener.SniperSnapshot
 
-class AuctionSniper(private val itemId: String,
+class AuctionSniper(private val item: Item,
                     private val auction: Auction)
     : AuctionEventListener {
 
 
-    private var snapshot = SniperSnapshot.joining(itemId)
+    private var snapshot = SniperSnapshot.joining(item.identifier)
     private lateinit var sniperListener: SniperListener
 
     fun getSnapshot() = snapshot
@@ -26,8 +26,12 @@ class AuctionSniper(private val itemId: String,
             FromSniper -> snapshot.winning(price)
             FromOtherBidder -> {
                 val bid = price + increment
-                auction.bid(bid)
-                snapshot.bidding(price, bid)
+                if (item.allowsBid(bid)) {
+                    auction.bid(bid)
+                    snapshot.bidding(price, bid)
+                }else{
+                    snapshot.losing(price)
+                }
             }
         }
         notifyChange()

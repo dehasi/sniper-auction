@@ -7,13 +7,10 @@ import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import sniper.app.Auction
+import sniper.app.*
 import sniper.app.AuctionEventListener.PriceSource.FromOtherBidder
 import sniper.app.AuctionEventListener.PriceSource.FromSniper
-import sniper.app.AuctionSniper
-import sniper.app.SniperListener
 import sniper.app.SniperListener.SniperSnapshot
-import sniper.app.SniperState
 import sniper.app.SniperState.*
 import test.app.AuctionSniperTest.SniperTestState.*
 
@@ -26,7 +23,9 @@ class AuctionSniperTest {
     private var sniperState = idle;
     private val itemId = "item-xxxx"
 
-    private var sniper = AuctionSniper(itemId, auction)
+    private val stopPrice = 1000
+
+    private var sniper = AuctionSniper(Item(itemId, stopPrice), auction)
 
     @BeforeEach fun `set up sniper`() {
         sniper.addSniperLister(sniperListener)
@@ -62,7 +61,7 @@ class AuctionSniperTest {
     }
 
     @Test internal fun bidsHigherAndReportsBiddingWhenNewPriceArrives() {
-        val price = 1001
+        val price = 500
         val increment = 25
         val bid = price + increment
 
