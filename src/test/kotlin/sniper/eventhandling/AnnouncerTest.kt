@@ -2,6 +2,7 @@ package sniper.eventhandling
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import sniper.app.Item
 import sniper.app.UserRequestListener
 
 internal class AnnouncerTest {
@@ -11,18 +12,18 @@ internal class AnnouncerTest {
         val announcer = Announcer.to(UserRequestListener::class.java)
 
         announcer.addListener(object : UserRequestListener {
-            override fun joinAuction(itemId: String) {
-                receivedValue.add("$itemId-1")
+            override fun joinAuction(item: Item) {
+                receivedValue.add("${item.identifier}-1")
             }
         })
 
         announcer.addListener(object : UserRequestListener {
-            override fun joinAuction(itemId: String) {
-                receivedValue.add("$itemId-2")
+            override fun joinAuction(item: Item) {
+                receivedValue.add("${item.identifier}-2")
             }
         })
 
-        announcer.announce().joinAuction("item-id")
+        announcer.announce().joinAuction(Item("item-id", 4))
 
         assertThat(receivedValue).containsExactly("item-id-1", "item-id-2")
     }

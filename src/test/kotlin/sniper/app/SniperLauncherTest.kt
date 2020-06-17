@@ -16,7 +16,7 @@ internal class SniperLauncherTest {
     private val stateJoined = "joined"
 
     @Test fun `add a new sniper to collector and then join an auction`() {
-        val itemId = "item 123"
+        val item = Item("item 123",123)
         var state = stateNotJoined
         val auctionStub = object : Auction {
             override fun join() {
@@ -31,11 +31,11 @@ internal class SniperLauncherTest {
                 assertThat(state).isEqualTo(stateNotJoined)
             }
         }
-        every { auctionHouse.auctionFor(itemId) } returns auctionStub
+        every { auctionHouse.auctionFor(item.identifier) } returns auctionStub
         every { sniperCollector.addSniper(any()) } answers {
             assertThat(state).isEqualTo(stateNotJoined)
         }
-        launcher.joinAuction(itemId)
+        launcher.joinAuction(item)
 
         assertThat(state).isEqualTo(stateJoined)
     }

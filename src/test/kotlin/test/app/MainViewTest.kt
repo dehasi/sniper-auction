@@ -10,6 +10,7 @@ import org.testfx.api.FxRobot
 import org.testfx.framework.junit5.ApplicationExtension
 import org.testfx.framework.junit5.Start
 import sniper.app.Data
+import sniper.app.Item
 import sniper.app.UserRequestListener
 import sniper.view.MainView
 import test.app.MainViewE2ETest.Companion.HOST_NAME
@@ -33,20 +34,21 @@ class MainViewTest {
     }
 
     @Test fun `makes user request then join button clicked`(robot: FxRobot) {
-        val receivedValue = mutableListOf<String>()
+        val receivedValue = mutableListOf<Item>()
 
         view.addUserRequestListener(object : UserRequestListener {
-            override fun joinAuction(itemId: String) {
-                receivedValue.add(itemId)
+            override fun joinAuction(item: Item) {
+                receivedValue.add(item)
             }
         })
 
-        startBiddingInFor(robot, "an item-id")
-        assertThat(receivedValue).containsExactly("an item-id")
+        startBiddingInFor(robot, "an item-id", 42)
+        assertThat(receivedValue).containsExactly(Item("an item-id", 42))
     }
 
-    private fun startBiddingInFor(robot: FxRobot, itemId: String) {
+    private fun startBiddingInFor(robot: FxRobot, itemId: String, stopPrice: Int) {
         robot.lookup("#item-textbox").query<TextField>().text = itemId
+        robot.lookup("#stop-price-textbox").query<TextField>().text = stopPrice.toString()
         robot.clickOn("#bid-button")
     }
 }

@@ -26,7 +26,7 @@ class MainView : View("Auction Sniper") {
             button("Join Auction") {
                 id = "bid-button"
                 action {
-                    userRequests.announce().joinAuction(itemTextfield.text)
+                    userRequests.announce().joinAuction(Item(itemTextfield.text, stopPriceTextfield.text.toInt()))
                 }
             }
         }
