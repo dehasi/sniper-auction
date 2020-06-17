@@ -5,6 +5,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import sniper.app.Auction
 import sniper.app.AuctionEventListener.PriceSource.FromOtherBidder
@@ -26,6 +27,10 @@ class AuctionSniperTest {
     private val itemId = "item-xxxx"
 
     private var sniper = AuctionSniper(itemId, auction)
+
+    @BeforeEach fun `set up sniper`() {
+        sniper.addSniperLister(sniperListener)
+    }
 
     @Test fun returnsLostWhenAuctionClosesImmediately() {
         sniper.auctionClosed()
@@ -75,6 +80,16 @@ class AuctionSniperTest {
         verify {
             sniperListener.sniperStateChanged(SniperSnapshot(itemId, 123, 135, BIDDING))
             sniperListener.sniperStateChanged(SniperSnapshot(itemId, 135, 135, WINNING))
+        }
+    }
+
+    @Test internal fun `does not bid and reports losing if subsequent price is above stop price`() {
+        sniper.currentPrice(123, 12, FromOtherBidder)
+        sniper.currentPrice(2345, 25, FromOtherBidder)
+
+        verify {
+            sniperListener.sniperStateChanged(SniperSnapshot(itemId, 123, 135, BIDDING))
+            sniperListener.sniperStateChanged(SniperSnapshot(itemId, 2345, 135, LOSING))
         }
     }
 
