@@ -51,13 +51,5 @@ class MainView : View("Auction Sniper") {
     fun addUserRequestListener(userRequestListener: UserRequestListener) {
         userRequests.addListener(userRequestListener)
     }
-
-    companion object {
-        const val STATUS_JOINING = "Joining"
-        const val STATUS_BIDDING = "Bidding"
-        const val STATUS_WINNING = "Winning"
-        const val STATUS_LOST = "Lost"
-        const val STATUS_WON = "Won"
-    }
 }
 

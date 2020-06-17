@@ -5,11 +5,6 @@ import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections.observableArrayList
 import sniper.app.*
 import sniper.app.SniperListener.SniperSnapshot
-import sniper.view.MainView.Companion.STATUS_BIDDING
-import sniper.view.MainView.Companion.STATUS_JOINING
-import sniper.view.MainView.Companion.STATUS_LOST
-import sniper.view.MainView.Companion.STATUS_WINNING
-import sniper.view.MainView.Companion.STATUS_WON
 import tornadofx.*
 
 class SnipersTableModel : View(), SniperListener, SniperCollector, SniperPortfolio.PortfolioListener {
@@ -71,7 +66,14 @@ class SniperStateData(snapshot: SniperSnapshot) {
     val status = SimpleStringProperty(textFor(snapshot.state))
 
     companion object {
-        private val STATUS_TEXT = listOf(STATUS_JOINING, STATUS_BIDDING, STATUS_WINNING, STATUS_LOST, STATUS_WON)
+        const val STATUS_JOINING = "Joining"
+        const val STATUS_BIDDING = "Bidding"
+        const val STATUS_WINNING = "Winning"
+        const val STATUS_LOSING = "Losing"
+        const val STATUS_LOST = "Lost"
+        const val STATUS_WON = "Won"
+        private val STATUS_TEXT = listOf(STATUS_JOINING, STATUS_BIDDING, STATUS_WINNING, STATUS_LOSING, STATUS_LOST, STATUS_WON)
+
         internal fun textFor(state: SniperState) = STATUS_TEXT[state.ordinal]
     }
 }

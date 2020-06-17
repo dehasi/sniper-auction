@@ -16,10 +16,11 @@ import org.testfx.util.WaitForAsyncUtils.sleep
 import sniper.app.Data
 import sniper.app.SniperState.JOINING
 import sniper.view.MainView
-import sniper.view.MainView.Companion.STATUS_BIDDING
-import sniper.view.MainView.Companion.STATUS_LOST
-import sniper.view.MainView.Companion.STATUS_WINNING
-import sniper.view.MainView.Companion.STATUS_WON
+import sniper.view.SniperStateData.Companion.STATUS_BIDDING
+import sniper.view.SniperStateData.Companion.STATUS_LOSING
+import sniper.view.SniperStateData.Companion.STATUS_LOST
+import sniper.view.SniperStateData.Companion.STATUS_WINNING
+import sniper.view.SniperStateData.Companion.STATUS_WON
 import sniper.view.SniperStateData.Companion.textFor
 import tornadofx.*
 import java.util.concurrent.TimeUnit.MILLISECONDS
@@ -161,7 +162,7 @@ class MainViewE2ETest {
 
     private fun hasShownSniperIsLosing(auction: FakeAuctionServer, lastPrice: Int, lastBid: Int) {
         sleep(200, MILLISECONDS)
-        showsSniperStatus(auction.itemId, lastPrice, lastBid, STATUS_LOST)
+        showsSniperStatus(auction.itemId, lastPrice, lastBid, STATUS_LOSING)
     }
 
     private fun hasShownSniperIsWinning(auction: FakeAuctionServer, winningBid: Int) {
