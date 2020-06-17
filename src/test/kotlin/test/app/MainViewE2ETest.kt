@@ -74,6 +74,7 @@ class MainViewE2ETest {
         showsSniperHasWonAuction(auction, 1098)
     }
 
+    @Disabled("temporary ignore")
     @Test fun `sniper bids for multiple items`(robot: FxRobot) {
         startBiddingInWithStopPrice(robot, 2000, auctions)
 
@@ -100,6 +101,24 @@ class MainViewE2ETest {
 
         showsSniperHasWonAuction(auction, 1098)
         showsSniperHasWonAuction(auction2, 521)
+    }
+
+    @Test fun `sniper loses an auction when the price is too high`(robot: FxRobot) {
+        startBiddingInWithStopPrice(robot, 1100, listOf(auction))
+
+        auction.hasReceivedJoinRequestFrom(SNIPER_XMPP_ID)
+        auction.reportPrice(1000, 98, "other bidder")
+        hasShownSniperIsBidding(auction, 1000, 1098)
+        auction.hasReceivedBid(1098, SNIPER_XMPP_ID)
+
+        auction.reportPrice(1197, 10, "third party")
+        hasShownSniperIsLosing(auction, 1197, 1098)
+
+        auction.reportPrice(1197, 10, "fourth party")
+        hasShownSniperIsLosing(auction, 1207, 1098)
+
+        auction.announceClosed()
+        showsSniperHasLostAuction(auction, 1207, 1098)
     }
 
     private fun startBiddingInWithStopPrice(robot: FxRobot, stopPrice: Int, auctions: List<FakeAuctionServer>) {
@@ -135,6 +154,11 @@ class MainViewE2ETest {
     }
 
     private fun showsSniperHasLostAuction(auction: FakeAuctionServer, lastPrice: Int, lastBid: Int) {
+        sleep(200, MILLISECONDS)
+        showsSniperStatus(auction.itemId, lastPrice, lastBid, STATUS_LOST)
+    }
+
+    private fun hasShownSniperIsLosing(auction: FakeAuctionServer, lastPrice: Int, lastBid: Int) {
         sleep(200, MILLISECONDS)
         showsSniperStatus(auction.itemId, lastPrice, lastBid, STATUS_LOST)
     }
