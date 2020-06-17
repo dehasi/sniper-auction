@@ -17,7 +17,6 @@ import sniper.app.Data
 import sniper.app.SniperState.JOINING
 import sniper.view.MainView
 import sniper.view.MainView.Companion.STATUS_BIDDING
-import sniper.view.MainView.Companion.STATUS_JOINING
 import sniper.view.MainView.Companion.STATUS_LOST
 import sniper.view.MainView.Companion.STATUS_WINNING
 import sniper.view.MainView.Companion.STATUS_WON
@@ -76,7 +75,7 @@ class MainViewE2ETest {
     }
 
     @Test fun `sniper bids for multiple items`(robot: FxRobot) {
-        startBiddingIn(robot, auctions)
+        startBiddingInWithStopPrice(robot, 2000, auctions)
 
         auction.hasReceivedJoinRequestFrom(SNIPER_XMPP_ID)
         auction2.hasReceivedJoinRequestFrom(SNIPER_XMPP_ID)
@@ -103,14 +102,14 @@ class MainViewE2ETest {
         showsSniperHasWonAuction(auction2, 521)
     }
 
-    private fun startBiddingIn(robot: FxRobot, auctions: List<FakeAuctionServer>) {
+    private fun startBiddingInWithStopPrice(robot: FxRobot, stopPrice: Int, auctions: List<FakeAuctionServer>) {
         auctions.forEach {
-            startBiddingInFor(robot, it.itemId)
+            startBiddingInFor(robot, it.itemId, stopPrice)
             showsSniperStatus(it.itemId, 0, 0, textFor(JOINING))
         }
     }
 
-    private fun startBiddingInFor(robot: FxRobot, itemId: String) {
+    private fun startBiddingInFor(robot: FxRobot, itemId: String, stopPrice: Int) {
         robot.lookup("#item-textbox").query<TextField>().text = itemId
         robot.clickOn("#bid-button")
     }
