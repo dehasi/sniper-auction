@@ -75,7 +75,6 @@ class MainViewE2ETest {
         showsSniperHasWonAuction(auction, 1098)
     }
 
-    @Disabled("temporary ignore")
     @Test fun `sniper bids for multiple items`(robot: FxRobot) {
         startBiddingInWithStopPrice(robot, 2000, auctions)
 
