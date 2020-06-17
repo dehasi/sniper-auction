@@ -15,13 +15,18 @@ class MainView : View("Auction Sniper") {
 
     override val root = vbox {
         hbox {
-            val textfield = textfield {
+            label("Item")
+            val itemTextfield = textfield {
                 id = "item-textbox"
+            }
+            label("Stop price")
+            val stopPriceTextfield = textfield {
+                id = "stop-price-textbox"
             }
             button("Join Auction") {
                 id = "bid-button"
                 action {
-                    userRequests.announce().joinAuction(textfield.text)
+                    userRequests.announce().joinAuction(itemTextfield.text)
                 }
             }
         }
