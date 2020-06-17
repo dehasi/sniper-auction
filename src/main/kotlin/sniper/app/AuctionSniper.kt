@@ -29,7 +29,7 @@ class AuctionSniper(private val item: Item,
                 if (item.allowsBid(bid)) {
                     auction.bid(bid)
                     snapshot.bidding(price, bid)
-                }else{
+                } else {
                     snapshot.losing(price)
                 }
             }

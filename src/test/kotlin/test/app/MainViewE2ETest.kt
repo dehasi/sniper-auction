@@ -186,8 +186,8 @@ class MainViewE2ETest {
     // [x] Single item - join, bid & win
     // [x] Single item - show price details
     // [x] Multiple items
-    // [_] Add new items through the GUI
-    // [_] Stop bidding at stop price
+    // [x] Add new items through the GUI
+    // [x] Stop bidding at stop price
     // [_] Translator - invalid message from Auction
     // [_] Translator - incorrect message version
     // [_] Auction - handle XMPPException on send
