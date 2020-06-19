@@ -57,4 +57,13 @@ internal class AuctionMessageTranslatorTest {
 
         verify { listener.auctionFailed() }
     }
+
+    @Test fun `notifies auction failed when event type missing`() {
+        val message = Message()
+        message.body = "SOLVersion: 1.1; CurrentPrice: 234; Increment: 5; Bidder: $SNIPER_ID"
+
+        translator.processMessage(UNUSED_CHAT, message)
+
+        verify { listener.auctionFailed() }
+    }
 }
