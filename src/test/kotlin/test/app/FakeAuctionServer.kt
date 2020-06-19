@@ -63,8 +63,8 @@ class FakeAuctionServer(val itemId: String) {
         assertThat(currentChat.participant).isEqualTo(sniperId)
     }
 
-    fun sendInvalidMessageContaning(brokenMessage: String) {
-        TODO("Not yet implemented")
+    fun sendInvalidMessageContaining(brokenMessage: String) {
+        currentChat.sendMessage(brokenMessage)
     }
 }
 

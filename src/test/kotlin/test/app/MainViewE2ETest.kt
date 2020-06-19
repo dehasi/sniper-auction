@@ -16,6 +16,7 @@ import sniper.app.Data
 import sniper.app.SniperState.JOINING
 import sniper.view.MainView
 import sniper.view.SniperStateData.Companion.STATUS_BIDDING
+import sniper.view.SniperStateData.Companion.STATUS_FAILED
 import sniper.view.SniperStateData.Companion.STATUS_LOSING
 import sniper.view.SniperStateData.Companion.STATUS_LOST
 import sniper.view.SniperStateData.Companion.STATUS_WINNING
@@ -99,7 +100,7 @@ class MainViewE2ETest {
         auction.reportPrice(500, 20, "other bidder")
         auction.hasReceivedBid(520, SNIPER_XMPP_ID)
 
-        auction.sendInvalidMessageContaning(brokenMessage)
+        auction.sendInvalidMessageContaining(brokenMessage)
         showsSniperHasFailed(robot, auction)
 
         auction.reportPrice(520, 21, "other bidder")
@@ -117,10 +118,6 @@ class MainViewE2ETest {
         auction2.hasReceivedJoinRequestFrom(SNIPER_XMPP_ID)
         auction2.reportPrice(600, 6, "other bidder")
         hasShownSniperIsBidding(auction2, 600, 606)
-    }
-
-    private fun showsSniperHasFailed(robot: FxRobot, auction: FakeAuctionServer) {
-        TODO("Not yet implemented")
     }
 
     private fun startBiddingInWithStopPrice(robot: FxRobot, stopPrice: Int, auctions: List<FakeAuctionServer>) {
@@ -174,6 +171,11 @@ class MainViewE2ETest {
     private fun showsSniperHasWonAuction(auction: FakeAuctionServer, lastPrice: Int) {
         sleep(200, MILLISECONDS)
         showsSniperStatus(auction.itemId, lastPrice, lastPrice, STATUS_WON)
+    }
+
+    private fun showsSniperHasFailed(robot: FxRobot, auction: FakeAuctionServer) {
+        sleep(200, MILLISECONDS)
+        showsSniperStatus(auction.itemId, 0, 0, STATUS_FAILED)
     }
 
     private fun showsSniperStatus(itemId: String, lastPrice: Int, lastBid: Int, status: String) {

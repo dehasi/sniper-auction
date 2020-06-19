@@ -72,7 +72,8 @@ class SniperStateData(snapshot: SniperSnapshot) {
         const val STATUS_LOSING = "Losing"
         const val STATUS_LOST = "Lost"
         const val STATUS_WON = "Won"
-        private val STATUS_TEXT = listOf(STATUS_JOINING, STATUS_BIDDING, STATUS_WINNING, STATUS_LOSING, STATUS_LOST, STATUS_WON)
+        const val STATUS_FAILED = "Failed"
+        private val STATUS_TEXT = listOf(STATUS_JOINING, STATUS_BIDDING, STATUS_WINNING, STATUS_LOSING, STATUS_LOST, STATUS_WON, STATUS_FAILED)
 
         internal fun textFor(state: SniperState) = STATUS_TEXT[state.ordinal]
     }
