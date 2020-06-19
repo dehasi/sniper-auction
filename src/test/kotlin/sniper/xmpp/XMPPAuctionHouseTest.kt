@@ -47,6 +47,10 @@ internal class XMPPAuctionHouseTest {
             override fun currentPrice(price: Int, increment: Int, priceSource: PriceSource) {
                 TODO("Not yet implemented")
             }
+
+            override fun auctionFailed() {
+                TODO("Not yet implemented")
+            }
         }
     }
 

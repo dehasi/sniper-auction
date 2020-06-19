@@ -4,6 +4,7 @@ import org.jivesoftware.smack.Chat
 import org.jivesoftware.smack.XMPPConnection
 import sniper.app.Auction
 import sniper.app.AuctionEventListener
+import sniper.app.AuctionEventListener.PriceSource
 import sniper.eventhandling.Announcer
 
 class XMPPAuction(connection: XMPPConnection, itemId: String) : Auction {
@@ -12,9 +13,25 @@ class XMPPAuction(connection: XMPPConnection, itemId: String) : Auction {
     private val chat: Chat
 
     init {
-        chat = connection.chatManager.createChat(auctionId(itemId, connection),
-                AuctionMessageTranslator(connection.user, auctionEventListeners.announce()))
+        val translator = translatorFor(connection)
+        val auctionJID = auctionId(itemId, connection)
+        chat = connection.chatManager.createChat(auctionJID, translator)
+        addAuctionEventListener(chatDisconnectFor(translator))
     }
+
+    private fun chatDisconnectFor(translator: AuctionMessageTranslator): AuctionEventListener {
+        return object : AuctionEventListener {
+            override fun auctionFailed() {
+                chat.removeMessageListener(translator)
+            }
+
+            override fun auctionClosed() {}
+            override fun currentPrice(price: Int, increment: Int, priceSource: PriceSource) {}
+        }
+    }
+
+    private fun translatorFor(connection: XMPPConnection) =
+            AuctionMessageTranslator(connection.user, auctionEventListeners.announce())
 
     override fun bid(amount: Int) {
         sendMessage(BID_COMMAND_FORMAT.format(amount))
