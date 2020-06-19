@@ -11,8 +11,8 @@ import sniper.app.AuctionEventListener.PriceSource.FromSniper
 
 internal class AuctionMessageTranslatorTest {
     companion object {
+        const val SNIPER_ID = "42"
         val UNUSED_CHAT: Chat? = null
-        val SNIPER_ID = "42"
     }
 
     private val listener: AuctionEventListener = mockk(relaxUnitFun = true)
