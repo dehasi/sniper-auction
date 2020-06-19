@@ -4,7 +4,6 @@ import javafx.scene.Scene
 import javafx.scene.control.TextField
 import javafx.stage.Stage
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.testfx.api.FxAssert.verifyThat
@@ -90,6 +89,38 @@ class MainViewE2ETest {
 
         auction.announceClosed()
         showsSniperHasLostAuction(auction, 1207, 1098)
+    }
+
+    @Test fun `sniper report invalid auction message and stops responding to events`(robot: FxRobot) {
+        val brokenMessage = "a broken message"
+        startBiddingInWithStopPrice(robot, 2000, auctions)
+        auction.hasReceivedJoinRequestFrom(SNIPER_XMPP_ID)
+
+        auction.reportPrice(500, 20, "other bidder")
+        auction.hasReceivedBid(520, SNIPER_XMPP_ID)
+
+        auction.sendInvalidMessageContaning(brokenMessage)
+        showsSniperHasFailed(robot, auction)
+
+        auction.reportPrice(520, 21, "other bidder")
+        waitForAnotherEvent()
+
+        reportsInvalidMessage(robot, auction, brokenMessage)
+        showsSniperHasFailed(robot, auction)
+    }
+
+    private fun reportsInvalidMessage(robot: FxRobot, auction: FakeAuctionServer, brokenMessage: String) {
+        TODO("Not yet implemented")
+    }
+
+    private fun waitForAnotherEvent() {
+        auction2.hasReceivedJoinRequestFrom(SNIPER_XMPP_ID)
+        auction2.reportPrice(600, 6, "other bidder")
+        hasShownSniperIsBidding(auction2, 600, 606)
+    }
+
+    private fun showsSniperHasFailed(robot: FxRobot, auction: FakeAuctionServer) {
+        TODO("Not yet implemented")
     }
 
     private fun startBiddingInWithStopPrice(robot: FxRobot, stopPrice: Int, auctions: List<FakeAuctionServer>) {
