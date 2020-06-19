@@ -15,7 +15,8 @@ enum class SniperState {
         override fun whenAuctionClosed(): SniperState = LOST
     },
     LOST,
-    WON;
+    WON,
+    FAILED;
 
     open fun whenAuctionClosed(): SniperState {
         TODO("Auction is already closed")

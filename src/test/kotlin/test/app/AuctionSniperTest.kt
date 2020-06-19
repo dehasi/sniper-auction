@@ -92,6 +92,16 @@ class AuctionSniperTest {
         }
     }
 
+    @Test fun `reports failed if auction fails when bidding`() {
+        sniper.currentPrice(123, 45, FromOtherBidder)
+        sniper.auctionFailed()
+
+        verify {
+            sniperListener.sniperStateChanged(aSniperTharIs(BIDDING))
+            sniperListener.sniperStateChanged(aSniperTharIs(FAILED))
+        }
+    }
+
     private enum class SniperTestState {
         idle, winning, bidding
     }
