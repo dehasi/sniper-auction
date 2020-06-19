@@ -10,4 +10,5 @@ interface AuctionEventListener : EventListener {
 
     fun auctionClosed()
     fun currentPrice(price: Int, increment: Int, priceSource: PriceSource)
+    fun auctionFailed()
 }

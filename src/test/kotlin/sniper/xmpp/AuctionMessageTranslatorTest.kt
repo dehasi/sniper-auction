@@ -48,4 +48,13 @@ internal class AuctionMessageTranslatorTest {
 
         verify { listener.currentPrice(192, 7, FromSniper) }
     }
+
+    @Test fun `notified auction failed when bad message received`() {
+        val message = Message()
+        message.body = "a bad message"
+
+        translator.processMessage(UNUSED_CHAT, message)
+
+        verify { listener.auctionFailed() }
+    }
 }

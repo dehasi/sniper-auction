@@ -37,6 +37,10 @@ class AuctionSniper(private val item: Item,
         notifyChange()
     }
 
+    override fun auctionFailed() {
+        TODO("Not yet implemented")
+    }
+
     private fun notifyChange() {
         sniperListener.sniperStateChanged(snapshot)
     }
