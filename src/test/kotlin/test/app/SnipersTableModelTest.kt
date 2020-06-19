@@ -81,7 +81,7 @@ class SnipersTableModelTest {
 
 
     private fun containsColumns(vararg columns: String): Predicate<TableView<SniperStateData>> {
-        return Predicate<TableView<SniperStateData>> { table ->
+        return Predicate { table ->
             assertThat(table.columns.map { c -> c.text }).containsExactly(*columns)
             true
         }
