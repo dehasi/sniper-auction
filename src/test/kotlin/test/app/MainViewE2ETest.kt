@@ -46,35 +46,6 @@ class MainViewE2ETest {
         createApp(stage, auction, auction2)
     }
 
-    @Disabled
-    @Test fun `sniper makes a highest bid but loses`() {
-        auction.hasReceivedJoinRequestFrom(SNIPER_XMPP_ID)
-
-        auction.reportPrice(1000, 98, "other bidder")
-        hasShownSniperIsBidding(auction, 1000, 1098)
-
-        auction.hasReceivedBid(1098, SNIPER_XMPP_ID)
-
-        auction.announceClosed()
-        showsSniperHasLostAuction(auction, 1000, 1098)
-    }
-
-    @Disabled
-    @Test fun `sniper wins an auction by bidding higher`() {
-        auction.hasReceivedJoinRequestFrom(SNIPER_XMPP_ID)
-
-        auction.reportPrice(1000, 98, "other bidder")
-        hasShownSniperIsBidding(auction, 1000, 1098)
-
-        auction.hasReceivedBid(1098, SNIPER_XMPP_ID)
-
-        auction.reportPrice(1098, 97, SNIPER_XMPP_ID)
-        hasShownSniperIsWinning(auction, 1098)
-
-        auction.announceClosed()
-        showsSniperHasWonAuction(auction, 1098)
-    }
-
     @Test fun `sniper bids for multiple items`(robot: FxRobot) {
         startBiddingInWithStopPrice(robot, 2000, auctions)
 
