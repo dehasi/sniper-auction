@@ -12,7 +12,15 @@ internal class AuctionMessageTranslator(
         private val listener: AuctionEventListener) : MessageListener {
 
     override fun processMessage(chat: Chat?, message: Message?) {
-        val event = AuctionEvent.from(message!!.body)
+        try {
+            translate(message!!.body)
+        } catch (e: Exception) {
+            listener.auctionFailed()
+        }
+    }
+
+    private fun translate(messageBody: String) {
+        val event = AuctionEvent.from(messageBody)
 
         when (event.type()) {
             "CLOSE" -> listener.auctionClosed()
