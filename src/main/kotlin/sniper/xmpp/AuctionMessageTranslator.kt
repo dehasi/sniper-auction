@@ -53,7 +53,7 @@ internal class AuctionMessageTranslator(
         }
 
         private fun get(fieldName: String): String {
-            return fields[fieldName]!!
+            return fields[fieldName] ?: throw MissingValueException(fieldName)
         }
 
         private fun addField(field: String) {
@@ -76,3 +76,5 @@ internal class AuctionMessageTranslator(
         }
     }
 }
+
+class MissingValueException(fieldName: String) : Exception()
