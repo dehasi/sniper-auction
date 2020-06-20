@@ -147,7 +147,6 @@ class MainViewE2ETest {
 
         stage.scene = Scene(view.root)
         stage.show()
-        logDriver.clearLog()
     }
 
     private fun hasShownSniperIsBidding(auction: FakeAuctionServer, lastPrice: Int, lastBid: Int) {
@@ -186,6 +185,11 @@ class MainViewE2ETest {
 
     @AfterEach fun stopAuction() {
         auction.stop()
+        logDriver.clearLog()
+    }
+
+    @AfterEach fun clearLog() {
+        logDriver.clearLog()
     }
     // [x] Single item - join, lose without bidding
     // [x] Single item - join, bid & lose
@@ -194,7 +198,7 @@ class MainViewE2ETest {
     // [x] Multiple items
     // [x] Add new items through the GUI
     // [x] Stop bidding at stop price
-    // [_] Translator - invalid message from Auction
+    // [x] Translator - invalid message from Auction
     // [_] Translator - incorrect message version
     // [_] Auction - handle XMPPException on send
     // [_] Experiment with testcontainers instead of local XMPP Server
