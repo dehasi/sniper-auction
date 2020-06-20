@@ -6,15 +6,18 @@ import org.jivesoftware.smack.packet.Message
 import sniper.app.AuctionEventListener
 import sniper.app.AuctionEventListener.PriceSource.FromOtherBidder
 import sniper.app.AuctionEventListener.PriceSource.FromSniper
+import sniper.app.XMPPFailureReporter
 
 internal class AuctionMessageTranslator(
         private val sniperId: String,
-        private val listener: AuctionEventListener) : MessageListener {
+        private val listener: AuctionEventListener,
+        private val failureReporter: XMPPFailureReporter) : MessageListener {
 
     override fun processMessage(chat: Chat?, message: Message?) {
         try {
             translate(message!!.body)
         } catch (e: Exception) {
+            failureReporter.cannotTranslateMessage(sniperId, message?.body ?: "null", e)
             listener.auctionFailed()
         }
     }

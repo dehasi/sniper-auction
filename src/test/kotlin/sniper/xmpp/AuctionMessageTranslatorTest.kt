@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test
 import sniper.app.AuctionEventListener
 import sniper.app.AuctionEventListener.PriceSource.FromOtherBidder
 import sniper.app.AuctionEventListener.PriceSource.FromSniper
+import sniper.app.XMPPFailureReporter
 
 internal class AuctionMessageTranslatorTest {
     companion object {
@@ -16,7 +17,9 @@ internal class AuctionMessageTranslatorTest {
     }
 
     private val listener: AuctionEventListener = mockk(relaxUnitFun = true)
-    private val translator: AuctionMessageTranslator = AuctionMessageTranslator(SNIPER_ID, listener)
+    private val failureReporter: XMPPFailureReporter = mockk(relaxUnitFun = true)
+    private val translator: AuctionMessageTranslator = AuctionMessageTranslator(SNIPER_ID, listener, failureReporter)
+
 
     @Test fun notifiesAuctionClosedWhenCloseMessageReceived() {
         val message = Message()
@@ -54,7 +57,10 @@ internal class AuctionMessageTranslatorTest {
 
         translator.processMessage(UNUSED_CHAT, message)
 
-        verify { listener.auctionFailed() }
+        verify {
+            listener.auctionFailed()
+            failureReporter.cannotTranslateMessage(SNIPER_ID, message.body, any())
+        }
     }
 
     @Test fun `notifies auction failed when event type missing`() {
