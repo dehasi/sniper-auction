@@ -50,8 +50,7 @@ internal class AuctionMessageTranslatorTest {
     }
 
     @Test fun `notified auction failed when bad message received`() {
-        val message = Message()
-        message.body = "a bad message"
+        val message = message("a bad message")
 
         translator.processMessage(UNUSED_CHAT, message)
 
@@ -65,5 +64,11 @@ internal class AuctionMessageTranslatorTest {
         translator.processMessage(UNUSED_CHAT, message)
 
         verify { listener.auctionFailed() }
+    }
+
+    private fun message(text: String): Message {
+        val message = Message()
+        message.body = text
+        return message
     }
 }
