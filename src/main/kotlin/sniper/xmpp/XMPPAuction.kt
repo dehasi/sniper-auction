@@ -8,7 +8,8 @@ import sniper.app.AuctionEventListener.PriceSource
 import sniper.app.XMPPFailureReporter
 import sniper.eventhandling.Announcer
 
-class XMPPAuction(connection: XMPPConnection, itemId: String) : Auction {
+class XMPPAuction(connection: XMPPConnection, itemId: String,
+                  private val failureReporter: XMPPFailureReporter) : Auction {
     private val auctionEventListeners = Announcer.to(AuctionEventListener::class.java)
 
     private val chat: Chat
@@ -32,11 +33,7 @@ class XMPPAuction(connection: XMPPConnection, itemId: String) : Auction {
     }
 
     private fun translatorFor(connection: XMPPConnection) =
-            AuctionMessageTranslator(connection.user, auctionEventListeners.announce(), object :XMPPFailureReporter{
-                override fun cannotTranslateMessage(auctionId: String, failedMessage: String, exception: Exception) {
-                    TODO("Not yet implemented")
-                }
-            })
+            AuctionMessageTranslator(connection.user, auctionEventListeners.announce(), failureReporter)
 
     override fun bid(amount: Int) {
         sendMessage(BID_COMMAND_FORMAT.format(amount))
