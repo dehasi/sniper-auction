@@ -36,6 +36,7 @@ class MainViewE2ETest {
 
     private val auction: FakeAuctionServer = FakeAuctionServer("item-54321")
     private val auction2: FakeAuctionServer = FakeAuctionServer("item-65432")
+    private val logDriver = AuctionLogDriver()
 
     private val auctions = listOf(auction, auction2)
     private val itemRow = mutableMapOf<String, Int>()
@@ -110,8 +111,8 @@ class MainViewE2ETest {
         showsSniperHasFailed(robot, auction)
     }
 
-    private fun reportsInvalidMessage(robot: FxRobot, auction: FakeAuctionServer, brokenMessage: String) {
-        TODO("Not yet implemented")
+    private fun reportsInvalidMessage(robot: FxRobot, auction: FakeAuctionServer, message: String) {
+        logDriver.hasEntry { it.contains(message) }
     }
 
     private fun waitForAnotherEvent() {
@@ -146,6 +147,7 @@ class MainViewE2ETest {
 
         stage.scene = Scene(view.root)
         stage.show()
+        logDriver.clearLog()
     }
 
     private fun hasShownSniperIsBidding(auction: FakeAuctionServer, lastPrice: Int, lastBid: Int) {
