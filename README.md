@@ -1,14 +1,15 @@
 # Growing Object Oriented Software Guided by Tests in Kotlin
 
-This is a follow-along Kotlin implementation of the Auction Sniper described in the book 
+Kotlin implementation of the Auction Sniper application from 
 [Growing Object Oriented Software Guided by Tests](http://growing-object-oriented-software.com).
 
-
+Examples from `Part V: Adcanced Topics` are in a [separate](https://github.com/dehasi/goos-part5) repo. 
 
 ## Technologies
 
-The book was originally published in 2009. Some technologies are not actual anymore.
-The replacements are listed below
+The book was originally published in 2009. New technologies has appeared.
+
+The replacements are listed below:
 
 | Original    | Replacement    | Comment    |
 |:---:|:---:|:---:|
@@ -28,6 +29,11 @@ and all  users are created on the server.
 For the beginning I'll use a Docker container from [beatrichartz](https://github.com/beatrichartz/growing-object-oriented-software-guided-by-tests-kotlin/blob/master/docker-compose.yml).
 
 ## See also
-During implementation, I was looking at GOOS implemenations from
+During implementation, I was looking at GOOS implementations from
 - [beatrichartz](https://github.com/beatrichartz/growing-object-oriented-software-guided-by-tests-kotlin)
-- [rhaendel]([]()https://github.com/rhaendel/goos)
+- [rhaendel](https://github.com/rhaendel/goos)
+
+### Attention
+
+I'm not a professional Kotlin developer. 
+If you can rewrite it in more kotlin-idiomatic style pull requests are welcome!
