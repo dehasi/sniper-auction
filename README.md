@@ -7,7 +7,7 @@ Examples from `Part V: Adcanced Topics` are in a [separate](https://github.com/d
 
 ## Technologies
 
-The book was originally published in 2009. New technologies has appeared.
+The book was originally published in 2009. New technologies have appeared.
 
 The replacements are listed below:
 
